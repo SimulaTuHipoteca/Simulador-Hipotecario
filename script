@@ -1,0 +1,29 @@
+function calcular(){
+let precio=parseFloat(document.getElementById("precio").value);
+let entrada=parseFloat(document.getElementById("entrada").value)||0;
+let años=parseFloat(document.getElementById("años").value);
+let meses=años*12;
+let interesF=parseFloat(document.getElementById("interesFijo").value)/100/12;
+let interesV=parseFloat(document.getElementById("interesVar").value)/100/12 + parseFloat(document.getElementById("euribor").value)/100/12;
+let anticipada=parseFloat(document.getElementById("anticipada").value)||0;
+
+// Gastos
+let impuesto=parseFloat(document.getElementById("impuesto").value)/100;
+let notaria=parseFloat(document.getElementById("notaria").value)||0;
+let registro=parseFloat(document.getElementById("registro").value)||0;
+let tasacion=parseFloat(document.getElementById("tasacion").value)||0;
+let gestoria=parseFloat(document.getElementById("gestoria").value)||0;
+let gastosTotales=(precio-entrada)*impuesto+notaria+registro+tasacion+gestoria;
+
+let monto=precio-entrada;
+
+function cuotaMensual(monto,interes,meses){
+return monto*interes/(1-Math.pow(1+interes,-meses));
+}
+
+let cuotaF=cuotaMensual(monto,interesF,meses);
+let cuotaV=cuotaMensual(monto,interesV,meses);
+
+let deuda=monto;
+let tabla=""; let totalInteres=0;
+let capitalData=[]; let interesData=[];
