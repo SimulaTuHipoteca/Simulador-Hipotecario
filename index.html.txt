@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Hipoteca PRO</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Calculadora Hipoteca PRO</h1>
+
+<div class="inputs">
+<label>Precio vivienda (€)</label>
+<input type="number" id="precio" placeholder="200000">
+
+<label>Entrada inicial (€)</label>
+<input type="number" id="entrada" placeholder="0">
+
+<label>Interés tipo fijo (%)</label>
+<input type="number" id="interesFijo" placeholder="3.5">
+
+<label>Interés tipo variable (%)</label>
+<input type="number" id="interesVar" placeholder="2 + Euríbor">
+
+<label>Euríbor actual (%)</label>
+<input type="number" id="euribor" placeholder="3.0">
+
+<label>Años hipoteca</label>
+<input type="number" id="años" placeholder="30">
+
+<label>IVA/ITP (%)</label>
+<input type="number" id="impuesto" placeholder="10">
+
+<label>Notaría (€)</label>
+<input type="number" id="notaria" placeholder="1000">
+
+<label>Registro (€)</label>
+<input type="number" id="registro" placeholder="500">
+
+<label>Tasación (€)</label>
+<input type="number" id="tasacion" placeholder="400">
+
+<label>Gestoría (€)</label>
+<input type="number" id="gestoria" placeholder="300">
+
+<label>Amortización anticipada (€)</label>
+<input type="number" id="anticipada" placeholder="0">
+</div>
+
+<button onclick="calcular()">Calcular</button>
+
+<div class="result" id="resultado"></div>
+
+<canvas id="grafico"></canvas>
+
+<table id="tabla">
+<thead>
+<tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Deuda restante</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
