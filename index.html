@@ -52,22 +52,22 @@
 <input type="number" id="ingresos" placeholder="30000">
 
 <button onclick="calcular()">Calcular</button>
+<button id="btnAmortizacion" onclick="toggleAmortizacion()">Ver/Ocultar cuadro de amortización</button>
+
+<label>Mostrar año:</label>
+<select id="filtroAno" onchange="filtrarTabla()">
+<option value="0">Todos</option>
+</select>
 
 <div class="result" id="resultado"></div>
-
 <canvas id="grafico"></canvas>
 
-<table id="tabla">
+<table id="tabla" style="display:none;">
 <thead>
 <tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Deuda restante</th></tr>
 </thead>
 <tbody></tbody>
 </table>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
 </div>
 
 <script src="script.js"></script>
