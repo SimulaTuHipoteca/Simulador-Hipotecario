@@ -8,7 +8,7 @@ max-width:1000px; margin:auto; background:white; padding:30px; border-radius:10p
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 h1{text-align:center; margin-bottom:20px;}
-.inputs input{width:100%; padding:10px; margin:6px 0; border-radius:5px; border:1px solid #ccc;}
+input{width:100%; padding:10px; margin:6px 0; border-radius:5px; border:1px solid #ccc;}
 button{
 width:100%; padding:12px; background:#0077ff; color:white; border:none; margin-top:10px;
 cursor:pointer; font-size:16px; border-radius:5px;
@@ -17,4 +17,6 @@ button:hover{background:#005dcc;}
 .result{margin-top:20px; background:#f2f4f7; padding:15px; border-radius:6px;}
 table{width:100%; border-collapse:collapse; margin-top:20px;}
 th,td{border:1px solid #ddd; padding:8px; text-align:center;}
+.even{background:#f9f9f9;}
+.odd{background:#ffffff;}
 @media(max-width:768px){.container{padding:20px;}}
