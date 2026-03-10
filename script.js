@@ -1,25 +1,3 @@
-async function cargarEuribor(){
-
-try{
-
-let res=await fetch("https://api.api-ninjas.com/v1/euribor?tenor=12m",{headers:{'X-Api-Key':'demo'}})
-
-let data=await res.json()
-
-document.getElementById("euribor").value=data.rate
-
-}catch{
-
-document.getElementById("euribor").value=3.5
-
-}
-
-}
-
-cargarEuribor()
-
-
-
 function calcular(){
 
 let precio=parseFloat(document.getElementById("precio").value)
@@ -149,9 +127,9 @@ let select=document.getElementById("filtroAno")
 
 select.innerHTML='<option value="0">Todos</option>'
 
-for(let i=1;i<=años;i++){
+for(let i=1;i<=Plazo;i++){
 
-select.innerHTML+=`<option value="${i}">Año ${i}</option>`
+select.innerHTML+=`<option value="${i}">Plazo ${i}</option>`
 
 }
 
