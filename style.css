@@ -98,7 +98,6 @@ button:hover{
 canvas{
   margin-top:30px;
   max-width:100%;
-  height:250px; /* tamaño estándar */
 }
 
 table{
@@ -132,11 +131,9 @@ tr:nth-child(even){
   .grid{
     grid-template-columns:1fr;
   }
-
   .cards{
     grid-template-columns:1fr 1fr;
   }
-
   .container{
     padding:20px;
   }
