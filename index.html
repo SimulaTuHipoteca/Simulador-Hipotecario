@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div class="container">
@@ -37,64 +38,51 @@
 </div>
 
 <div class="cards">
-
   <div class="card">
     <p>Hipoteca necesaria</p>
     <h3 id="capital"></h3>
   </div>
-
   <div class="card">
     <p>Cuota mensual</p>
     <h3 id="cuota"></h3>
   </div>
-
   <div class="card">
     <p>Total intereses</p>
     <h3 id="intereses"></h3>
   </div>
-
   <div class="card">
     <p>Sueldo recomendado</p>
     <h3 id="sueldo"></h3>
   </div>
-
 </div>
 
 <div class="extra">
-
-<p><strong>Gastos estimados compra:</strong> <span id="gastos"></span></p>
-<p><strong>Entrada usada para gastos:</strong> <span id="entradaGastos"></span></p>
-<p><strong>Entrada usada para vivienda:</strong> <span id="entradaCasa"></span></p>
-<p><strong>Porcentaje financiado (LTV):</strong> <span id="ltv"></span></p>
-
+  <p><strong>Gastos estimados compra:</strong> <span id="gastos"></span></p>
+  <p><strong>Entrada usada para gastos:</strong> <span id="entradaGastos"></span></p>
+  <p><strong>Entrada usada para vivienda:</strong> <span id="entradaCasa"></span></p>
+  <p><strong>Porcentaje financiado (LTV):</strong> <span id="ltv"></span></p>
 </div>
 
-<canvas id="grafico1"></canvas>
+<canvas id="grafico1" height="250"></canvas>
 
 <button onclick="toggleTabla()">Ver tabla de amortización</button>
 
 <div id="tablaContainer">
-
-<h2>Tabla de amortización</h2>
-
-<table id="tabla">
-<thead>
-<tr>
-<th>Mes</th>
-<th>Cuota</th>
-<th>Interés</th>
-<th>Capital</th>
-<th>Restante</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-
-</div>
-
+  <h2>Tabla de amortización</h2>
+  <table id="tabla">
+    <thead>
+      <tr>
+        <th>Mes</th>
+        <th>Cuota</th>
+        <th>Interés</th>
+        <th>Capital</th>
+        <th>Restante</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
