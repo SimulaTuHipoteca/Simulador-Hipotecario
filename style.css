@@ -27,7 +27,7 @@ h1{
   margin-bottom:20px;
 }
 
-input{
+input, select{
   width:100%;
   padding:10px;
   margin-top:5px;
@@ -40,24 +40,6 @@ input{
 label{
   font-size:14px;
   color:#555;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  margin-top:15px;
-  background:#0077ff;
-  color:white;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:16px;
-  font-weight:bold;
-  transition:0.2s;
-}
-
-button:hover{
-  background:#005ccc;
 }
 
 .cards{
@@ -95,15 +77,10 @@ button:hover{
   font-size:15px;
 }
 
-canvas{
-  margin-top:30px;
-  max-width:100%;
-}
-
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:25px;
+  margin-top:20px;
   font-size:14px;
 }
 
@@ -124,6 +101,24 @@ tr:nth-child(even){
 #tablaContainer{
   display:none;
   margin-top:20px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  background:#0077ff;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#005ccc;
 }
 
 /* RESPONSIVE */
