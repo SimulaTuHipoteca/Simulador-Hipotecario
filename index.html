@@ -1,75 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
-<title>Calculadora Hipoteca PRO</title>
+
+<title>Simulador Hipotecario PRO</title>
+
 <link rel="stylesheet" href="style.css">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
 
 <div class="container">
-<h1>Calculadora Hipoteca PRO</h1>
 
-<!-- Inputs de la calculadora -->
+<h1>Simulador Hipotecario</h1>
+
+<h3>Datos vivienda</h3>
+
 <label>Precio vivienda (€)</label>
-<input type="number" id="precio" placeholder="200000">
+<input type="number" id="precio">
 
-<label>Entrada inicial (€)</label>
-<input type="number" id="entrada" placeholder="0">
+<label>Entrada disponible (€)</label>
+<input type="number" id="entrada">
 
-<label>Interés tipo fijo (%)</label>
-<input type="number" id="interesFijo" placeholder="3.5">
+<h3>Hipoteca</h3>
 
-<label>Interés tipo variable (%)</label>
-<input type="number" id="interesVar" placeholder="2 + Euríbor">
+<label>Euríbor (%)</label>
+<input type="number" id="euribor" readonly>
 
-<label>Euríbor actual (%)</label>
-<input type="number" id="euribor" placeholder="3.0">
+<label>Diferencial banco (%)</label>
+<input type="number" id="diferencial" value="1">
 
 <label>Años hipoteca</label>
-<input type="number" id="años" placeholder="30">
-
-<label>IVA/ITP (%)</label>
-<input type="number" id="impuesto" placeholder="10">
-
-<label>Notaría (€)</label>
-<input type="number" id="notaria" placeholder="1000">
-
-<label>Registro (€)</label>
-<input type="number" id="registro" placeholder="500">
-
-<label>Tasación (€)</label>
-<input type="number" id="tasacion" placeholder="400">
-
-<label>Gestoría (€)</label>
-<input type="number" id="gestoria" placeholder="300">
-
-<label>Amortización anticipada (€)</label>
-<input type="number" id="anticipada" placeholder="0">
+<input type="number" id="años">
 
 <label>Ingresos anuales (€)</label>
-<input type="number" id="ingresos" placeholder="30000">
+<input type="number" id="ingresos">
 
-<button onclick="calcular()">Calcular</button>
-<button id="btnAmortizacion" onclick="toggleAmortizacion()">Ver/Ocultar cuadro de amortización</button>
+<h3>Gastos compra</h3>
 
-<label>Mostrar año:</label>
+<label>ITP / IVA (%)</label>
+<input type="number" id="impuesto" value="10">
+
+<label>Notaría (€)</label>
+<input type="number" id="notaria" value="1000">
+
+<label>Registro (€)</label>
+<input type="number" id="registro" value="500">
+
+<label>Tasación (€)</label>
+<input type="number" id="tasacion" value="400">
+
+<label>Gestoría (€)</label>
+<input type="number" id="gestoria" value="300">
+
+<h3>Amortización anticipada</h3>
+
+<label>Mes amortización</label>
+<input type="number" id="mesAmortizacion">
+
+<label>Capital amortizado (€)</label>
+<input type="number" id="capitalAmortizado">
+
+<button onclick="calcular()">Calcular hipoteca</button>
+
+<button onclick="toggleAmortizacion()">Ver cuadro amortización</button>
+
+<div id="resultado"></div>
+
+<h3>Reparto pagos</h3>
+<canvas id="grafico1"></canvas>
+
+<h3>Evolución deuda</h3>
+<canvas id="grafico2"></canvas>
+
+<label>Filtrar año</label>
+
 <select id="filtroAno" onchange="filtrarTabla()">
+
 <option value="0">Todos</option>
+
 </select>
 
-<div class="result" id="resultado"></div>
-<canvas id="grafico"></canvas>
+<table id="tabla" style="display:none">
 
-<table id="tabla" style="display:none;">
 <thead>
-<tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Deuda restante</th></tr>
+
+<tr>
+
+<th>Mes</th>
+<th>Cuota</th>
+<th>Interés</th>
+<th>Capital</th>
+<th>Deuda</th>
+
+</tr>
+
 </thead>
+
 <tbody></tbody>
+
 </table>
+
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
