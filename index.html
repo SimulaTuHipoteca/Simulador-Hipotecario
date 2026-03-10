@@ -1,15 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
-
 <title>Simulador Hipotecario PRO</title>
-
-<link rel="stylesheet" href="style.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+input{
+width:100%;
+padding:10px;
+font-size:16px;
+}
+
+.result{
+margin-top:20px;
+padding:15px;
+background:#f1f3f5;
+border-radius:8px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-top:20px;
+}
+
+.card{
+background:#f8f9fa;
+padding:15px;
+border-radius:8px;
+text-align:center;
+}
+
+canvas{
+margin-top:30px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:30px;
+}
+
+th,td{
+padding:8px;
+border-bottom:1px solid #ddd;
+text-align:center;
+}
+
+th{
+background:#f1f1f1;
+}
+
+</style>
 </head>
 
 <body>
@@ -18,87 +90,71 @@
 
 <h1>Simulador Hipotecario</h1>
 
-<h3>Datos vivienda</h3>
+<div class="grid">
 
+<div>
 <label>Precio vivienda (€)</label>
-<input type="number" id="precio">
+<input id="precio" type="number" value="250000">
+</div>
 
-<label>Entrada disponible (€)</label>
-<input type="number" id="entrada">
+<div>
+<label>Entrada (€)</label>
+<input id="entrada" type="number" value="50000">
+</div>
 
-<h3>Hipoteca</h3>
+<div>
+<label>Interés anual (%)</label>
+<input id="interes" type="number" step="0.1" value="2.5">
+</div>
 
-<label>Euríbor (%)</label>
-<input type="number" id="euribor" readonly>
+<div>
+<label>Plazo (años)</label>
+<input id="años" type="number" value="30">
+</div>
 
-<label>Diferencial banco (%)</label>
-<input type="number" id="diferencial" value="1">
+</div>
 
-<label>Años hipoteca</label>
-<input type="number" id="años">
+<div class="cards">
 
-<label>Ingresos anuales (€)</label>
-<input type="number" id="ingresos">
+<div class="card">
+<p>Hipoteca</p>
+<h3 id="capital"></h3>
+</div>
 
-<h3>Gastos compra</h3>
+<div class="card">
+<p>Cuota mensual</p>
+<h3 id="cuota"></h3>
+</div>
 
-<label>ITP / IVA (%)</label>
-<input type="number" id="impuesto" value="10">
+<div class="card">
+<p>Total intereses</p>
+<h3 id="intereses"></h3>
+</div>
 
-<label>Notaría (€)</label>
-<input type="number" id="notaria" value="1000">
+<div class="card">
+<p>Sueldo recomendado</p>
+<h3 id="sueldo"></h3>
+</div>
 
-<label>Registro (€)</label>
-<input type="number" id="registro" value="500">
+</div>
 
-<label>Tasación (€)</label>
-<input type="number" id="tasacion" value="400">
+<p><strong>Porcentaje financiado:</strong> <span id="ltv"></span></p>
 
-<label>Gestoría (€)</label>
-<input type="number" id="gestoria" value="300">
-
-<h3>Amortización anticipada</h3>
-
-<label>Mes amortización</label>
-<input type="number" id="mesAmortizacion">
-
-<label>Capital amortizado (€)</label>
-<input type="number" id="capitalAmortizado">
-
-<button onclick="calcular()">Calcular hipoteca</button>
-
-<button onclick="toggleAmortizacion()">Ver cuadro amortización</button>
-
-<div id="resultado"></div>
-
-<h3>Reparto pagos</h3>
 <canvas id="grafico1"></canvas>
-
-<h3>Evolución deuda</h3>
 <canvas id="grafico2"></canvas>
 
-<label>Filtrar año</label>
+<h2>Tabla de amortización</h2>
 
-<select id="filtroAno" onchange="filtrarTabla()">
-
-<option value="0">Todos</option>
-
-</select>
-
-<table id="tabla" style="display:none">
+<table id="tabla">
 
 <thead>
-
 <tr>
-
 <th>Mes</th>
 <th>Cuota</th>
 <th>Interés</th>
 <th>Capital</th>
-<th>Deuda</th>
-
+<th>Restante</th>
 </tr>
-
 </thead>
 
 <tbody></tbody>
@@ -107,7 +163,115 @@
 
 </div>
 
-<script src="script.js"></script>
+<script>
+
+const inputs=document.querySelectorAll("input");
+inputs.forEach(i=>i.addEventListener("input",calcular));
+
+let chart1;
+let chart2;
+
+function formatMoney(n){
+return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);
+}
+
+function calcular(){
+
+let precio=parseFloat(precioInput.value);
+let entrada=parseFloat(entradaInput.value);
+let interes=parseFloat(interesInput.value)/100/12;
+let años=parseFloat(añosInput.value);
+
+let capital=precio-entrada;
+
+let n=años*12;
+
+let cuota=capital*(interes*Math.pow(1+interes,n))/(Math.pow(1+interes,n)-1);
+
+let saldo=capital;
+
+let meses=[];
+let saldoData=[];
+
+let totalIntereses=0;
+
+let tbody=document.querySelector("#tabla tbody");
+tbody.innerHTML="";
+
+for(let i=1;i<=n;i++){
+
+let interesMes=saldo*interes;
+
+let capitalMes=cuota-interesMes;
+
+saldo-=capitalMes;
+
+totalIntereses+=interesMes;
+
+meses.push(i);
+saldoData.push(saldo);
+
+let row=`
+<tr>
+<td>${i}</td>
+<td>${formatMoney(cuota)}</td>
+<td>${formatMoney(interesMes)}</td>
+<td>${formatMoney(capitalMes)}</td>
+<td>${formatMoney(Math.max(saldo,0))}</td>
+</tr>
+`;
+
+tbody.innerHTML+=row;
+
+}
+
+document.getElementById("capital").innerText=formatMoney(capital);
+document.getElementById("cuota").innerText=formatMoney(cuota);
+document.getElementById("intereses").innerText=formatMoney(totalIntereses);
+
+let sueldo=cuota/0.35;
+
+document.getElementById("sueldo").innerText=formatMoney(sueldo);
+
+let ltv=(capital/precio)*100;
+
+document.getElementById("ltv").innerText=ltv.toFixed(1)+"%";
+
+if(chart1) chart1.destroy();
+
+chart1=new Chart(document.getElementById("grafico1"),{
+type:"line",
+data:{
+labels:meses,
+datasets:[{
+label:"Capital pendiente",
+data:saldoData
+}]
+}
+});
+
+if(chart2) chart2.destroy();
+
+chart2=new Chart(document.getElementById("grafico2"),{
+type:"doughnut",
+data:{
+labels:["Capital","Intereses"],
+datasets:[{
+data:[capital,totalIntereses]
+}]
+}
+});
+
+}
+
+const precioInput=document.getElementById("precio");
+const entradaInput=document.getElementById("entrada");
+const interesInput=document.getElementById("interes");
+const añosInput=document.getElementById("años");
+
+calcular();
+
+</script>
 
 </body>
 </html>
