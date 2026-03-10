@@ -1,109 +1,112 @@
-let chart1;
-
+// Inputs
 const precioInput = document.getElementById("precio");
 const entradaInput = document.getElementById("entrada");
 const interesInput = document.getElementById("interes");
 const añosInput = document.getElementById("años");
+const comunidadInput = document.getElementById("comunidad");
 
-const inputs = document.querySelectorAll("input");
-
+const inputs = [precioInput, entradaInput, interesInput, añosInput, comunidadInput];
 inputs.forEach(i => i.addEventListener("input", calcular));
 
-function formatMoney(n){
-return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);
+let chart1;
+
+// Formatear euros
+function formatMoney(n) {
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(n);
 }
 
-function toggleTabla(){
-
-const tabla=document.getElementById("tablaContainer");
-
-tabla.style.display = tabla.style.display==="none" ? "block" : "none";
-
+// Mostrar / ocultar tabla
+function toggleTabla() {
+  const tabla = document.getElementById("tablaContainer");
+  tabla.style.display = tabla.style.display === "none" ? "block" : "none";
 }
 
-function calcular(){
+// Cálculo principal
+function calcular() {
+  let precio = parseFloat(precioInput.value);
+  let ahorro = parseFloat(entradaInput.value);
+  let interes = parseFloat(interesInput.value) / 100 / 12;
+  let años = parseFloat(añosInput.value);
+  let porcentajeGastos = parseFloat(comunidadInput.value);
 
-let precio=parseFloat(precioInput.value)||0;
-let ahorro=parseFloat(entradaInput.value)||0;
-let interes=parseFloat(interesInput.value)/100/12;
-let años=parseFloat(añosInput.value)||0;
+  if (isNaN(precio) || isNaN(ahorro) || isNaN(interes) || isNaN(años)) return;
 
-let gastos=precio*0.10;
+  let gastos = precio * porcentajeGastos;
+  let entradaGastos = Math.min(ahorro, gastos);
+  let entradaCasa = Math.max(0, ahorro - gastos);
+  let capital = precio - entradaCasa;
 
-let entradaGastos=Math.min(ahorro,gastos);
-let entradaCasa=Math.max(0,ahorro-gastos);
+  let n = años * 12;
+  let cuota = capital * (interes * Math.pow(1 + interes, n)) / (Math.pow(1 + interes, n) - 1);
+  let saldo = capital;
 
-let capital=precio-entradaCasa;
+  let meses = [];
+  let saldoData = [];
+  let totalIntereses = 0;
 
-let n=años*12;
+  let tbody = document.querySelector("#tabla tbody");
+  tbody.innerHTML = "";
 
-let cuota=capital*(interes*Math.pow(1+interes,n))/(Math.pow(1+interes,n)-1);
+  for (let i = 1; i <= n; i++) {
+    let interesMes = saldo * interes;
+    let capitalMes = cuota - interesMes;
+    saldo -= capitalMes;
+    totalIntereses += interesMes;
 
-let saldo=capital;
+    meses.push(i);
+    saldoData.push(saldo);
 
-let meses=[];
-let saldoData=[];
+    let row = `<tr>
+      <td>${i}</td>
+      <td>${formatMoney(cuota)}</td>
+      <td>${formatMoney(interesMes)}</td>
+      <td>${formatMoney(capitalMes)}</td>
+      <td>${formatMoney(Math.max(saldo,0))}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+  }
 
-let totalIntereses=0;
+  document.getElementById("capital").innerText = formatMoney(capital);
+  document.getElementById("cuota").innerText = formatMoney(cuota);
+  document.getElementById("intereses").innerText = formatMoney(totalIntereses);
 
-let tbody=document.querySelector("#tabla tbody");
-tbody.innerHTML="";
+  let sueldo = cuota / 0.35;
+  document.getElementById("sueldo").innerText = formatMoney(sueldo);
 
-for(let i=1;i<=n;i++){
+  let ltv = (capital / precio) * 100;
+  document.getElementById("ltv").innerText = ltv.toFixed(1) + "%";
 
-let interesMes=saldo*interes;
+  document.getElementById("gastos").innerText = formatMoney(gastos);
+  document.getElementById("entradaGastos").innerText = formatMoney(entradaGastos);
+  document.getElementById("entradaCasa").innerText = formatMoney(entradaCasa);
 
-let capitalMes=cuota-interesMes;
-
-saldo-=capitalMes;
-
-totalIntereses+=interesMes;
-
-meses.push(i);
-saldoData.push(saldo);
-
-let row=`
-
-tbody.innerHTML+=row;
-
+  // Gráfico capital pendiente
+  if (chart1) chart1.destroy();
+  chart1 = new Chart(document.getElementById("grafico1"), {
+    type: "line",
+    data: {
+      labels: meses,
+      datasets: [{
+        label: "Capital pendiente",
+        data: saldoData,
+        borderColor: "rgba(44, 123, 229, 1)",
+        backgroundColor: "rgba(44, 123, 229, 0.1)",
+        fill: true,
+        tension: 0.2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: true } },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { callback: function(value) { return formatMoney(value); } }
+        }
+      }
+    }
+  });
 }
 
-document.getElementById("capital").innerText=formatMoney(capital);
-document.getElementById("cuota").innerText=formatMoney(cuota);
-document.getElementById("intereses").innerText=formatMoney(totalIntereses);
-
-let sueldo=cuota/0.35;
-
-document.getElementById("sueldo").innerText=formatMoney(sueldo);
-
-let ltv=(capital/precio)*100;
-
-document.getElementById("ltv").innerText=ltv.toFixed(1)+"%";
-
-document.getElementById("gastos").innerText=formatMoney(gastos);
-document.getElementById("entradaGastos").innerText=formatMoney(entradaGastos);
-document.getElementById("entradaCasa").innerText=formatMoney(entradaCasa);
-
-if(chart1) chart1.destroy();
-
-chart1=new Chart(document.getElementById("grafico1"),{
-type:"line",
-data:{
-labels,
-datasets:[{
-label:"Capital pendiente",
-data,
-borderColor:"#2c7be5",
-backgroundColor:"rgba(44,123,229,0.2)",
-fill,
-tension:0.3
-}]
-},
-options:{
-responsive
-}
-});
-
-}
-
+// Calcular al cargar la página
 calcular();
