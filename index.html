@@ -134,11 +134,11 @@ tr:nth-child(even){
 <div class="grid">
   <div>
     <label>Precio vivienda (€)</label>
-    <input id="precio" type="number" value="0€">
+    <input id="precio" type="number" value="0">
   </div>
   <div>
     <label>Ahorros disponibles (€)</label>
-    <input id="entrada" type="number" value="0€">
+    <input id="entrada" type="number" value="0">
   </div>
   <div>
     <label>Interés anual (%)</label>
@@ -147,6 +147,7 @@ tr:nth-child(even){
   <div>
     <label>Plazo (años)</label>
     <input id="años" type="number" value="30">
+    <p id="plazoEdadMax" style="font-size:13px;color:#555;margin-top:5px;"></p>
   </div>
   <div>
     <label>Comunidad Autónoma (ITP)</label>
@@ -161,7 +162,24 @@ tr:nth-child(even){
   </div>
   <div>
     <label>Ingreso neto anual (€)</label>
-    <input id="salario" type="number" value="€">
+    <input id="salario" type="number" value="0">
+  </div>
+
+  <!-- NUEVOS CAMPOS PARA TITULARES Y EDADES -->
+  <div>
+    <label>Número de titulares</label>
+    <select id="titulares">
+      <option value="1">1 titular</option>
+      <option value="2">2 titulares</option>
+    </select>
+  </div>
+  <div>
+    <label>Edad titular 1</label>
+    <input id="edad1" type="number" min="18" max="75">
+  </div>
+  <div id="edadTitular2" style="display:none;">
+    <label>Edad titular 2</label>
+    <input id="edad2" type="number" min="18" max="75">
   </div>
 </div>
 
