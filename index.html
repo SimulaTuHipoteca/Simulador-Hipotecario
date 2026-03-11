@@ -8,94 +8,122 @@
 
 <body>
 <div class="container">
-<h1>Simula tu hipoteca</h1>
+  <h1>Simula tu hipoteca</h1>
 
-<div class="resumen" id="resumen">Cargando resumen...</div>
+  <div class="resumen" id="resumen">Cargando resumen...</div>
 
-<div class="grid">
-  <div>
-    <label>Precio vivienda (€)</label>
-    <input id="precio" type="number" value="0">
-  </div>
-  <div>
-    <label>Ahorros disponibles (€)</label>
-    <input id="entrada" type="number" value="0">
-  </div>
-  <div>
-    <label>Interés anual (%)</label>
-    <input id="interes" type="number" step="0.1" value="2.5">
-  </div>
-  <div>
-    <label>Plazo (años)</label>
-    <input id="años" type="number" value="30">
-    <p id="plazoEdadMax"></p>
-  </div>
-  <div>
-    <label>Comunidad Autónoma (ITP)</label>
-    <select id="comunidad">
-      <option value="0.10">Andalucía (10%)</option>
-      <option value="0.06">Madrid (6%)</option>
-      <option value="0.10">Cataluña (10%)</option>
-      <option value="0.08">Valencia (8%)</option>
-      <option value="0.08">Galicia (8%)</option>
-      <option value="0.08">Castilla y León (8%)</option>
-    </select>
-  </div>
-  <div>
-    <label>Ingreso neto anual (€)</label>
-    <input id="salario" type="number" value="0">
+  <div class="grid">
+    <!-- Precio de compra -->
+    <div>
+      <label>Precio vivienda (€)</label>
+      <input id="precio" type="number" value="0">
+    </div>
+
+    <!-- Entrada -->
+    <div>
+      <label>Ahorros disponibles (€)</label>
+      <input id="entrada" type="number" value="0">
+    </div>
+
+    <!-- Tipo de vivienda -->
+    <div>
+      <label>Tipo de vivienda</label>
+      <select id="tipoVivienda">
+        <option value="obraNueva">Obra nueva (IVA 10%)</option>
+        <option value="segundaMano">Segunda mano (ITP)</option>
+      </select>
+    </div>
+
+    <!-- Número de titulares -->
+    <div>
+      <label>Número de titulares</label>
+      <select id="titulares">
+        <option value="1">1 titular</option>
+        <option value="2">2 titulares</option>
+      </select>
+    </div>
+
+    <!-- Edad titulares -->
+    <div>
+      <label>Edad titular 1</label>
+      <input id="edad1" type="number" min="18" max="75">
+    </div>
+    <div id="edadTitular2">
+      <label>Edad titular 2</label>
+      <input id="edad2" type="number" min="18" max="75">
+    </div>
+
+    <!-- Deudas mensuales -->
+    <div>
+      <label>Deuda mensual titular 1 (€)</label>
+      <input id="deuda1" type="number" value="0">
+    </div>
+    <div id="deudaTitular2">
+      <label>Deuda mensual titular 2 (€)</label>
+      <input id="deuda2" type="number" value="0">
+    </div>
+
+    <!-- Plazo de hipoteca -->
+    <div>
+      <label>Plazo (años)</label>
+      <input id="años" type="number" value="30">
+      <p id="plazoEdadMax"></p>
+    </div>
+
+    <!-- Ingreso neto anual -->
+    <div>
+      <label>Ingreso neto anual (€)</label>
+      <input id="salario" type="number" value="0">
+    </div>
+
+    <!-- Comunidad autónoma -->
+    <div>
+      <label>Comunidad Autónoma</label>
+      <select id="comunidad">
+        <option value="0.10">Andalucía (10%)</option>
+        <option value="0.06">Madrid (6%)</option>
+        <option value="0.10">Cataluña (10%)</option>
+        <option value="0.08">Valencia (8%)</option>
+        <option value="0.08">Galicia (8%)</option>
+        <option value="0.08">Castilla y León (8%)</option>
+      </select>
+    </div>
+
+    <!-- Interés anual -->
+    <div>
+      <label>Interés anual (%)</label>
+      <input id="interes" type="number" step="0.1" value="2.5">
+    </div>
   </div>
 
-  <!-- Nuevos campos de titulares y edades -->
-  <div>
-    <label>Número de titulares</label>
-    <select id="titulares">
-      <option value="1">1 titular</option>
-      <option value="2">2 titulares</option>
-    </select>
+  <!-- Tarjetas resumen -->
+  <div class="cards">
+    <div class="card"><p>Importe de préstamo</p><h3 id="capital"></h3></div>
+    <div class="card"><p>Cuota mensual</p><h3 id="cuota"></h3></div>
+    <div class="card"><p>Total intereses</p><h3 id="intereses"></h3></div>
+    <div class="card"><p>Salario mínimo necesario</p><h3 id="sueldo"></h3></div>
+    <div class="card"><p>% Financiación (LTV)</p><h3 id="ltv"></h3></div>
   </div>
-  <div>
-    <label>Edad titular 1</label>
-    <input id="edad1" type="number" min="18" max="75">
+
+  <div class="extra">
+    <p><strong>Entrada / gastos totales:</strong> <span id="entradaTotal"></span></p>
+    <p><strong>LTI:</strong> <span id="lti"></span></p>
+    <p><strong>Compatible con salario:</strong> <span id="compatible"></span></p>
   </div>
-  <div id="edadTitular2">
-    <label>Edad titular 2</label>
-    <input id="edad2" type="number" min="18" max="75">
+
+  <button id="verTabla">Ver tabla de amortización</button>
+
+  <div id="tablaContainer">
+    <h2>Tabla de amortización</h2>
+    <table id="tabla">
+      <thead>
+        <tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Restante</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
+
 </div>
-
-<div class="cards">
-  <div class="card"><p>Importe de préstamo</p><h3 id="capital"></h3></div>
-  <div class="card"><p>Cuota mensual</p><h3 id="cuota"></h3></div>
-  <div class="card"><p>Total intereses</p><h3 id="intereses"></h3></div>
-  <div class="card"><p>Salario mínimo necesario</p><h3 id="sueldo"></h3></div>
-  <div class="card"><p>% Financiación (LTV)</p><h3 id="ltv"></h3></div>
-</div>
-
-<div class="extra">
-  <p><strong>Entrada / gastos totales:</strong> <span id="entradaTotal"></span></p>
-  <p><strong>LTI:</strong> <span id="lti"></span></p>
-  <p><strong>Compatible con salario:</strong> <span id="compatible"></span></p>
-</div>
-
-<button id="verTabla">Ver tabla de amortización</button>
-
-<div id="tablaContainer">
-  <h2>Tabla de amortización</h2>
-  <table id="tabla">
-    <thead>
-      <tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Restante</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
-
-</div> <!-- cierre container -->
-
-<script src="script.js"></script>
-</body>
-</html>
-</div> <!-- cierre container -->
 
 <script src="script.js"></script>
 </body>
