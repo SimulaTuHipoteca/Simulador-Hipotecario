@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Simulador Hipotecario</title>
-
 <style>
 body{
   font-family:Arial, sans-serif;
@@ -21,8 +20,16 @@ body{
 }
 h1{
   text-align:center;
-  margin-bottom:30px;
+  margin-bottom:15px;
   color:#222;
+}
+.resumen{
+  background:#eef6ff;
+  padding:12px 15px;
+  border-radius:8px;
+  margin-bottom:20px;
+  font-size:16px;
+  text-align:center;
 }
 .grid{
   display:grid;
@@ -110,7 +117,6 @@ tr:nth-child(even){
   display:none;
   margin-top:20px;
 }
-/* RESPONSIVE */
 @media (max-width:700px){
   .grid{grid-template-columns:1fr;}
   .cards{grid-template-columns:1fr 1fr;}
@@ -122,6 +128,8 @@ tr:nth-child(even){
 <body>
 <div class="container">
 <h1>Simulador Hipotecario</h1>
+
+<div class="resumen" id="resumen">Cargando resumen...</div>
 
 <div class="grid">
   <div>
@@ -162,6 +170,7 @@ tr:nth-child(even){
   <div class="card"><p>Cuota mensual</p><h3 id="cuota"></h3></div>
   <div class="card"><p>Total intereses</p><h3 id="intereses"></h3></div>
   <div class="card"><p>Sueldo recomendado</p><h3 id="sueldo"></h3></div>
+  <div class="card"><p>% Financiación (LTV)</p><h3 id="ltv"></h3></div>
 </div>
 
 <div class="extra">
@@ -185,7 +194,7 @@ tr:nth-child(even){
 </div>
 
 <script>
-// Debounce para que sea más rápido al escribir
+// Debounce para que no se recalculen valores demasiado rápido
 function debounce(func, wait) {
   let timeout;
   return function() {
@@ -204,19 +213,13 @@ const salarioInput = document.getElementById("salario");
 const inputs = [precioInput, entradaInput, interesInput, añosInput, comunidadInput, salarioInput];
 inputs.forEach(input => input.addEventListener("input", debounce(calcular, 300)));
 
-function formatMoney(n){
-  return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);
-}
-
-function toggleTabla(){
-  const tabla = document.getElementById("tablaContainer");
-  tabla.style.display = tabla.style.display==="none" ? "block" : "none";
-  if(tabla.style.display==="block") generarTabla(); // solo genera la tabla al abrir
-}
-
 document.getElementById("verTabla").addEventListener("click", toggleTabla);
 
 let amortizacionGenerada = false;
+
+function formatMoney(n){
+  return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);
+}
 
 function calcular(){
   let precio = parseFloat(precioInput.value) || 0;
@@ -231,13 +234,14 @@ function calcular(){
   let capital = precio - entradaCasa;
   let n = años*12;
   let cuota = capital*(interes*Math.pow(1+interes,n))/(Math.pow(1+interes,n)-1);
-
   let totalIntereses = cuota*n - capital;
 
+  // Mostrar en tarjetas
   document.getElementById("capital").innerText = formatMoney(capital);
   document.getElementById("cuota").innerText = formatMoney(cuota);
   document.getElementById("intereses").innerText = formatMoney(totalIntereses);
   document.getElementById("sueldo").innerText = formatMoney(cuota/0.35);
+  document.getElementById("ltv").innerText = (capital/precio*100).toFixed(1) + "%";
 
   document.getElementById("entradaTotal").innerText = formatMoney(entradaCasa + gastos);
 
@@ -261,7 +265,18 @@ function calcular(){
     compSpan.style.color = "red";
   }
 
-  amortizacionGenerada = false; // fuerza a regenerar si se abre tabla
+  // Resumen rápido con máximo precio posible según salario
+  let maxCapital = salario*0.35/12 * n; 
+  let maxPrecio = maxCapital + entradaCasa;
+  document.getElementById("resumen").innerText = `Con tu salario neto anual de ${formatMoney(salario)}, podrías permitirte una vivienda de hasta ${formatMoney(maxPrecio)} con LTI ≤35%`;
+
+  amortizacionGenerada = false;
+}
+
+function toggleTabla(){
+  const tabla = document.getElementById("tablaContainer");
+  tabla.style.display = tabla.style.display==="none" ? "block" : "none";
+  if(tabla.style.display==="block") generarTabla();
 }
 
 function generarTabla(){
@@ -295,7 +310,6 @@ function generarTabla(){
         <td>${formatMoney(Math.max(saldo,0))}</td>
       </tr>`;
   }
-
   amortizacionGenerada = true;
 }
 
