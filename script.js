@@ -5,6 +5,12 @@ const añosInput=document.getElementById("años");
 const comunidadInput=document.getElementById("comunidad");
 const salarioInput=document.getElementById("salario");
 
+const titularesInput=document.getElementById("titulares");
+const edad1Input=document.getElementById("edad1");
+const edad2Input=document.getElementById("edad2");
+const edad2Container=document.getElementById("edadTitular2");
+const plazoEdadMax=document.getElementById("plazoEdadMax");
+
 const capitalOut=document.getElementById("capital");
 const cuotaOut=document.getElementById("cuota");
 const interesesOut=document.getElementById("intereses");
@@ -21,12 +27,62 @@ function formatMoney(n){
 return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);
 }
 
+/* MOSTRAR SEGUNDO TITULAR */
+
+titularesInput.addEventListener("change",()=>{
+
+if(titularesInput.value=="2"){
+edad2Container.style.display="block";
+}else{
+edad2Container.style.display="none";
+edad2Input.value="";
+}
+
+limitarPlazoEdad();
+
+});
+
+/* CALCULAR PLAZO MÁXIMO POR EDAD */
+
+function limitarPlazoEdad(){
+
+let edad1=parseFloat(edad1Input.value)||0;
+let edad2=parseFloat(edad2Input.value)||0;
+
+let edadMayor=Math.max(edad1,edad2);
+
+if(edadMayor===0){
+plazoEdadMax.innerText="";
+return;
+}
+
+let plazoEdad=75-edadMayor;
+let plazoMaximo=Math.min(30,plazoEdad);
+
+añosInput.max=plazoMaximo;
+
+if(añosInput.value>plazoMaximo){
+añosInput.value=plazoMaximo;
+}
+
+plazoEdadMax.innerText="Plazo máximo permitido según edad: "+plazoMaximo+" años";
+
+}
+
+/* DETECTAR CAMBIO DE EDAD */
+
+edad1Input.addEventListener("input",limitarPlazoEdad);
+edad2Input.addEventListener("input",limitarPlazoEdad);
+
 function toggleTabla(){
 tablaContainer.style.display = tablaContainer.style.display==="none" ? "block" : "none";
 if(tablaContainer.style.display==="block") generarTabla();
 }
 
 function calcular(){
+
+limitarPlazoEdad();
+
 let precio=parseFloat(precioInput.value)||0;
 let ahorro=parseFloat(entradaInput.value)||0;
 let interes=parseFloat(interesInput.value)/100/12||0;
@@ -54,13 +110,17 @@ sueldoOut.innerText=formatMoney(sueldo);
 
 let lti=cuota*12/salario;
 ltiOut.innerText=(lti*100).toFixed(1)+'%';
+
 if(lti>0.4) ltiOut.style.color="red";
 else if(lti>0.35) ltiOut.style.color="orange";
 else ltiOut.style.color="green";
+
 }
 
 function generarTabla(){
+
 tbody.innerHTML="";
+
 let precio=parseFloat(precioInput.value)||0;
 let ahorro=parseFloat(entradaInput.value)||0;
 let interes=parseFloat(interesInput.value)/100/12||0;
@@ -75,6 +135,7 @@ let cuota=capital*(interes*Math.pow(1+interes,n))/(Math.pow(1+interes,n)-1);
 let saldo=capital;
 
 for(let i=1;i<=n;i++){
+
 let interesMes=saldo*interes;
 let capitalMes=cuota-interesMes;
 saldo-=capitalMes;
@@ -86,8 +147,11 @@ let row=`<tr>
 <td>${formatMoney(capitalMes)}</td>
 <td>${formatMoney(Math.max(saldo,0))}</td>
 </tr>`;
+
 tbody.innerHTML+=row;
+
 }
+
 }
 
 // Calcular inicialmente
