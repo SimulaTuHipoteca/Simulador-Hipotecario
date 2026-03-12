@@ -51,6 +51,7 @@ const perfilInteresesOut = document.getElementById("perfilIntereses");
 const perfilLTVOut = document.getElementById("perfilLTV");
 const perfilLTIOut = document.getElementById("perfilLTI");
 const perfilCompatibleOut = document.getElementById("perfilCompatible");
+const perfilGastosOut = document.getElementById("perfilGastos");
 
 const perfilVerTablaBtn = document.getElementById("perfilVerTabla");
 const perfilTablaContainer = document.getElementById("perfilTablaContainer");
@@ -108,7 +109,7 @@ function calcularCalculadora(){
   capitalOut.innerText = formatMoney(capital);
   cuotaOut.innerText = formatMoney(cuota);
   interesesOut.innerText = formatMoney(cuota*plazo*12 - capital);
-  entradaTotalOut.innerText = formatMoney(gastosTotales + ahorro);
+  entradaTotalOut.innerText = formatMoney(gastosTotales); // SOLO gastos
   ltvOut.innerText = ((capital/precio)*100).toFixed(1)+"%";
 }
 
@@ -210,6 +211,7 @@ function calcularPerfil(){
     perfilCuotaOut.innerText = formatMoney(cuota);
     perfilInteresesOut.innerText = formatMoney(cuota*plazo*12 - capitalPosible);
     perfilLTVOut.innerText = ((capitalPosible/precio)*100).toFixed(1)+"%";
+    perfilGastosOut.innerText = formatMoney(gastosTotales); // SOLO gastos
 
     let lti = (cuota+deudas)*12/ingresosAnuales;
     perfilLTIOut.innerText = (lti*100).toFixed(1)+"%";
@@ -221,6 +223,7 @@ function calcularPerfil(){
     perfilCuotaOut.innerText = "-";
     perfilInteresesOut.innerText = "-";
     perfilLTVOut.innerText = "-";
+    perfilGastosOut.innerText = "-";
     perfilLTIOut.innerText = "-";
     perfilCompatibleOut.innerText = "-";
   }
