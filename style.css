@@ -51,34 +51,34 @@ input, select {
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 14px;
-  color: #333333;
+  color: #333;
 }
 
 /* ==============================
-   CARDS (RESULTADOS)
+   TARJETAS DE RESULTADOS
 ============================== */
 .cards {
   display: flex;
-  flex-direction: row;    /* horizontal */
-  flex-wrap: wrap;        /* si no caben, pasan a la siguiente fila */
+  flex-direction: row;   /* horizontal */
   gap: 10px;
   justify-content: center;
-  margin-top: 20px;
+  flex-wrap: wrap;       /* si no caben, pasan a otra línea */
+  margin-top: 15px;
 }
 
 .card {
-  flex: 0 0 120px;        /* ancho fijo, compacto */
+  flex: 0 0 120px;      /* ancho compacto */
   padding: 10px;
-  border-radius: 8px;
+  font-size: 13px;
   text-align: center;
-  border: 1px solid #d1d5db;
+  color: #555;          /* gris para dinero */
   background: #f9fafb;
-  font-size: 14px;
-  color: #555555;         /* gris para dinero */
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
 }
 
 /* ==============================
-   FORMULARIOS VERTICALES
+   FORMULARIO VERTICAL
 ============================== */
 .form-vertical {
   display: flex;
@@ -91,7 +91,7 @@ input, select {
 ============================== */
 .titulares-grid {
   display: flex;
-  flex-direction: column; /* vertical: Titular 2 debajo */
+  flex-direction: column; /* Titular 2 debajo de Titular 1 */
   gap: 15px;
   margin-bottom: 20px;
 }
@@ -100,14 +100,36 @@ input, select {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 12px;
+  padding: 15px;
   border-radius: 10px;
   border: 1px solid #d1d5db;
   background: #f9fafb;
 }
 
-.titular input {
+.titular input,
+.titular select {
   font-size: 14px;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* TARJETAS DENTRO DEL PANEL DE TITULAR */
+.titular .cards {
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.titular .card {
+  flex: 0 0 100px;      /* ancho compacto para varias tarjetas */
+  padding: 8px;
+  font-size: 13px;
+  text-align: center;
+  color: #555;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
 }
 
 /* ==============================
@@ -136,14 +158,14 @@ input, select {
   background: #f9fafb;
 }
 
-/* Scroll horizontal para móviles */
+/* Scroll horizontal en móviles */
 #tablaContainer {
   overflow-x: auto;
   margin-top: 15px;
 }
 
 /* ==============================
-   CHECKBOX VIVIENDA
+   VIVIENDA / CHECKBOX
 ============================== */
 #viviendaInfo {
   margin-top: 15px;
@@ -154,7 +176,7 @@ input, select {
 ============================== */
 @media (max-width: 500px) {
   .card {
-    flex: 0 0 90%;      /* una tarjeta por fila en móviles */
+    flex: 0 0 45%;       /* dos tarjetas por fila en móviles */
   }
 
   .container {
