@@ -37,13 +37,13 @@ button{
   display: flex;
   flex-direction: row;   /* horizontal */
   justify-content: flex-start; /* alineadas a la izquierda */
-  gap: 15px;
+  gap: 12px;
   flex-wrap: nowrap;     /* NO se apilen verticalmente */
   overflow-x: auto;      /* scroll horizontal si no caben */
 }
 
 .card {
-  min-width: 150px;      /* ancho fijo */
+  min-width: 130px;      /* ancho fijo */
   flex: 0 0 auto;        /* no se encogen ni crecen */
   padding: 15px;
   border-radius: 10px;
