@@ -1,31 +1,22 @@
 // --- SELECCIÓN DE SECCIÓN ---
-const btnCalculadora = document.getElementById("btnCalculadora");
-const btnPerfil = document.getElementById("btnPerfil");
-const calculadoraDiv = document.getElementById("calculadora");
-const perfilDiv = document.getElementById("perfil");
-
-btnCalculadora.addEventListener("click",()=>{
-  calculadoraDiv.style.display="block";
-  perfilDiv.style.display="none";
-  calculadoraDiv.scrollIntoView({behavior:"smooth"});
-});
-btnPerfil.addEventListener("click",()=>{
-  calculadoraDiv.style.display="none";
-  perfilDiv.style.display="block";
-  perfilDiv.scrollIntoView({behavior:"smooth"});
-});
+const btnCalculadora=document.getElementById("btnCalculadora");
+const btnPerfil=document.getElementById("btnPerfil");
+const calculadoraDiv=document.getElementById("calculadora");
+const perfilDiv=document.getElementById("perfil");
+btnCalculadora.addEventListener("click",()=>{calculadoraDiv.style.display="block"; perfilDiv.style.display="none"; calculadoraDiv.scrollIntoView({behavior:"smooth"});});
+btnPerfil.addEventListener("click",()=>{calculadoraDiv.style.display="none"; perfilDiv.style.display="block"; perfilDiv.scrollIntoView({behavior:"smooth"});});
 
 // --- ELEMENTOS CALCULADORA ---
-const prestamoInput = document.getElementById("prestamo");
-const interesInput = document.getElementById("interes");
-const anosInput = document.getElementById("anos");
-const cuotaOut = document.getElementById("cuota");
-const interesesTotalesOut = document.getElementById("interesesTotales");
-const totalPagadoOut = document.getElementById("totalPagado");
-const resultadosDiv = document.getElementById("resultados");
-const verTablaBtn = document.getElementById("verTabla");
-const tablaContainer = document.getElementById("tablaContainer");
-const tbody = document.querySelector("#tabla tbody");
+const prestamoInput=document.getElementById("prestamo");
+const interesInput=document.getElementById("interes");
+const anosInput=document.getElementById("anos");
+const cuotaOut=document.getElementById("cuota");
+const interesesTotalesOut=document.getElementById("interesesTotales");
+const totalPagadoOut=document.getElementById("totalPagado");
+const resultadosDiv=document.getElementById("resultados");
+const verTablaBtn=document.getElementById("verTabla");
+const tablaContainer=document.getElementById("tablaContainer");
+const tbody=document.querySelector("#tabla tbody");
 
 // --- FORMATO MONEDA ---
 function formatMoney(n){return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);}
@@ -36,7 +27,7 @@ function calcular(){
   const interes=(parseFloat(interesInput.value)/100)/12||0;
   const anos=parseFloat(anosInput.value)||0;
   const n=anos*12;
-  if(capital<=0||interes<=0||anos<=0){resultadosDiv.style.display="none";verTablaBtn.style.display="none";tablaContainer.style.display="none"; return;}
+  if(capital<=0||interes<=0||anos<=0){resultadosDiv.style.display="none"; verTablaBtn.style.display="none"; tablaContainer.style.display="none"; return;}
   const cuota=capital*(interes*Math.pow(1+interes,n))/(Math.pow(1+interes,n)-1);
   const totalPagado=cuota*n;
   const interesesTotales=totalPagado-capital;
@@ -50,10 +41,9 @@ function calcular(){
 
 // --- TABLA AMORTIZACIÓN ---
 verTablaBtn.addEventListener("click",()=>{
-  if(tablaContainer.style.display==="none"){generarTabla();tablaContainer.style.display="block"; verTablaBtn.innerText="Ocultar tabla de amortización";}
+  if(tablaContainer.style.display==="none"){generarTabla(); tablaContainer.style.display="block"; verTablaBtn.innerText="Ocultar tabla de amortización";}
   else{tablaContainer.style.display="none"; verTablaBtn.innerText="Ver tabla de amortización";}
 });
-
 function generarTabla(){
   tbody.innerHTML="";
   const capital=parseFloat(prestamoInput.value)||0;
@@ -83,10 +73,10 @@ const perfilPagas=document.getElementById("perfilPagas");
 const perfilAhorros=document.getElementById("perfilAhorros");
 const perfilDeuda=document.getElementById("perfilDeuda");
 const perfilOtroIngreso=document.getElementById("perfilOtroIngreso");
-const yaTieneVivienda=document.getElementById("yaTieneVivienda");
 const viviendaInfo=document.getElementById("viviendaInfo");
 const perfilPrecio=document.getElementById("perfilPrecio");
 const perfilTipoVivienda=document.getElementById("perfilTipoVivienda");
+const perfilTipoObra=document.getElementById("perfilTipoObra");
 const perfilComunidad=document.getElementById("perfilComunidad");
 const perfilPlazo=document.getElementById("perfilPlazo");
 const perfilCapitalOut=document.getElementById("perfilCapital");
@@ -100,67 +90,75 @@ const perfilAviso=document.getElementById("perfilAviso");
 // --- FORMATO MONEDA PERFIL ---
 function formatMoneyPerfil(n){return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n);}
 
-// --- PERFIL: MOSTRAR TITULAR 2 ---
+// --- MOSTRAR TITULAR 2 ---
 perfilTitulares.addEventListener("change",()=>{
   if(perfilTitulares.value==="2"){titular2Div.style.display="block"; salario2Div.style.display="block";}
   else{titular2Div.style.display="none"; salario2Div.style.display="none";}
   calcularPerfil();
 });
 
-yaTieneVivienda.addEventListener("change",()=>{viviendaInfo.style.display=yaTieneVivienda.checked?"block":"none"; calcularPerfil();});
-perfilTipoVivienda.addEventListener("change",()=>{document.getElementById("comunidadDiv").style.display=(perfilTipoVivienda.value==="primera"?"block":"none"); calcularPerfil();});
+// --- MOSTRAR INFO VIVIENDA ---
+perfilTipoVivienda.addEventListener("change",()=>{viviendaInfo.style.display=(perfilTipoVivienda.value!=="primera")?"block":"none"; calcularPerfil();});
+perfilTipoObra.addEventListener("change",()=>{
+  perfilComunidad.parentElement.style.display=(perfilTipoObra.value==="obraNueva")?"none":"block";
+  calcularPerfil();
+});
 
 // --- CALCULO PERFIL ---
 function calcularPerfil(){
-  perfilAviso.innerText="";
   let nTitulares=parseInt(perfilTitulares.value)||1;
-  let edad1=parseFloat(perfilEdad1.value)||0;
-  let edad2=nTitulares===2?parseFloat(perfilEdad2.value)||0:0;
-  let ingresos=(parseFloat(perfilSalario1.value)||0)+(nTitulares===2?(parseFloat(perfilSalario2.value)||0):0);
+  let edad1=parseInt(perfilEdad1.value)||0;
+  let edad2=nTitulares===2?parseInt(perfilEdad2.value)||0:0;
+  let maxEdad=Math.max(edad1,edad2);
+  let plazoMax=Math.min(30,75-maxEdad);
+  perfilPlazo.value=plazoMax>0?plazoMax:0;
+
+  let ingresos=(parseFloat(perfilSalario1.value)||0) + (nTitulares===2?(parseFloat(perfilSalario2.value)||0):0) + (parseFloat(perfilOtroIngreso.value)||0);
+  let pagas=parseInt(perfilPagas.value)||12;
+  let ingresosAnuales=ingresos*pagas;
   let deudas=parseFloat(perfilDeuda.value)||0;
-  let otroIngreso=parseFloat(perfilOtroIngreso.value)||0;
   let ahorro=parseFloat(perfilAhorros.value)||0;
-  let precio=parseFloat(perfilPrecio.value)||0;
-  let tipoVivienda=perfilTipoVivienda.value;
 
-  let impuesto=0;
-  if(tipoVivienda==="primera") impuesto=0.10*precio;
-  else if(tipoVivienda==="segunda" || tipoVivienda==="local") impuesto=0.7*precio;
-  let gastos=impuesto+2500;
+  let tipoRef=0.028/12; // fijo 2.8%
+  let n=plazoMax*12;
+  let cuotaMax=ingresosAnuales*0.35/12 - deudas;
+  let capitalPosible=cuotaMax*(Math.pow(1+tipoRef,n)-1)/(tipoRef*(Math.pow(1+tipoRef,n)));
 
-  let tipoRef=0.028;
-  let plazo=tipoVivienda==="local"?15:30;
-  let n=plazo*12;
-  let ingresosAnuales=(ingresos+otroIngreso)*12;
-  let cuotaMax=ingresosAnuales*0.35/12-deudas;
-  let capitalMax=cuotaMax*(Math.pow(1+tipoRef/12,n)-1)/(tipoRef/12*Math.pow(1+tipoRef/12,n));
-  let capitalPosible=tipoVivienda==="primera"?precio:precio*0.7;
-  if(tipoVivienda==="primera" && ahorro+capitalMax<precio+gastos){
-    perfilAviso.innerText=`Entrada insuficiente: necesitas aportar al menos ${formatMoneyPerfil(precio+gastos-capitalMax)}.`;
-  }
-  else if((tipoVivienda==="segunda"||tipoVivienda==="local") && ahorro<(precio*0.3+gastos)){
-    perfilAviso.innerText=`Entrada insuficiente: necesitas aportar al menos ${formatMoneyPerfil((precio*0.3+gastos)-ahorro)}.`;
+  let gastos=0;
+  let aviso="";
+  if(viviendaInfo.style.display==="block"){
+    let precio=parseFloat(perfilPrecio.value)||0;
+    let porcentaje=1.0;
+    if(perfilTipoVivienda.value==="segunda"||perfilTipoVivienda.value==="local") porcentaje=0.7;
+    if((capitalPosible>precio*porcentaje)) aviso="⚠ Entrada insuficiente. Revise su ahorro.";
+    let impuesto=(perfilTipoObra.value==="obraNueva")?precio*0.10:precio*parseFloat(perfilComunidad.value);
+    gastos=impuesto+2500;
+    capitalPosible=Math.min(precio*porcentaje, capitalPosible);
+    let falta=precio*porcentaje - ahorro;
+    if(falta>0) aviso+=" Necesita aportar mínimo "+formatMoneyPerfil(falta+gastos);
   }
 
-  let cuota=capitalPosible*(tipoRef/12*Math.pow(1+tipoRef/12,n))/(Math.pow(1+tipoRef/12,n)-1);
-  let ltv=(capitalPosible/precio)*100;
+  let cuota=capitalPosible*(tipoRef*Math.pow(1+tipoRef,n))/(Math.pow(1+tipoRef,n)-1);
+  let ltv=(viviendaInfo.style.display==="block")?(capitalPosible/(parseFloat(perfilPrecio.value)||1)*100):0;
   let lti=(cuota+deudas)*12/ingresosAnuales;
 
   perfilCapitalOut.innerText=formatMoneyPerfil(capitalPosible);
   perfilCuotaOut.innerText=formatMoneyPerfil(cuota);
-  perfilLTVOut.innerText=ltv.toFixed(1)+"%";
+  perfilLTVOut.innerText=ltv>0?ltv.toFixed(1)+"%":"-";
   perfilGastosOut.innerText=formatMoneyPerfil(gastos);
   perfilLTIOut.innerText=(lti*100).toFixed(1)+"%";
+  perfilAviso.innerText=aviso;
 
   if(lti<=0.35){perfilCompatibleOut.innerText="Compatible"; perfilCompatibleOut.style.color="green";}
   else if(lti<=0.40){perfilCompatibleOut.innerText="Aceptable"; perfilCompatibleOut.style.color="orange";}
   else{perfilCompatibleOut.innerText="No viable"; perfilCompatibleOut.style.color="red";}
 }
 
+// --- EVENTOS AUTOMÁTICOS PERFIL ---
 [
-  perfilTitulares, perfilEdad1, perfilEdad2, perfilSalario1, perfilSalario2,
-  perfilPagas, perfilAhorros, perfilDeuda, perfilOtroIngreso,
-  yaTieneVivienda, perfilPrecio, perfilTipoVivienda, perfilComunidad, perfilPlazo
+perfilTitulares, perfilEdad1, perfilEdad2, perfilSalario1, perfilSalario2,
+perfilPagas, perfilAhorros, perfilDeuda, perfilOtroIngreso,
+perfilTipoVivienda, perfilTipoObra, perfilComunidad, perfilPlazo, perfilPrecio
 ].forEach(el=>el.addEventListener("input",calcularPerfil));
 
 // --- EURIBOR ---
