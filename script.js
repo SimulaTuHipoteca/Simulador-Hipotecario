@@ -152,7 +152,7 @@ yaTieneVivienda.addEventListener("change", ()=>{
   calcularPerfil();
 });
 
-function calcularPerfil(){
+ffunction calcularPerfil(){
   let nTitulares = parseInt(perfilTitulares.value)||1;
   let edad1 = parseInt(perfilEdad1.value)||0;
   let edad2 = nTitulares===2?parseInt(perfilEdad2.value)||0:0;
@@ -172,7 +172,7 @@ function calcularPerfil(){
   let cuotaMax = ingresosAnuales*0.35/12 - deudas;
   let capitalPosible = cuotaMax*(Math.pow(1+tipoRef,n)-1)/(tipoRef*(Math.pow(1+tipoRef,n)));
 
-  // --- Cálculo de gastos y entrada ---
+  // --- Cálculo de precio, impuestos y gastos ---
   let precio = parseFloat(perfilPrecio.value)||0;
   let impuestos = perfilTipoVivienda.value==="obraNueva"?precio*0.10:precio*parseFloat(perfilComunidad.value);
   let gastos = impuestos + 2500;
@@ -180,12 +180,17 @@ function calcularPerfil(){
   // Entrada estimada: 20% del precio
   let entrada = precio * 0.20;
 
-  // Total ahorro necesario
-  let totalAporte = entrada + gastos;
+  // Ahorros disponibles
+  let ahorros = parseFloat(perfilAhorros.value)||0;
+
+  // Faltante para ser viable
+  let faltanteEntrada = Math.max(entrada - ahorros, 0);
+
+  // Total necesario para ser viable
+  let totalAporte = faltanteEntrada + gastos;
 
   if(yaTieneVivienda.checked){
-    let ahorro = parseFloat(perfilAhorros.value)||0;
-    capitalPosible = precio + gastos - ahorro;
+    capitalPosible = precio + gastos - ahorros;
   }
 
   let cuota = capitalPosible*(tipoRef*Math.pow(1+tipoRef,n))/(Math.pow(1+tipoRef,n)-1);
@@ -199,7 +204,9 @@ function calcularPerfil(){
       <ul>
         <li>Entrada estimada: ${formatMoneyPerfil(entrada)}</li>
         <li>Gastos aproximados: ${formatMoneyPerfil(gastos)}</li>
-        <li>Total ahorro necesario: ${formatMoneyPerfil(totalAporte)}</li>
+        <li>Ahorros disponibles: ${formatMoneyPerfil(ahorros)}</li>
+        <li>Faltante para ser viable: ${formatMoneyPerfil(faltanteEntrada)}</li>
+        <li>Total necesario para ser viable: ${formatMoneyPerfil(totalAporte)}</li>
       </ul>
     `;
   } else {
