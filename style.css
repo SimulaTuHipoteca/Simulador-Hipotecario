@@ -67,7 +67,9 @@ input, select {
 }
 
 .card {
-  flex: 0 0 120px;      /* ancho compacto */
+.card {
+  flex: 1;
+  min-width: 100px;
   padding: 10px;
   font-size: 13px;
   text-align: center;
