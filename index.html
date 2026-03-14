@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Simula tu Hipoteca</title>
+<title>Simula tu Hipoteca - Analizador</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,11 +17,12 @@
 <button id="btnPerfil">Analizar Perfil</button>
 </div>
 
-<p class="euribor">
-Euríbor actual: <span id="euriborValor">cargando...</span>
+<p class="euriborInfo">
+Euríbor actual aproximado: <span id="euriborValor">cargando...</span>
 </p>
 
 <!-- CALCULADORA -->
+
 <div id="calculadora" class="seccion">
 
 <h2>Calculadora de Hipoteca</h2>
@@ -39,13 +40,13 @@ Euríbor actual: <span id="euriborValor">cargando...</span>
 </div>
 
 <div>
-<label>Años</label>
+<label>Plazo (años)</label>
 <input id="anos" type="number" value="30">
 </div>
 
 </div>
 
-<div class="cards" id="resultados">
+<div class="cards">
 
 <div class="card">
 <p>Cuota mensual</p>
@@ -67,6 +68,8 @@ Euríbor actual: <span id="euriborValor">cargando...</span>
 <button id="verTabla">Ver tabla de amortización</button>
 
 <div id="tablaContainer">
+
+<h2>Tabla de amortización</h2>
 
 <table id="tabla">
 
@@ -92,46 +95,56 @@ Euríbor actual: <span id="euriborValor">cargando...</span>
 
 <div id="perfil" class="seccion" style="display:none">
 
-<h2>Analizar Perfil</h2>
+<h2>Analizar Perfil Financiero</h2>
 
 <div class="grid">
 
 <div>
 <label>Número de titulares</label>
 <select id="perfilTitulares">
-<option value="1">1</option>
-<option value="2">2</option>
+<option value="1">1 titular</option>
+<option value="2">2 titulares</option>
 </select>
 </div>
 
 <div>
-<label>Ingreso mensual titular 1</label>
-<input id="perfilSalario1" type="number">
+<label>Edad titular 1</label>
+<input id="perfilEdad1" type="number">
+</div>
+
+<div id="perfilEdad2Div">
+<label>Edad titular 2</label>
+<input id="perfilEdad2" type="number">
 </div>
 
 <div>
-<label>Número pagas</label>
+<label>Ingreso mensual titular 1 (€)</label>
+<input id="perfilSalario1" type="number">
+</div>
+
+<div id="perfilSalario2Div">
+<label>Ingreso mensual titular 2 (€)</label>
+<input id="perfilSalario2" type="number">
+</div>
+
+<div>
+<label>Número de pagas</label>
 <input id="perfilPagas" type="number" value="12">
 </div>
 
 <div>
-<label>Edad</label>
-<input id="perfilEdad1" type="number">
-</div>
-
-<div>
-<label>Deuda mensual</label>
+<label>Deuda mensual (€)</label>
 <input id="perfilDeuda" type="number">
 </div>
 
 <div>
-<label>Otro ingreso</label>
+<label>Otro ingreso mensual</label>
 <input id="perfilOtroIngreso" type="number">
 </div>
 
 <div>
 <label>Tipo vivienda</label>
-<select id="perfilTipo">
+<select id="perfilTipoVivienda">
 <option value="primera">Primera vivienda</option>
 <option value="segunda">Segunda residencia</option>
 <option value="local">Local comercial</option>
@@ -150,15 +163,17 @@ Euríbor actual: <span id="euriborValor">cargando...</span>
 
 </div>
 
+<div id="perfilAviso"></div>
+
 <div class="cards">
 
 <div class="card">
-<p>Importe préstamo</p>
+<p>Importe préstamo posible</p>
 <h3 id="perfilCapital"></h3>
 </div>
 
 <div class="card">
-<p>Cuota mensual</p>
+<p>Cuota mensual estimada</p>
 <h3 id="perfilCuota"></h3>
 </div>
 
