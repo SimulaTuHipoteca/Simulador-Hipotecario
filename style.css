@@ -33,25 +33,25 @@ button{
   cursor:pointer;
 }
 
+/* Contenedor de tarjetas */
 .cards {
   display: flex;
-  flex-direction: column;  /* vertical */
-  gap: 10px;               /* espacio entre tarjetas */
-  justify-content: flex-start;
-  align-items: center;      /* centrado horizontal */
+  flex-direction: row;   /* horizontal */
+  flex-wrap: wrap;       /* permite que pasen a otra línea si no caben */
+  gap: 10px;             /* espacio entre tarjetas */
+  justify-content: center; /* centrado horizontal */
 }
 
+/* Tarjeta individual */
 .card {
-  width: 90%;              /* ancho menor, más compacto */
-  max-width: 250px;        /* no muy grande */
-  padding: 10px;           /* más pequeño */
+  flex: 0 0 120px;      /* ancho fijo pequeño */
+  padding: 10px;
   border-radius: 8px;
   text-align: center;
   border: 1px solid #d1d5db;
   background: #f9fafb;
-  font-size: 14px;         /* tamaño de letra más pequeño */
+  font-size: 14px;
 }
-
 input, select{
   width:100%;
   padding:10px;
