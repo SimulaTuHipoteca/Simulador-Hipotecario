@@ -125,6 +125,7 @@ const perfilLTVOut = document.getElementById("perfilLTV");
 const perfilGastosOut = document.getElementById("perfilGastos");
 const perfilLTIOut = document.getElementById("perfilLTI");
 const perfilCompatibleOut = document.getElementById("perfilCompatible");
+const avisoSegunda = document.getElementById("avisoSegunda");
 
 // --- FORMATO MONEDA ---
 function formatMoneyPerfil(n){
