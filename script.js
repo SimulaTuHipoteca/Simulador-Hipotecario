@@ -195,22 +195,16 @@ function calcularPerfil(){
   let cuota = capitalPosible*(tipoRef*Math.pow(1+tipoRef,n))/(Math.pow(1+tipoRef,n)-1);
   let ltv = precio > 0 ? (capitalPosible / precio * 100) : 0;
 
-  // ALERTA SEGUNDA RESIDENCIA: solo si LTV > 70%
-  if(perfilPrimeraSegunda.value === "segunda" && ltv > 70){
+// --- ALERTA SEGUNDA RESIDENCIA ULTRACOMPACTA ---
+if(perfilPrimeraSegunda.value === "segunda" && ltv > 70){
     avisoSegunda.style.display = "block";
     avisoSegunda.innerHTML = `
       <strong>¡Atención! Segunda residencia con alta financiación:</strong>
-      <ul>
-        <li>Entrada estimada: ${formatMoneyPerfil(entrada)}</li>
-        <li>Gastos aproximados: ${formatMoneyPerfil(gastos)}</li>
-        <li>Ahorros disponibles: ${formatMoneyPerfil(ahorros)}</li>
-        <li>Faltante para ser viable: ${formatMoneyPerfil(faltanteEntrada)}</li>
-        <li>Total necesario para ser viable: ${formatMoneyPerfil(totalAporte)}</li>
-      </ul>
+      <p>Necesario aportar ${formatMoneyPerfil(faltanteEntrada)}, más gastos aproximados ${formatMoneyPerfil(gastos)}</p>
     `;
-  } else {
+} else {
     avisoSegunda.style.display = "none";
-  }
+}
 
   // LTI y compatibilidad
   let lti = ingresosAnuales > 0 ? (cuota + deudas)*12 / ingresosAnuales : 0;
