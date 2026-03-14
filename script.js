@@ -156,81 +156,89 @@ yaTieneVivienda.addEventListener("change", ()=>{
 function calcularPerfil(){
   let nTitulares = parseInt(perfilTitulares.value)||1;
   let edad1 = parseInt(perfilEdad1.value)||0;
-  let edad2 = nTitulares===2 ? parseInt(perfilEdad2.value)||0 : 0;
-  let maxEdad = Math.max(edad1, edad2);
-  let plazoMax = Math.min(30, 75 - maxEdad);
-  perfilPlazo.value = plazoMax > 0 ? plazoMax : 0;
+  let edad2 = nTitulares===2?parseInt(perfilEdad2.value)||0:0;
+  let maxEdad = Math.max(edad1,edad2);
+  let plazoMax = Math.min(30,75-maxEdad);
+  perfilPlazo.value = plazoMax>0?plazoMax:0;
 
   if(plazoMax <= 0) return;
 
-  // Ingresos y deudas
   let ingresos = (parseFloat(perfilSalario1.value)||0) + (nTitulares===2?(parseFloat(perfilSalario2.value)||0):0) + (parseFloat(perfilOtroIngreso.value)||0);
   let pagas = parseInt(perfilPagas.value)||12;
   let ingresosAnuales = ingresos*pagas;
   let deudas = parseFloat(perfilDeuda.value)||0;
 
-  // Plazo y cuota máxima
   let tipoRef = 0.028/12;
   let n = plazoMax*12;
   let cuotaMax = ingresosAnuales*0.35/12 - deudas;
   let capitalPosible = cuotaMax*(Math.pow(1+tipoRef,n)-1)/(tipoRef*(Math.pow(1+tipoRef,n)));
 
-  // Precio, impuestos y gastos
+  // --- Cálculo de precio, impuestos y gastos ---
   let precio = parseFloat(perfilPrecio.value)||0;
-  let impuestos = perfilTipoVivienda.value==="obraNueva" ? precio*0.10 : precio*parseFloat(perfilComunidad.value);
+  let impuestos = perfilTipoVivienda.value==="obraNueva"?precio*0.10:precio*parseFloat(perfilComunidad.value);
   let gastos = impuestos + 2500;
 
-  // Entrada estimada y ahorros
-  let entrada = precio * 0.20;
+  // --- Entrada editable ---
+  let entradaManual = parseFloat(document.getElementById("perfilEntrada")?.value) || null;
+  let entrada;
+  if(entradaManual !== null && !isNaN(entradaManual)){
+    entrada = entradaManual; // usa el valor del input manual
+  } else {
+    // Por defecto: segunda 30%, primera 20%
+    entrada = perfilPrimeraSegunda.value === "segunda" ? precio*0.30 : precio*0.20;
+  }
+
   let ahorros = parseFloat(perfilAhorros.value)||0;
   let faltanteEntrada = Math.max(entrada - ahorros, 0);
   let totalAporte = faltanteEntrada + gastos;
 
-  // Capital posible ajustado
+  // Si ya tiene vivienda
   if(yaTieneVivienda.checked){
     capitalPosible = precio + gastos - ahorros;
   }
 
   let cuota = capitalPosible*(tipoRef*Math.pow(1+tipoRef,n))/(Math.pow(1+tipoRef,n)-1);
-  let ltv = yaTieneVivienda.checked ? (capitalPosible/precio*100) : // --- ALERTA SEGUNDA RESIDENCIA VISUAL ---
-if(perfilPrimeraSegunda.value === "segunda"){
-  avisoSegunda.style.display = "block";
+  let ltv = yaTieneVivienda.checked?(capitalPosible/precio*100):0;
 
-  // Determinar color según faltante
-  let colorAlerta;
-  if(faltanteEntrada <= 0){
-    colorAlerta = "#d4edda"; // verde claro
-  } else if(faltanteEntrada <= entrada * 0.5){
-    colorAlerta = "#fff3cd"; // naranja claro
+  // --- ALERTA SEGUNDA RESIDENCIA ---
+  if(perfilPrimeraSegunda.value === "segunda"){
+    avisoSegunda.style.display = "block";
+
+    let colorAlerta;
+    if(faltanteEntrada <= 0){
+      colorAlerta = "#d4edda"; // verde
+    } else if(faltanteEntrada <= entrada * 0.5){
+      colorAlerta = "#fff3cd"; // naranja
+    } else {
+      colorAlerta = "#f8d7da"; // rojo
+    }
+
+    avisoSegunda.style.backgroundColor = colorAlerta;
+    avisoSegunda.style.padding = "12px";
+    avisoSegunda.style.borderRadius = "8px";
+    avisoSegunda.style.border = "1px solid #ccc";
+    avisoSegunda.style.marginTop = "10px";
+
+    avisoSegunda.innerHTML = `
+      <strong>¡Atención! Segunda residencia:</strong>
+      <ul style="margin:5px 0 0 18px; padding:0;">
+        <li>Entrada estimada: ${formatMoneyPerfil(entrada)}</li>
+        <li>Gastos aproximados: ${formatMoneyPerfil(gastos)}</li>
+        <li>Ahorros disponibles: ${formatMoneyPerfil(ahorros)}</li>
+        <li>Faltante para ser viable: ${formatMoneyPerfil(faltanteEntrada)}</li>
+        <li>Total necesario para ser viable: ${formatMoneyPerfil(totalAporte)}</li>
+      </ul>
+    `;
   } else {
-    colorAlerta = "#f8d7da"; // rojo claro
+    avisoSegunda.style.display = "none";
   }
 
-  avisoSegunda.style.backgroundColor = colorAlerta;
-  avisoSegunda.style.padding = "12px";
-  avisoSegunda.style.borderRadius = "8px";
-  avisoSegunda.style.border = "1px solid #ccc";
-  avisoSegunda.style.marginTop = "10px";
-
-  avisoSegunda.innerHTML = `
-    <strong>¡Atención! Segunda residencia:</strong>
-    <ul style="margin:5px 0 0 18px; padding:0;">
-      <li>Entrada estimada: ${formatMoneyPerfil(entrada)}</li>
-      <li>Gastos aproximados: ${formatMoneyPerfil(gastos)}</li>
-      <li>Ahorros disponibles: ${formatMoneyPerfil(ahorros)}</li>
-      <li>Faltante para ser viable: ${formatMoneyPerfil(faltanteEntrada)}</li>
-      <li>Total necesario para ser viable: ${formatMoneyPerfil(totalAporte)}</li>
-    </ul>
-  `;
-} else {
-  avisoSegunda.style.display = "none";
-}
-  // LTI y compatibilidad
+  // --- LTI y compatibilidad ---
   let lti = ingresosAnuales > 0 ? (cuota + deudas)*12 / ingresosAnuales : 0;
 
   perfilCapitalOut.innerText = formatMoneyPerfil(capitalPosible);
   perfilCuotaOut.innerText = formatMoneyPerfil(cuota);
-  perfilLTVOut.innerText = ltv>0 ? ltv.toFixed(1)+"%" : "-";
+  perfilLTVOut.innerText = ltv>0?ltv.toFixed(1)+"%":"-";
   perfilGastosOut.innerText = formatMoneyPerfil(gastos);
   perfilLTIOut.innerText = (lti*100).toFixed(1) + "%";
 
@@ -245,6 +253,9 @@ if(perfilPrimeraSegunda.value === "segunda"){
     perfilCompatibleOut.style.color = "red";
   }
 }
+
+// --- Evento para entrada editable ---
+document.getElementById("perfilEntrada")?.addEventListener("input", calcularPerfil);
 
 // --- EVENTOS AUTOMÁTICOS PERFIL ---
 [
