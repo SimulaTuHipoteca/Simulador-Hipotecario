@@ -43,7 +43,7 @@ function calcular() {
   const n = anos*12;
 
   if(capital <= 0 || interes <= 0 || anos <= 0){
-    resultadosDiv.style.display = "none";
+    resultadosDiv.style.display = "flex";
     verTablaBtn.style.display = "none";
     tablaContainer.style.display = "none";
     return;
@@ -57,7 +57,7 @@ function calcular() {
   interesesTotalesOut.innerText = formatMoney(interesesTotales);
   totalPagadoOut.innerText = formatMoney(totalPagado);
 
-  resultadosDiv.style.display = "grid";
+  resultadosDiv.style.display = "flex";
   verTablaBtn.style.display = "block";
   tablaContainer.style.display = "none"; // tabla oculta al recalcular
 }
@@ -158,6 +158,8 @@ function calcularPerfil(){
   let maxEdad = Math.max(edad1,edad2);
   let plazoMax = Math.min(30,75-maxEdad);
   perfilPlazo.value = plazoMax>0?plazoMax:0;
+
+  if(plazoMax <= 0) return;
 
   let ingresos = (parseFloat(perfilSalario1.value)||0) + (nTitulares===2?(parseFloat(perfilSalario2.value)||0):0) + (parseFloat(perfilOtroIngreso.value)||0);
   let pagas = parseInt(perfilPagas.value)||12;
