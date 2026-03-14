@@ -35,21 +35,21 @@ button{
 
 .cards {
   display: flex;
-  flex-direction: row;   /* horizontal */
-  justify-content: flex-start; /* alineadas a la izquierda */
-  gap: 12px;
-  flex-wrap: nowrap;     /* NO se apilen verticalmente */
-  overflow-x: auto;      /* scroll horizontal si no caben */
+  flex-direction: column;  /* vertical */
+  gap: 10px;               /* espacio entre tarjetas */
+  justify-content: flex-start;
+  align-items: center;      /* centrado horizontal */
 }
 
 .card {
-  min-width: 130px;      /* ancho fijo */
-  flex: 0 0 auto;        /* no se encogen ni crecen */
-  padding: 15px;
-  border-radius: 10px;
+  width: 90%;              /* ancho menor, más compacto */
+  max-width: 250px;        /* no muy grande */
+  padding: 10px;           /* más pequeño */
+  border-radius: 8px;
   text-align: center;
   border: 1px solid #d1d5db;
   background: #f9fafb;
+  font-size: 14px;         /* tamaño de letra más pequeño */
 }
 
 input, select{
