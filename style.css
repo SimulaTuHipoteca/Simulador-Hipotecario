@@ -112,3 +112,8 @@ input, select{
   overflow-x: auto;
   margin-top: 15px;
 }
+
+.tabla-amortizacion th,
+.tabla-amortizacion td {
+  padding: 10px 12px;
+}
