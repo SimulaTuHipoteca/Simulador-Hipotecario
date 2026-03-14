@@ -5,24 +5,24 @@
 <title>Simula tu Hipoteca</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="container">
+
 <h1>Simula tu Hipoteca</h1>
 
-<!-- BOTONES INICIO -->
 <div class="selector">
-  <button id="btnCalculadora">Calculadora de Hipoteca</button>
-  <button id="btnPerfil">Analizar Perfil</button>
+<button id="btnCalculadora">Calculadora de Hipoteca</button>
+<button id="btnPerfil">Analizar Perfil</button>
 </div>
 
-<!-- MENSAJE EURIBOR -->
-<p style="color:#0d4f8b; font-weight:bold; margin-bottom:20px;">
-Euribor actual (referencia hipotecas): 4,15% a marzo 2026
+<p class="euribor">
+Euríbor actual: <span id="euriborValor">cargando...</span>
 </p>
 
 <!-- CALCULADORA -->
-<div id="calculadora" class="seccion" style="display:none;">
+<div id="calculadora" class="seccion">
 
 <h2>Calculadora de Hipoteca</h2>
 
@@ -30,24 +30,22 @@ Euribor actual (referencia hipotecas): 4,15% a marzo 2026
 
 <div>
 <label>Importe del préstamo (€)</label>
-<input id="prestamo" type="number" placeholder="Ej: 150000">
+<input id="prestamo" type="number" value="200000">
 </div>
 
 <div>
-<label>Tipo de interés anual (%)</label>
-<input id="interes" type="number" step="0.01" placeholder="Ej: 3">
+<label>Tipo de interés (%)</label>
+<input id="interes" type="number" step="0.1" value="3">
 </div>
 
 <div>
-<label>Plazo (años)</label>
-<input id="anos" type="number" placeholder="Ej: 30">
+<label>Años</label>
+<input id="anos" type="number" value="30">
 </div>
 
 </div>
 
-<button id="calcularBtn">Calcular</button>
-
-<div class="cards" id="resultados" style="display:none;">
+<div class="cards" id="resultados">
 
 <div class="card">
 <p>Cuota mensual</p>
@@ -66,14 +64,12 @@ Euribor actual (referencia hipotecas): 4,15% a marzo 2026
 
 </div>
 
-<button id="verTabla" style="display:none;">
-Ver cuadro de amortización
-</button>
+<button id="verTabla">Ver tabla de amortización</button>
 
-<div id="tablaContainer" style="display:none;">
-<h2>Tabla de amortización</h2>
+<div id="tablaContainer">
 
 <table id="tabla">
+
 <thead>
 <tr>
 <th>Mes</th>
@@ -83,108 +79,95 @@ Ver cuadro de amortización
 <th>Restante</th>
 </tr>
 </thead>
+
 <tbody></tbody>
+
 </table>
 
 </div>
 
 </div>
 
-<!-- SECCIÓN PERFIL (completa) -->
-<div id="perfil" class="seccion" style="display:none;">
-<h2>Analizar Perfil Financiero</h2>
+<!-- ANALIZAR PERFIL -->
+
+<div id="perfil" class="seccion" style="display:none">
+
+<h2>Analizar Perfil</h2>
 
 <div class="grid">
-  <div>
-    <label>Número de titulares</label>
-    <select id="perfilTitulares">
-      <option value="1">1 titular</option>
-      <option value="2">2 titulares</option>
-    </select>
-  </div>
-  <div>
-    <label>Edad titular 1</label>
-    <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
-  </div>
-  <div id="perfilEdad2Div">
-    <label>Edad titular 2</label>
-    <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
-  </div>
-  <div>
-    <label>Ingreso mensual titular 1 (€)</label>
-    <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
-  </div>
-  <div id="perfilSalario2Div">
-    <label>Ingreso mensual titular 2 (€)</label>
-    <input id="perfilSalario2" type="number" placeholder="Ej: 2000">
-  </div>
-  <div>
-    <label>Número de pagas al año</label>
-    <input id="perfilPagas" type="number" value="12">
-  </div>
-  <div>
-    <label>Ahorro disponible (€)</label>
-    <input id="perfilAhorros" type="number" placeholder="Ej: 50000">
-  </div>
-  <div>
-    <label>Deuda / pagos mensuales (€)</label>
-    <input id="perfilDeuda" type="number" placeholder="Ej: 350">
-  </div>
-  <div>
-    <label>Otro ingreso mensual opcional (€)</label>
-    <input id="perfilOtroIngreso" type="number" placeholder="Opcional">
-  </div>
-  <div>
-    <label>¿Ya tiene vivienda?</label>
-    <input type="checkbox" id="yaTieneVivienda">
-  </div>
+
+<div>
+<label>Número de titulares</label>
+<select id="perfilTitulares">
+<option value="1">1</option>
+<option value="2">2</option>
+</select>
 </div>
 
-<div id="viviendaInfo" style="display:none;">
-  <div class="grid">
-    <div>
-      <label>Precio vivienda (€)</label>
-      <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
-    </div>
-    <div>
-      <label>Tipo de vivienda</label>
-      <select id="perfilTipoVivienda">
-        <option value="segundaMano">Segunda mano (ITP)</option>
-        <option value="obraNueva">Obra nueva (IVA 10%)</option>
-      </select>
-    </div>
-    <div>
-      <label>Comunidad Autónoma</label>
-      <select id="perfilComunidad">
-        <option value="0.10">Andalucía (10%)</option>
-        <option value="0.06">Madrid (6%)</option>
-        <option value="0.10">Cataluña (10%)</option>
-        <option value="0.08">Valencia (8%)</option>
-        <option value="0.08">Galicia (8%)</option>
-        <option value="0.08">Castilla y León (8%)</option>
-      </select>
-    </div>
-    <div>
-      <label>Primera o segunda vivienda</label>
-      <select id="perfilPrimeraSegunda">
-        <option value="primera">Primera vivienda</option>
-        <option value="segunda">Segunda vivienda</option>
-      </select>
-    </div>
-    <div>
-      <label>Plazo máximo (años)</label>
-      <input id="perfilPlazo" type="number" placeholder="Máximo según edad">
-    </div>
-  </div>
+<div>
+<label>Ingreso mensual titular 1</label>
+<input id="perfilSalario1" type="number">
+</div>
+
+<div>
+<label>Número pagas</label>
+<input id="perfilPagas" type="number" value="12">
+</div>
+
+<div>
+<label>Edad</label>
+<input id="perfilEdad1" type="number">
+</div>
+
+<div>
+<label>Deuda mensual</label>
+<input id="perfilDeuda" type="number">
+</div>
+
+<div>
+<label>Otro ingreso</label>
+<input id="perfilOtroIngreso" type="number">
+</div>
+
+<div>
+<label>Tipo vivienda</label>
+<select id="perfilTipo">
+<option value="primera">Primera vivienda</option>
+<option value="segunda">Segunda residencia</option>
+<option value="local">Local comercial</option>
+</select>
+</div>
+
+<div>
+<label>Tipo interés (%)</label>
+<input id="perfilInteres" type="number" value="2.8">
+</div>
+
+<div>
+<label>Plazo años</label>
+<input id="perfilPlazo" type="number" value="30">
+</div>
+
 </div>
 
 <div class="cards">
-  <div class="card"><p>Importe de préstamo</p><h3 id="perfilCapital"></h3></div>
-  <div class="card"><p>Cuota mensual</p><h3 id="perfilCuota"></h3></div>
-  <div class="card"><p>% Financiación (LTV)</p><h3 id="perfilLTV"></h3></div>
-  <div class="card"><p>Gastos</p><h3 id="perfilGastos"></h3></div>
-  <div class="card"><p>LTI</p><h3 id="perfilLTI"></h3></div>
-  <div class="card"><p>Compatibilidad</p><h3 id="perfilCompatible"></h3></div>
+
+<div class="card">
+<p>Importe préstamo</p>
+<h3 id="perfilCapital"></h3>
+</div>
+
+<div class="card">
+<p>Cuota mensual</p>
+<h3 id="perfilCuota"></h3>
+</div>
+
+<div class="card">
+<p>Compatibilidad</p>
+<h3 id="perfilCompatible"></h3>
+<p id="perfilCompatibleMsg"></p>
+</div>
+
 </div>
 
 </div>
@@ -192,5 +175,6 @@ Ver cuadro de amortización
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
