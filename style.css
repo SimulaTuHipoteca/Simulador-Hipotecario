@@ -1,29 +1,141 @@
-body{
-font-family:Arial,sans-serif;
-background:#f5f6fa;
-color:#1f2937;
-margin:0;
-padding:20px;
+/* --- GENERAL --- */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f6fa;
+  color: #1f2937;
+  margin: 0;
+  padding: 20px;
 }
-.container{
-max-width:950px;
-margin:auto;
-background:#fff;
-padding:30px;
-border-radius:12px;
-border:1px solid #d1d5db;
+
+.container {
+  max-width: 950px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
 }
-h1,h2,h3{color:#0d4f8b;}
-.grid-column{display:flex; flex-direction:column; gap:15px;}
-.titulares-grid{display:flex; gap:20px; flex-wrap:wrap;}
-.titular{flex:1; min-width:250px; border:1px solid #d1d5db; padding:15px; border-radius:10px; background:#f9fafb;}
-input,select{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:6px;font-size:16px;box-sizing:border-box;}
-button{width:100%;padding:14px;margin-top:15px;background:#0d4f8b;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:bold;}
-button:hover{background:#083366;}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:25px;}
-.card{background:#f9fafb;padding:15px;border-radius:10px;text-align:center;border:1px solid #d1d5db;}
-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px;}
-th{background:#f1f3f6;padding:8px;}
-td{border-bottom:1px solid #e5e7eb;padding:6px;}
-#tablaContainer{display:none;}
-.euriborInfo{margin-top:10px;color:#0d4f8b;font-weight:bold;}
+
+h1, h2, h3 {
+  color: #0d4f8b;
+}
+
+/* --- BOTONES --- */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background: #0d4f8b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #08306b;
+}
+
+/* --- GRID GENERAL --- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Dos columnas para titulares si hay 2 */
+.titularesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* --- INPUTS --- */
+label {
+  font-size: 14px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* --- TARJETAS DE RESULTADOS --- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.card {
+  background: #f9fafb;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #d1d5db;
+  font-weight: bold;
+  min-height: 60px;
+}
+
+/* --- TABLA AMORTIZACIÓN --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+th {
+  background: #f1f3f6;
+  padding: 8px;
+}
+
+td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 6px;
+  text-align: center;
+}
+
+/* Ocultar tabla inicialmente */
+#tablaContainer {
+  display: none;
+}
+
+/* --- INFORMACIÓN EURIBOR --- */
+.euriborInfo {
+  margin-top: 10px;
+  color: #0d4f8b;
+  font-weight: bold;
+}
+
+/* --- VIVIENDA --- */
+#viviendaInfo {
+  padding: 10px 0;
+  margin-top: 10px;
+  border-top: 1px solid #d1d5db;
+}
+
+/* --- AVISO PROFESIONAL --- */
+#perfilAviso {
+  margin-top: 15px;
+  font-size: 14px;
+  color: red;
+  font-weight: bold;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .titularesGrid {
+    grid-template-columns: 1fr;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
