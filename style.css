@@ -69,12 +69,23 @@ input, select{
 
 .titulares-grid{ display:flex; gap:20px; margin-bottom:20px; }
 
-.titular{
-  flex:1;
-  border:1px solid #d1d5db;
-  padding:15px;
-  border-radius:10px;
-  background:#f9fafb;
+/* Contenedor de todos los titulares */
+.titulares-grid {
+  display: flex;
+  flex-direction: column; /* columna vertical */
+  gap: 15px;              /* espacio entre titulares */
+  margin-bottom: 20px;
+}
+
+/* Cada titular como tarjeta */
+.titular {
+  display: flex;
+  flex-direction: column; /* preguntas una debajo de otra */
+  padding: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f9fafb;
+  gap: 10px;              /* espacio entre inputs */
 }
 
 /* Tabla de amortización */
