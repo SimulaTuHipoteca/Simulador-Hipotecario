@@ -10,7 +10,7 @@ function calcularCuota(capital, tipo, plazo) {
 }
 
 // -----------------------------
-// SECCIONES
+// SECCIONES PRINCIPALES
 // -----------------------------
 const btnCalculadora = document.getElementById("btnCalculadora");
 const btnPerfil = document.getElementById("btnPerfil");
@@ -48,8 +48,8 @@ btnCalcular.addEventListener("click", () => {
   const plazo = parseFloat(anos.value)*12;
 
   if (isNaN(capital) || capital <= 0 || isNaN(tipo) || tipo <= 0 || isNaN(plazo) || plazo <= 0) {
-    resultados.classList.remove("show");
     resultados.classList.add("hidden");
+    resultados.classList.remove("show");
     tablaBtn.classList.add("hidden");
     return;
   }
@@ -182,17 +182,14 @@ function calcularPerfil() {
   const tipoVivienda = document.getElementById("perfilTipoVivienda").value;
   let comunidad = parseFloat(document.getElementById("perfilComunidad").value) || 0;
 
-  // ocultar comunidad si obra nueva
   comunidadDiv.classList.toggle("hidden", tipoOperacion === "obraNueva");
   if(tipoOperacion === "obraNueva") comunidad = 0;
 
-  // gastos
-  let gastos = 2500; // gastos fijos
-  if(tipoOperacion === "obraNueva") gastos += precio * 0.10; // IVA 10%
-  else gastos += precio * comunidad; // ITP
+  let gastos = 2500;
+  if(tipoOperacion === "obraNueva") gastos += precio * 0.10;
+  else gastos += precio * comunidad;
 
-  // importe préstamo considerando ahorro primero para gastos
-  let restanteAhorro = ahorro - gastos;
+  const restanteAhorro = ahorro - gastos;
   const capitalSolicitado = precio - (restanteAhorro > 0 ? restanteAhorro : 0);
   const ltv = (capitalSolicitado / precio) * 100;
   const cuotaVivienda = calcularCuota(capitalSolicitado, tipo, plazo);
@@ -212,8 +209,6 @@ function calcularPerfil() {
 
   document.getElementById("perfilMensaje").innerText = mensaje;
 
-  // mostrar resultados vivienda
-  const resultadosVivienda = document.getElementById("resultadosVivienda");
-  resultadosVivienda.classList.remove("hidden");
-  resultadosVivienda.classList.add("show");
+  document.getElementById("resultadosVivienda").classList.remove("hidden");
+  document.getElementById("resultadosVivienda").classList.add("show");
 }
