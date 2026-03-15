@@ -265,7 +265,7 @@ leadEnviar.addEventListener("click", () => {
   leadForm.reset();
 });
 
-/// --- BANNER DE COOKIES ---
+// --- BANNER DE COOKIES ---
 const banner = document.getElementById('cookie-banner');
 const btnAceptar = document.getElementById('btnAceptarCookies');
 const btnRechazar = document.getElementById('btnRechazarCookies');
@@ -281,13 +281,15 @@ if (banner && btnAceptar && btnRechazar) {
 
   // Botón Aceptar
   btnAceptar.addEventListener('click', () => {
-  localStorage.setItem('cookiesAceptadas', 'true');
-  banner.style.setProperty('display', 'none', 'important'); // fuerza ocultar
-  console.log("Cookies aceptadas ✅");
-})
+    localStorage.setItem('cookiesAceptadas', 'true');
+    banner.style.display = 'none';
+    console.log("Cookies aceptadas ✅");
+  });
 
-btnRechazar.addEventListener('click', () => {
-  localStorage.setItem('cookiesAceptadas', 'false');
-  banner.style.setProperty('display', 'none', 'important'); // fuerza ocultar
-  console.log("Cookies rechazadas ❌");
-})
+  // Botón Rechazar
+  btnRechazar.addEventListener('click', () => {
+    localStorage.setItem('cookiesAceptadas', 'false');
+    banner.style.display = 'none';
+    console.log("Cookies rechazadas ❌");
+  });
+}
