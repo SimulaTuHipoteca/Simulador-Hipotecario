@@ -270,3 +270,40 @@ leadEnviar.addEventListener("click", () => {
   // Limpiar formulario
   leadForm.reset();
 });
+
+// --- BANNER DE COOKIES ---
+document.addEventListener('DOMContentLoaded', () => {
+  const banner = document.getElementById('cookie-banner');
+  const btnAceptar = document.getElementById('btnAceptarCookies');
+  const btnRechazar = document.getElementById('btnRechazarCookies');
+
+  if (banner) {
+    // Mostrar u ocultar banner según decisión previa
+    const cookiesAceptadas = localStorage.getItem('cookiesAceptadas');
+    if (cookiesAceptadas === 'true' || cookiesAceptadas === 'false') {
+      banner.style.display = 'none';
+    } else {
+      banner.style.display = 'block';
+    }
+
+    // Botón Aceptar
+    if (btnAceptar) {
+      btnAceptar.addEventListener('click', () => {
+        localStorage.setItem('cookiesAceptadas', 'true');
+        banner.style.display = 'none';
+        console.log("Cookies aceptadas ✅");
+        // Aquí puedes inicializar scripts de analítica si deseas
+      });
+    }
+
+    // Botón Rechazar
+    if (btnRechazar) {
+      btnRechazar.addEventListener('click', () => {
+        localStorage.setItem('cookiesAceptadas', 'false');
+        banner.style.display = 'none';
+        console.log("Cookies rechazadas ❌");
+        // Evitar cargar scripts de analítica o terceros
+      });
+    }
+  }
+});
