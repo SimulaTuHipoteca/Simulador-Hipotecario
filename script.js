@@ -232,45 +232,6 @@ perfilTitulares.addEventListener("change", ()=>{ titular2Div.style.display = per
 // --- Inicializar ---
 calcularPerfil();
 
-// --- PDF Y LEAD FORM ---
-const leadNombre = document.getElementById("leadNombre");
-const leadEmail = document.getElementById("leadEmail");
-const leadTelefono = document.getElementById("leadTelefono");
-const leadConsentimiento = document.getElementById("leadConsentimiento");
-const enviarLeadBtn = document.getElementById("enviarLead");
-const descargarPDFBtn = document.getElementById("descargarPDF");
-const leadMensaje = document.getElementById("leadMensaje");
-
-// Generar PDF
-descargarPDFBtn.addEventListener("click", ()=>{
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.setFontSize(18);
-  doc.text("Simulación Hipotecaria",20,20);
-  doc.setFontSize(12);
-  doc.text(`Nombre: ${leadNombre.value || "-"}`,20,40);
-  doc.text(`Correo: ${leadEmail.value || "-"}`,20,50);
-  doc.text(`Teléfono: ${leadTelefono.value || "-"}`,20,60);
-  doc.text("Resultados del perfil financiero:",20,80);
-  doc.text(`Capital posible: ${perfilCapitalOut.innerText}`,20,90);
-  doc.text(`Cuota mensual: ${perfilCuotaOut.innerText}`,20,100);
-  doc.text(`% Financiación (LTV): ${perfilLTVOut.innerText}`,20,110);
-  doc.text(`Gastos estimados: ${perfilGastosOut.innerText}`,20,120);
-  doc.text(`LTI: ${perfilLTIOut.innerText}`,20,130);
-  doc.text(`Compatibilidad: ${perfilCompatibleOut.innerText}`,20,140);
-  doc.save("Simulacion_Hipoteca.pdf");
-});
-
-// Enviar datos del lead (puedes conectar con backend o servicio externo)
-enviarLeadBtn.addEventListener("click", ()=>{
-  if(!leadNombre.value || !leadEmail.value || !leadConsentimiento.checked){
-    alert("Debes completar el formulario y aceptar la política de privacidad.");
-    return;
-  }
-  leadMensaje.style.display = "block";
-  // Aquí puedes hacer fetch a tu API para enviar los datos por email
-  // Ej: fetch('/api/sendEmail',{method:'POST', body: JSON.stringify({nombre: leadNombre.value,email:leadEmail.value, ...})})
-});
 // --- ENVIO SIMULACION PDF ---
 const leadForm = document.getElementById("leadForm");
 const leadNombre = document.getElementById("leadNombre");
@@ -284,10 +245,28 @@ leadEnviar.addEventListener("click", () => {
     return;
   }
 
-  // Aquí se puede integrar con tu backend / servicio de email
-  // Para pruebas locales simplemente mostramos un alert
-  alert(`Simulación enviada a: ${leadEmail.value}\nGracias ${leadNombre.value}!`);
+  // Generar PDF con jsPDF
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(18);
+  doc.text("Simulación Hipotecaria", 20, 20);
+  doc.setFontSize(12);
+  doc.text(`Nombre: ${leadNombre.value}`, 20, 40);
+  doc.text(`Correo: ${leadEmail.value}`, 20, 50);
+  doc.text("Resultados del perfil financiero:", 20, 70);
+  doc.text(`Capital posible: ${perfilCapitalOut.innerText}`, 20, 80);
+  doc.text(`Cuota mensual: ${perfilCuotaOut.innerText}`, 20, 90);
+  doc.text(`% Financiación (LTV): ${perfilLTVOut.innerText}`, 20, 100);
+  doc.text(`Gastos estimados: ${perfilGastosOut.innerText}`, 20, 110);
+  doc.text(`LTI: ${perfilLTIOut.innerText}`, 20, 120);
+  doc.text(`Compatibilidad: ${perfilCompatibleOut.innerText}`, 20, 130);
 
-  // Opcional: limpiar formulario
+  // Guardar PDF localmente
+  doc.save("Simulacion_Hipoteca.pdf");
+
+  // Mensaje opcional de confirmación
+  alert(`Simulación generada y enviada a: ${leadEmail.value}\nGracias ${leadNombre.value}!`);
+
+  // Limpiar formulario
   leadForm.reset();
 });
