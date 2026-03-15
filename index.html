@@ -188,33 +188,20 @@ Acepto la <a href="politica-privacidad.html" target="_blank">política de privac
 
 </div> <!-- FIN CONTAINER -->
 
-<!-- BANNER DE COOKIES -->
-<div id="cookie-banner">
-  <p>
-    Este sitio utiliza cookies para mejorar la experiencia del usuario.
-    <a href="cookies.html">Más información</a>
-  </p>
-  <button id="btnAceptarCookies">Aceptar</button>
-</div>
-
 <script>
-// Función para ocultar el banner y guardar consentimiento
+// Banner de cookies
 function aceptarCookies(){
   localStorage.setItem("cookiesAceptadas","true");
   document.getElementById("cookie-banner").style.display = "none";
 }
 
-// Vincular botón al evento
 document.getElementById("btnAceptarCookies").addEventListener("click", aceptarCookies);
 
-// Ocultar banner si ya se aceptaron cookies
 window.addEventListener("DOMContentLoaded", () => {
   if(localStorage.getItem("cookiesAceptadas") === "true"){
     document.getElementById("cookie-banner").style.display = "none";
   }
 });
-</script>
-};
 
 // Función PDF y leads
 const leadNombre = document.getElementById("leadNombre");
@@ -253,9 +240,3 @@ descargarPDFBtn.addEventListener("click", () => {
   doc.save("Simulacion_Hipoteca.pdf");
 });
 </script>
-
-</body>
-</html>
-  
-</body>
-</html>
