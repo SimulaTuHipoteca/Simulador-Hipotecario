@@ -62,7 +62,7 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 <input id="anos" type="number" placeholder="Ej: 30">
 </div>
 
-<div class="cards" id="resultados">
+<div class="cards" id="resultados" style="display:none;">
 <div class="card"><p>Cuota mensual</p><h3 id="cuota"></h3></div>
 <div class="card"><p>Intereses totales</p><h3 id="interesesTotales"></h3></div>
 <div class="card"><p>Total pagado</p><h3 id="totalPagado"></h3></div>
@@ -90,7 +90,6 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 </select>
 
 <div class="titulares-grid">
-<!-- TITULAR 1 -->
 <div class="titular">
 <label>Edad titular 1</label>
 <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
@@ -100,7 +99,6 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 <input id="perfilPagas" type="number" value="12">
 </div>
 
-<!-- TITULAR 2 -->
 <div class="titular" id="titular2Div" style="display:none;">
 <label>Edad titular 2</label>
 <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
@@ -120,7 +118,6 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 <input type="checkbox" id="yaTieneVivienda">
 </div>
 
-<!-- INFO VIVIENDA -->
 <div id="viviendaInfo" class="titular" style="display:none;">
 <label>Precio vivienda (€)</label>
 <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
@@ -147,7 +144,6 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 <input id="perfilPlazo" type="number" placeholder="Máximo según edad">
 </div>
 
-<!-- RESULTADOS PERFIL -->
 <div class="cards" id="perfilResultados">
 <div class="card"><p>Importe de préstamo</p><h3 id="perfilCapital"></h3></div>
 <div class="card"><p>Cuota mensual</p><h3 id="perfilCuota"></h3></div>
@@ -188,22 +184,29 @@ Acepto la <a href="politica-privacidad.html" target="_blank">política de privac
 
 </div> <!-- FIN CONTAINER -->
 
+<!-- BANNER DE COOKIES -->
+<div id="cookie-banner">
+  <p>
+    Este sitio utiliza cookies para mejorar la experiencia del usuario.
+    <a href="cookies.html">Más información</a>
+  </p>
+  <button id="btnAceptarCookies">Aceptar</button>
+</div>
+
 <script>
-// Banner de cookies
+// --- COOKIES ---
 function aceptarCookies(){
   localStorage.setItem("cookiesAceptadas","true");
   document.getElementById("cookie-banner").style.display = "none";
 }
-
 document.getElementById("btnAceptarCookies").addEventListener("click", aceptarCookies);
-
 window.addEventListener("DOMContentLoaded", () => {
   if(localStorage.getItem("cookiesAceptadas") === "true"){
     document.getElementById("cookie-banner").style.display = "none";
   }
 });
 
-// Función PDF y leads
+// --- LEADS Y PDF ---
 const leadNombre = document.getElementById("leadNombre");
 const leadEmail = document.getElementById("leadEmail");
 const leadTelefono = document.getElementById("leadTelefono");
@@ -217,8 +220,8 @@ enviarLeadBtn.addEventListener("click", () => {
     alert("Debes completar el formulario y aceptar la política de privacidad.");
     return;
   }
-  leadMensaje.style.display="block";
-  // Aquí podrías enviar los datos a tu servidor
+  leadMensaje.style.display = "block";
+  // Aquí podrías enviar los datos a un servidor
 });
 
 descargarPDFBtn.addEventListener("click", () => {
@@ -240,3 +243,6 @@ descargarPDFBtn.addEventListener("click", () => {
   doc.save("Simulacion_Hipoteca.pdf");
 });
 </script>
+
+</body>
+</html>
