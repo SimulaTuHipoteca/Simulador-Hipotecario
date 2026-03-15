@@ -303,7 +303,7 @@ input, select {
   #cookie-banner button {
     width: auto;
   }
-
+}
    html, body {
   height: 100%;
   margin: 0;
@@ -317,5 +317,3 @@ body {
 .container {
   flex: 1;
 }
-}
-
