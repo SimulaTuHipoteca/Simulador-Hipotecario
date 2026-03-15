@@ -266,30 +266,30 @@ leadEnviar.addEventListener("click", () => {
 });
 
 // --- BANNER DE COOKIES ---
-const banner = document.getElementById('cookie-banner');
-const btnAceptar = document.getElementById('btnAceptarCookies');
-const btnRechazar = document.getElementById('btnRechazarCookies');
+document.addEventListener('DOMContentLoaded', () => {
+  const banner = document.getElementById('cookie-banner');
+  const btnAceptar = document.getElementById('btnAceptarCookies');
+  const btnRechazar = document.getElementById('btnRechazarCookies');
 
-if (banner && btnAceptar && btnRechazar) {
+  if (!banner || !btnAceptar || !btnRechazar) return;
+
   // Mostrar u ocultar banner según decisión previa
   const cookiesAceptadas = localStorage.getItem('cookiesAceptadas');
   if (cookiesAceptadas === 'true' || cookiesAceptadas === 'false') {
     banner.style.display = 'none';
   } else {
-    banner.style.display = 'flex'; // flex porque tu CSS usa flex
+    banner.style.display = 'flex'; // flex porque tu CSS lo usa
   }
 
-  // Botón Aceptar
-  btnAceptar.addEventListener('click', () => {
-    localStorage.setItem('cookiesAceptadas', 'true');
+  // Función común para ocultar banner y guardar decisión
+  function ocultarBanner(valor) {
+    localStorage.setItem('cookiesAceptadas', valor);
     banner.style.display = 'none';
-    console.log("Cookies aceptadas ✅");
-  });
+    console.log(valor === 'true' ? "Cookies aceptadas ✅" : "Cookies rechazadas ❌");
+  }
 
-  // Botón Rechazar
-  btnRechazar.addEventListener('click', () => {
-    localStorage.setItem('cookiesAceptadas', 'false');
-    banner.style.display = 'none';
-    console.log("Cookies rechazadas ❌");
-  });
+  // Botones
+  btnAceptar.addEventListener('click', () => ocultarBanner('true'));
+  btnRechazar.addEventListener('click', () => ocultarBanner('false'));
+});
 }
