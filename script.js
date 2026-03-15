@@ -292,4 +292,3 @@ document.addEventListener('DOMContentLoaded', () => {
   btnAceptar.addEventListener('click', () => ocultarBanner('true'));
   btnRechazar.addEventListener('click', () => ocultarBanner('false'));
 });
-}
