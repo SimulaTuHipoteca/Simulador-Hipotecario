@@ -152,15 +152,24 @@ yaTieneVivienda.addEventListener("change", ()=>{
   calcularPerfil();
 });
 
+let plazoAutoCalculado = false;
+
 // --- PERFIL ---
 function calcularPerfil(){
   let nTitulares = parseInt(perfilTitulares.value)||1;
   let edad1 = parseInt(perfilEdad1.value)||0;
   let edad2 = nTitulares===2?parseInt(perfilEdad2.value)||0:0;
   let maxEdad = Math.max(edad1,edad2);
-  let plazoMax = Math.min(30,75-maxEdad);
-  perfilPlazo.value = plazoMax>0?plazoMax:0;
+let plazoMax = Math.min(30,75-maxEdad);
 
+// establecer límite máximo
+perfilPlazo.max = plazoMax>0?plazoMax:0;
+
+// solo autocalcular la primera vez
+if(!plazoAutoCalculado){
+  perfilPlazo.value = plazoMax>0?plazoMax:0;
+  plazoAutoCalculado = true;
+}
   if(plazoMax <= 0) return;
 
   let ingresos = (parseFloat(perfilSalario1.value)||0) + (nTitulares===2?(parseFloat(perfilSalario2.value)||0):0) + (parseFloat(perfilOtroIngreso.value)||0);
@@ -169,7 +178,8 @@ function calcularPerfil(){
   let deudas = parseFloat(perfilDeuda.value)||0;
 
   let tipoRef = 0.028/12;
-  let n = plazoMax*12;
+  let plazo = parseInt(perfilPlazo.value) || plazoMax;
+let n = plazo*12;
   let cuotaMax = ingresosAnuales*0.35/12 - deudas;
   let capitalPosible = cuotaMax*(Math.pow(1+tipoRef,n)-1)/(tipoRef*(Math.pow(1+tipoRef,n)));
 
