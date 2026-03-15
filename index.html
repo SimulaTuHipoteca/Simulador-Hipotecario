@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <title>Simula tu Hipoteca</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-
 <link rel="stylesheet" href="style.css">
 
+<!-- jsPDF para generar PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
+/* Banner de cookies */
 #cookie-banner{
   position:fixed;
   bottom:0;
@@ -22,27 +23,19 @@
   z-index:9999;
   font-size:14px;
 }
-
-#cookie-banner a{
-  color:#4CAF50;
-  text-decoration:underline;
-}
-
+#cookie-banner a{ color:#4CAF50; text-decoration:underline; }
 #cookie-banner button{
-  background:#4CAF50;
-  border:none;
-  color:white;
-  padding:8px 18px;
-  margin-left:10px;
-  cursor:pointer;
-  border-radius:5px;
+  background:#4CAF50; border:none; color:white; padding:8px 18px;
+  margin-left:10px; cursor:pointer; border-radius:5px;
 }
+/* Formulario de leads */
+#leadFormContainer input{display:block; width:100%; margin:5px 0 15px; padding:8px;}
+#leadFormContainer button{padding:8px 15px; margin-top:5px; cursor:pointer; background:#0d4f8b; color:white; border:none; border-radius:5px;}
+#leadFormContainer a{color:#0d4f8b; text-decoration:underline;}
 </style>
-
 </head>
 
 <body>
-
 <div class="container">
 
 <h1>Simula tu Hipoteca</h1>
@@ -59,72 +52,37 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 
 <!-- CALCULADORA -->
 <div id="calculadora" class="seccion" style="display:none;">
-
 <h2>Calculadora de Hipoteca</h2>
-
 <div class="form-vertical">
-
 <label>Importe del préstamo (€)</label>
 <input id="prestamo" type="number" placeholder="Ej: 150000">
-
 <label>Tipo de interés anual (%)</label>
 <input id="interes" type="number" step="0.01" placeholder="Ej: 3">
-
 <label>Plazo (años)</label>
 <input id="anos" type="number" placeholder="Ej: 30">
-
 </div>
 
 <div class="cards" id="resultados">
-
-<div class="card">
-<p>Cuota mensual</p>
-<h3 id="cuota"></h3>
-</div>
-
-<div class="card">
-<p>Intereses totales</p>
-<h3 id="interesesTotales"></h3>
-</div>
-
-<div class="card">
-<p>Total pagado</p>
-<h3 id="totalPagado"></h3>
-</div>
-
+<div class="card"><p>Cuota mensual</p><h3 id="cuota"></h3></div>
+<div class="card"><p>Intereses totales</p><h3 id="interesesTotales"></h3></div>
+<div class="card"><p>Total pagado</p><h3 id="totalPagado"></h3></div>
 </div>
 
 <button id="verTabla" style="display:none;">Ver cuadro de amortización</button>
-
 <div id="tablaContainer" style="display:none;">
-
 <h2>Tabla de amortización</h2>
-
 <table id="tabla" class="tabla-amortizacion">
-
 <thead>
-<tr>
-<th>Mes</th>
-<th>Cuota</th>
-<th>Interés</th>
-<th>Capital</th>
-<th>Restante</th>
-</tr>
+<tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Restante</th></tr>
 </thead>
-
 <tbody></tbody>
-
 </table>
-
 </div>
-
 </div>
 
 <!-- PERFIL FINANCIERO -->
 <div id="perfil" class="seccion" style="display:none;">
-
 <h2>Analizar Perfil Financiero</h2>
-
 <label>Número de titulares</label>
 <select id="perfilTitulares">
 <option value="1">1 titular</option>
@@ -132,62 +90,45 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 </select>
 
 <div class="titulares-grid">
-
 <!-- TITULAR 1 -->
 <div class="titular">
-
 <label>Edad titular 1</label>
 <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
-
 <label>Ingreso mensual titular 1 (€)</label>
 <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
-
 <label>Número de pagas al año</label>
 <input id="perfilPagas" type="number" value="12">
-
 </div>
 
 <!-- TITULAR 2 -->
 <div class="titular" id="titular2Div" style="display:none;">
-
 <label>Edad titular 2</label>
 <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
-
 <label>Ingreso mensual titular 2 (€)</label>
 <input id="perfilSalario2" type="number" placeholder="Ej: 2000">
-
 </div>
-
 </div>
 
 <div class="titular">
-
 <label>Ahorro disponible (€)</label>
 <input id="perfilAhorros" type="number" placeholder="Ej: 50000">
-
 <label>Deuda / pagos mensuales (€)</label>
 <input id="perfilDeuda" type="number" placeholder="Ej: 350">
-
 <label>Otro ingreso mensual opcional (€)</label>
 <input id="perfilOtroIngreso" type="number" placeholder="Opcional">
-
 <label>¿Ya tiene vivienda?</label>
 <input type="checkbox" id="yaTieneVivienda">
-
 </div>
 
 <!-- INFO VIVIENDA -->
 <div id="viviendaInfo" class="titular" style="display:none;">
-
 <label>Precio vivienda (€)</label>
 <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
-
 <label>Tipo de vivienda</label>
 <select id="perfilTipoVivienda">
 <option value="segundaMano">Segunda mano (ITP)</option>
 <option value="obraNueva">Obra nueva (IVA 10%)</option>
 </select>
-
 <label>Comunidad Autónoma</label>
 <select id="perfilComunidad">
 <option value="0.10">Andalucía (10%)</option>
@@ -197,51 +138,23 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 <option value="0.08">Galicia (8%)</option>
 <option value="0.08">Castilla y León (8%)</option>
 </select>
-
 <label>Primera o segunda vivienda</label>
 <select id="perfilPrimeraSegunda">
 <option value="primera">Primera vivienda</option>
 <option value="segunda">Segunda vivienda</option>
 </select>
-
 <label>Plazo máximo (años)</label>
 <input id="perfilPlazo" type="number" placeholder="Máximo según edad">
-
 </div>
 
 <!-- RESULTADOS PERFIL -->
 <div class="cards" id="perfilResultados">
-
-<div class="card">
-<p>Importe de préstamo</p>
-<h3 id="perfilCapital"></h3>
-</div>
-
-<div class="card">
-<p>Cuota mensual</p>
-<h3 id="perfilCuota"></h3>
-</div>
-
-<div class="card">
-<p>% Financiación (LTV)</p>
-<h3 id="perfilLTV"></h3>
-</div>
-
-<div class="card">
-<p>Gastos</p>
-<h3 id="perfilGastos"></h3>
-</div>
-
-<div class="card">
-<p>LTI</p>
-<h3 id="perfilLTI"></h3>
-</div>
-
-<div class="card">
-<p>Compatibilidad</p>
-<h3 id="perfilCompatible"></h3>
-</div>
-
+<div class="card"><p>Importe de préstamo</p><h3 id="perfilCapital"></h3></div>
+<div class="card"><p>Cuota mensual</p><h3 id="perfilCuota"></h3></div>
+<div class="card"><p>% Financiación (LTV)</p><h3 id="perfilLTV"></h3></div>
+<div class="card"><p>Gastos</p><h3 id="perfilGastos"></h3></div>
+<div class="card"><p>LTI</p><h3 id="perfilLTI"></h3></div>
+<div class="card"><p>Compatibilidad</p><h3 id="perfilCompatible"></h3></div>
 </div>
 
 <div id="avisoSegunda" style="display:none; margin-top:10px; padding:10px; border-radius:6px; background:#fee2e2; color:#b91c1c; font-size:14px;">
@@ -252,29 +165,28 @@ Debes aportar aproximadamente:
 <br>
 • <b>Gastos</b> (ITP o IVA + escrituras ~2500€)
 </div>
-  
+
+<!-- FORMULARIO DE LEADS -->
+<div id="leadFormContainer">
+<h3>Recibe tu simulación por correo</h3>
+<label>Nombre</label>
+<input type="text" id="leadNombre" placeholder="Ej: Juan Pérez" required>
+<label>Correo electrónico</label>
+<input type="email" id="leadEmail" placeholder="Ej: juan@email.com" required>
+<label>Teléfono</label>
+<input type="tel" id="leadTelefono" placeholder="Ej: 600123456">
+<label>
+<input type="checkbox" id="leadConsentimiento" required>
+Acepto la <a href="politica-privacidad.html" target="_blank">política de privacidad</a> y consiento recibir información relacionada con esta simulación.
+</label>
+<button id="enviarLead">Recibir simulación</button>
+<button id="descargarPDF">Descargar PDF</button>
+<p id="leadMensaje" style="margin-top:10px; color:green; display:none;">¡Simulación lista! Puedes descargar tu PDF.</p>
 </div>
 
-</div>
+</div> <!-- FIN PERFIL -->
 
-<script src="script.js"></script>
-
-<script>
-
-const perfilTitulares = document.getElementById("perfilTitulares");
-const titular2Div = document.getElementById("titular2Div");
-
-perfilTitulares.onchange = () => {
-
-if (perfilTitulares.value === "2") {
-titular2Div.style.display = "flex";
-} else {
-titular2Div.style.display = "none";
-}
-
-};
-
-</script>
+</div> <!-- FIN CONTAINER -->
 
 <!-- BANNER DE COOKIES -->
 <div id="cookie-banner">
@@ -284,6 +196,60 @@ titular2Div.style.display = "none";
   </p>
   <button onclick="aceptarCookies()">Aceptar</button>
 </div>
+
+<script src="script.js"></script>
+<script>
+// Banner cookies
+function aceptarCookies(){
+  localStorage.setItem("cookiesAceptadas","true");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+window.onload = function(){
+  if(localStorage.getItem("cookiesAceptadas")){
+    document.getElementById("cookie-banner").style.display = "none";
+  }
+};
+
+// Función PDF y leads
+const leadNombre = document.getElementById("leadNombre");
+const leadEmail = document.getElementById("leadEmail");
+const leadTelefono = document.getElementById("leadTelefono");
+const leadConsentimiento = document.getElementById("leadConsentimiento");
+const enviarLeadBtn = document.getElementById("enviarLead");
+const descargarPDFBtn = document.getElementById("descargarPDF");
+const leadMensaje = document.getElementById("leadMensaje");
+
+enviarLeadBtn.addEventListener("click", () => {
+  if(!leadNombre.value || !leadEmail.value || !leadConsentimiento.checked){
+    alert("Debes completar el formulario y aceptar la política de privacidad.");
+    return;
+  }
+  leadMensaje.style.display="block";
+  // Aquí podrías enviar los datos a tu servidor
+});
+
+descargarPDFBtn.addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(18);
+  doc.text("Simulación Hipotecaria", 20, 20);
+  doc.setFontSize(12);
+  doc.text(`Nombre: ${leadNombre.value || "-"}`, 20, 40);
+  doc.text(`Correo: ${leadEmail.value || "-"}`, 20, 50);
+  doc.text(`Teléfono: ${leadTelefono.value || "-"}`, 20, 60);
+  doc.text("Resultados del perfil financiero:", 20, 80);
+  doc.text(`Capital posible: ${document.getElementById("perfilCapital").innerText}`, 20, 90);
+  doc.text(`Cuota mensual: ${document.getElementById("perfilCuota").innerText}`, 20, 100);
+  doc.text(`% Financiación (LTV): ${document.getElementById("perfilLTV").innerText}`, 20, 110);
+  doc.text(`Gastos estimados: ${document.getElementById("perfilGastos").innerText}`, 20, 120);
+  doc.text(`LTI: ${document.getElementById("perfilLTI").innerText}`, 20, 130);
+  doc.text(`Compatibilidad: ${document.getElementById("perfilCompatible").innerText}`, 20, 140);
+  doc.save("Simulacion_Hipoteca.pdf");
+});
+</script>
+
+</body>
+</html>
   
 </body>
 </html>
