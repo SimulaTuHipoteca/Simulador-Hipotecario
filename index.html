@@ -194,20 +194,26 @@ Acepto la <a href="politica-privacidad.html" target="_blank">política de privac
     Este sitio utiliza cookies para mejorar la experiencia del usuario.
     <a href="cookies.html">Más información</a>
   </p>
-  <button onclick="aceptarCookies()">Aceptar</button>
+  <button id="btnAceptarCookies">Aceptar</button>
 </div>
 
-<script src="script.js"></script>
 <script>
-// Banner cookies
+// Función para ocultar el banner y guardar consentimiento
 function aceptarCookies(){
   localStorage.setItem("cookiesAceptadas","true");
   document.getElementById("cookie-banner").style.display = "none";
 }
-window.onload = function(){
-  if(localStorage.getItem("cookiesAceptadas")){
+
+// Vincular botón al evento
+document.getElementById("btnAceptarCookies").addEventListener("click", aceptarCookies);
+
+// Ocultar banner si ya se aceptaron cookies
+window.addEventListener("DOMContentLoaded", () => {
+  if(localStorage.getItem("cookiesAceptadas") === "true"){
     document.getElementById("cookie-banner").style.display = "none";
   }
+});
+</script>
 };
 
 // Función PDF y leads
