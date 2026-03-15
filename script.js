@@ -152,7 +152,9 @@ yaTieneVivienda.addEventListener("change", ()=>{
   calcularPerfil();
 });
 
+// control del plazo automático
 let plazoAutoCalculado = false;
+let plazoEditadoPorUsuario = false;
 
 // --- PERFIL ---
 function calcularPerfil(){
@@ -166,9 +168,8 @@ let plazoMax = Math.min(30,75-maxEdad);
 perfilPlazo.max = plazoMax>0?plazoMax:0;
 
 // solo autocalcular la primera vez
-if(!plazoAutoCalculado){
+if(!plazoEditadoPorUsuario){
   perfilPlazo.value = plazoMax>0?plazoMax:0;
-  plazoAutoCalculado = true;
 }
   if(plazoMax <= 0) return;
 
@@ -236,6 +237,10 @@ if(perfilPrimeraSegunda.value === "segunda" && ltv > 70){
     perfilCompatibleOut.style.color = "red";
   }
 }
+
+perfilPlazo.addEventListener("input", ()=>{
+  plazoEditadoPorUsuario = true;
+});
 
 // Evento para actualizar alerta si se cambia la entrada manual
 document.getElementById("perfilEntrada")?.addEventListener("input", calcularPerfil);
