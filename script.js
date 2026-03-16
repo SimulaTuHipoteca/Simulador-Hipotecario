@@ -216,6 +216,12 @@ perfilTitulares.addEventListener("change", () => {
   calcularPerfil();
 });
 
+// Mostrar información de vivienda si el usuario marca el checkbox
+yaTieneVivienda.addEventListener("change", () => {
+  viviendaInfo.style.display = yaTieneVivienda.checked ? "block" : "none";
+  calcularPerfil();
+});
+
 // Inicializar perfil
 calcularPerfil();
 
