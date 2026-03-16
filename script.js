@@ -209,11 +209,13 @@ perfilTitulares.addEventListener("change", () => {
   calcularPerfil();
 });
 
+// Mostrar información de vivienda si el usuario marca el checkbox
 yaTieneVivienda.addEventListener("change", () => {
   viviendaInfo.style.display = yaTieneVivienda.checked ? "block" : "none";
   calcularPerfil();
 });
 
+// Inicializar perfil
 calcularPerfil();
 
 // --- ENVIO SIMULACION PDF ---
@@ -288,9 +290,9 @@ function abrirOperacion(id) {
 }
 
 function irAnalisis(event, tipo) {
-  event.stopPropagation();
+  event.stopPropagation(); // evitar que se cierre la tarjeta
 
-  // Mostrar sección perfil
+  // Mostrar sección perfil y ocultar calculadora
   perfilDiv.style.display = "block";
   calculadoraDiv.style.display = "none";
 
@@ -315,7 +317,12 @@ function irAnalisis(event, tipo) {
       break;
   }
 
+  // Mostrar u ocultar info vivienda
   viviendaInfo.style.display = yaTieneVivienda.checked ? "block" : "none";
+
+  // Recalcular perfil financiero
   calcularPerfil();
+
+  // Scroll suave al perfil
   perfilDiv.scrollIntoView({ behavior: 'smooth' });
 }
