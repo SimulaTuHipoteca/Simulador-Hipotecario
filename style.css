@@ -431,4 +431,77 @@ input, select, textarea {
     min-width: 120px;
     font-size: 14px;
   }
+
+   /* ==============================
+   BLOQUE OPERACIONES (PRE-ANÁLISIS)
+============================== */
+
+.operaciones-section {
+  margin-top: 40px;
 }
+
+.operaciones-section h2 {
+  text-align: center;
+}
+
+.operaciones-sub {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+.operacion-card {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.operacion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.card-header {
+  padding: 18px;
+  font-weight: 600;
+  font-size: 16px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 18px;
+  background: #f9fafb;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+
+.card-content.open {
+  max-height: 600px;
+  padding: 20px 18px;
+}
+
+.card-content h4 {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #1e3a8a;
+}
+
+.card-content ul {
+  margin-left: 18px;
+}
+
+.card-content button {
+  margin-top: 15px;
+  width: 100%;
+  font-size: 14px;
+}
+}
+   
