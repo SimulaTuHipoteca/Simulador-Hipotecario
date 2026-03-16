@@ -346,3 +346,27 @@ body > .container .section-card {
     width: auto;
   }
 }
+/* BOTÓN FLOTANTE FAQ CON ICONO */
+#faqButton {
+  position: fixed;
+  bottom: 20px;           /* distancia desde abajo */
+  right: 20px;            /* distancia desde la derecha */
+  width: 50px;
+  height: 50px;
+  background-color: #0d4f8b; /* azul corporativo */
+  color: white;
+  border-radius: 50%;      /* totalmente redondo */
+  text-align: center;
+  line-height: 50px;       /* centra el ? verticalmente */
+  font-weight: bold;
+  font-size: 24px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: background 0.2s, transform 0.2s;
+  z-index: 1000;           /* siempre visible */
+}
+
+#faqButton:hover {
+  background-color: #09407a;  /* azul más oscuro */
+  transform: scale(1.2);      /* efecto sutil de zoom */
+}
