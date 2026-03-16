@@ -478,17 +478,16 @@ input, select, textarea {
 
 .card-content {
   max-height: 0;
-  overflow: hidden;
-  padding: 0 18px;
-  background: #f9fafb;
+  overflow-y: hidden;
   transition: max-height 0.4s ease, padding 0.3s ease;
 }
 
 .card-content.open {
-  max-height: 600px;
+  max-height: 800px; /* suficiente para todo el contenido */
+  overflow-y: auto;  /* scroll si excede */
   padding: 20px 18px;
 }
-
+   
 .card-content h4 {
   margin-top: 10px;
   font-size: 14px;
