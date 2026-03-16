@@ -22,6 +22,67 @@
   
 <p class="euribor-info">
 Euribor actual (referencia hipotecas): 2,25% a marzo 2026
+  <section class="operaciones-section">
+  <h2>¿Qué tipo de operación quieres realizar?</h2>
+  <p class="operaciones-sub">
+    Selecciona una opción antes de analizar tu perfil.
+  </p>
+
+  <div class="operacion-card" onclick="abrirOperacion('compra')">
+    <div class="card-header">🏡 Comprar primera vivienda</div>
+    <div id="compra" class="card-content">
+      <h4>Cómo funciona</h4>
+      <p>Financiación habitual hasta el 80% del valor.</p>
+
+      <h4>Requisitos</h4>
+      <ul>
+        <li>Estabilidad laboral</li>
+        <li>Endeudamiento menor al 35%</li>
+        <li>Ahorros del 30% aprox.</li>
+      </ul>
+
+      <button onclick="irAnalisis(event,'Compra Primera Vivienda')">
+        Analizar mi perfil
+      </button>
+    </div>
+  </div>
+
+  <div class="operacion-card" onclick="abrirOperacion('cambio')">
+    <div class="card-header">🔄 Cambiar mi hipoteca</div>
+    <div id="cambio" class="card-content">
+      <h4>Cómo funciona</h4>
+      <p>Otro banco mejora tu tipo de interés actual.</p>
+
+      <h4>Requisitos</h4>
+      <ul>
+        <li>Historial de pago correcto</li>
+        <li>Mejora real de condiciones</li>
+      </ul>
+
+      <button onclick="irAnalisis(event,'Cambio de Hipoteca')">
+        Analizar mi perfil
+      </button>
+    </div>
+  </div>
+
+  <div class="operacion-card" onclick="abrirOperacion('inversion')">
+    <div class="card-header">💼 Invertir en vivienda</div>
+    <div id="inversion" class="card-content">
+      <h4>Cómo funciona</h4>
+      <p>Financiación más restrictiva (60–70%).</p>
+
+      <h4>Requisitos</h4>
+      <ul>
+        <li>Ingresos sólidos</li>
+        <li>Buen perfil financiero</li>
+      </ul>
+
+      <button onclick="irAnalisis(event,'Inversión')">
+        Analizar mi perfil
+      </button>
+    </div>
+  </div>
+</section>
 </p>
 
 <!-- CALCULADORA -->
@@ -57,6 +118,7 @@ Euribor actual (referencia hipotecas): 2,25% a marzo 2026
 <!-- PERFIL FINANCIERO -->
 <div id="perfil" class="seccion" style="display:none;">
   <h2>Analizar Perfil Financiero</h2>
+    <div id="operacionSeleccionada" class="operacion-badge" style="display:none;"></div>
   <label>Número de titulares</label>
   <select id="perfilTitulares">
     <option value="1">1 titular</option>
