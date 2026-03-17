@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Preguntas Frecuentes - Simula tu Hipoteca</title>
-<link rel="stylesheet" href="style.css"> <!-- tu CSS principal -->
+<link rel="stylesheet" href="style.css">
 <style>
 /* =========================
-   ACORDEÓN FAQ + TARJETAS
+   ACORDEÓN FAQ
 ========================= */
 .faq-container {
   max-width: 900px;
@@ -72,7 +73,7 @@
   font-weight: bold;
 }
 
-.faq-question.active::after {
+.faq-item.active .faq-question::after {
   content: '-';
 }
 
@@ -87,40 +88,11 @@
 </head>
 <body>
 
-<body>
+<div class="faq-container">
+  <h1>Preguntas Frecuentes</h1>
+  <input type="text" id="faqSearch" placeholder="Buscar pregunta...">
 
-  <!-- Otros elementos de tu página (header, hero, simulador, etc.) -->
-
-  <!-- -----------------------
-       BLOQUE FAQ
-  ------------------------ -->
-  <div class="faq-container">
-    <h1>Preguntas Frecuentes</h1>
-    <input type="text" id="faqSearch" placeholder="Buscar pregunta...">
-
-    <div class="faq-item">
-      <div class="faq-question">1. ¿Qué es una hipoteca y cómo funciona?</div>
-      <div class="faq-answer">
-        Una hipoteca es un préstamo que el banco te da para comprar una casa. Pagas una cuota mensual que incluye parte del dinero prestado y los intereses.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">2. Tipos de hipoteca: fija, variable y mixta</div>
-      <div class="faq-answer">
-        <ul>
-          <li><strong>Fija:</strong> cuota e interés constantes.</li>
-          <li><strong>Variable:</strong> interés que puede subir o bajar.</li>
-          <li><strong>Mixta:</strong> periodo inicial fijo y luego variable.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Continúa con las demás preguntas -->
-
-  <!-- PREGUNTAS COMPLETAS -->
-  <!-- Copia las 20 preguntas aquí como en el ejemplo anterior -->
-  <!-- Pregunta 1 -->
+  <!-- Preguntas únicas -->
   <div class="faq-item">
     <div class="faq-question">1. ¿Qué es una hipoteca y cómo funciona?</div>
     <div class="faq-answer">
@@ -128,7 +100,6 @@
     </div>
   </div>
 
-  <!-- Pregunta 2 -->
   <div class="faq-item">
     <div class="faq-question">2. Tipos de hipoteca: fija, variable y mixta</div>
     <div class="faq-answer">
