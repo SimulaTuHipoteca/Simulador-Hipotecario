@@ -210,7 +210,35 @@ input, select, textarea {
   overflow-x: auto;
   margin-top: 15px;
 }
+/* Contenedor centrado */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}
 
+/* Botón moderno */
+#verTabla {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #0d4f8b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+#verTabla:hover {
+  background-color: #09407a;
+  transform: scale(1.05);
+}
+
+/* Animación de despliegue */
+#tablaContainer {
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
 /* ==============================
    FOOTER
 ============================== */
