@@ -185,7 +185,7 @@ input, select, textarea {
 ============================== */
 ..tabla-amortizacion {
   width: 100%;
-  min-width: 600px;      /* asegura que la tabla no se haga demasiado estrecha */
+  min-width: 400px;      /* asegura que la tabla no se haga demasiado estrecha */
   border-collapse: collapse;
   font-size: 14px;
 }
