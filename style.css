@@ -207,8 +207,13 @@ input, select, textarea {
 }
 
 #tablaContainer {
-  overflow-x: auto;
+  overflow-x: auto;       /* scroll horizontal si la tabla es más ancha que el contenedor */
+  overflow-y: hidden;     /* opcional: no queremos scroll vertical si la altura está bien */
   margin-top: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f9fafb;
 }
 /* Contenedor centrado */
 .btn-container {
