@@ -183,10 +183,10 @@ input, select, textarea {
 /* ==============================
    TABLA DE AMORTIZACION
 ============================== */
-.tabla-amortizacion {
+..tabla-amortizacion {
   width: 100%;
+  min-width: 600px;      /* asegura que la tabla no se haga demasiado estrecha */
   border-collapse: collapse;
-  margin-top: 20px;
   font-size: 14px;
 }
 
@@ -195,6 +195,7 @@ input, select, textarea {
   padding: 8px 10px;
   text-align: right;
   border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;   /* evita que los números se rompan en varias líneas */
 }
 
 .tabla-amortizacion th {
@@ -214,6 +215,8 @@ input, select, textarea {
   border-radius: 8px;
   padding: 10px;
   background-color: #f9fafb;
+   
+  max-width: 100%;       /* nunca exceda el ancho de la pantalla */ 
 }
 /* Contenedor centrado */
 .btn-container {
