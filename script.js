@@ -250,6 +250,11 @@ leadEnviar.addEventListener("click", () => {
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
   doc.text("Simulación Hipotecaria", margin, 40);
+  // Marca arriba derecha
+doc.setFontSize(11);
+doc.setTextColor(220, 230, 255); // azul claro suave
+doc.setFont("helvetica", "normal");
+doc.text("Kaoba Finance Simulador", 555, 28, { align: "right" });
 
   y += 80;
   doc.setFontSize(12);
