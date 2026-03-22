@@ -30,7 +30,7 @@ body > .container {
 /* ==============================
    TITULOS
 ============================== */
-h1 {
+h1:not(.brand-title) {
   color: #0d4f8b;
   text-align: center;
   font-size: 32px;
