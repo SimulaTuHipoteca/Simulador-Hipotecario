@@ -183,7 +183,7 @@ input, select, textarea {
 /* ==============================
    TABLA DE AMORTIZACION
 ============================== */
-..tabla-amortizacion {
+.tabla-amortizacion {
   width: 100%;
   min-width: 400px;      /* asegura que la tabla no se haga demasiado estrecha */
   border-collapse: collapse;
@@ -238,10 +238,7 @@ input, select, textarea {
 }
 
 /* Animación de despliegue */
-#tablaContainer {
-  overflow: hidden;
-  transition: max-height 0.5s ease;
-}
+
 /* ==============================
    FOOTER
 ============================== */
