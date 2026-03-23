@@ -1,9 +1,5 @@
 /* ==============================
-   ESTILOS GLOBALES PARA TODA LA WEB
-============================== */
-
-/* ==============================
-   BODY Y CONTENEDORES
+   ESTILOS GLOBALES
 ============================== */
 html, body {
   height: 100%;
@@ -13,7 +9,7 @@ html, body {
   color: #1f2937;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* garantiza altura completa */
+  min-height: 100vh;
 }
 
 body > .container {
@@ -24,87 +20,32 @@ body > .container {
   border-radius: 12px;
   border: 1px solid #d1d5db;
   box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-  flex: 1; /* ocupa el espacio disponible */
+  flex: 1;
 }
 
 /* ==============================
    TITULOS
 ============================== */
-h1:not(.brand-title) {
-  color: #0d4f8b;
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 30px;
-}
-/* ==============================
-   MARCA SUPERIOR
-============================== */
+h1:not(.brand-title) { color: #0d4f8b; text-align: center; font-size: 32px; margin-bottom: 30px; }
 
-.brand-title {
-  display: block;
-  text-align: left;
-  font-size: 24px;
-  font-weight: 700;
-  color: #0d4f8b !important;
-  line-height: 1.2;
-  margin-bottom: 10px;
-}
+.brand-title { display: block; font-size: 24px; font-weight: 700; color: #0d4f8b !important; line-height: 1.2; margin-bottom: 10px; text-align: left; }
+.brand-main { font-size: 20px; font-weight: 600; color: #0d4f8b; letter-spacing: 0.5px; }
+.brand-sub { display: block; font-size: 16px; font-weight: 400; color: #6b7280; }
 
-.brand-main {
-  font-size: 20px;
-  font-weight: 600;
-  color: #0d4f8b;
-  letter-spacing: 0.5px;
-}
-
-.brand-sub {
-  display: block;
-  font-size: 16px;
-  font-weight: 400;
-  color: #6b7280;
-}
-
-h2 {
-  color: #1e40af;
-  font-size: 22px;
-  margin-top: 25px;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #e0e4f1;
-  padding-bottom: 5px;
-}
-
-h3 {
-  color: #1e3a8a;
-  font-size: 18px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
+h2 { color: #1e40af; font-size: 22px; margin: 25px 0 15px 0; border-bottom: 2px solid #e0e4f1; padding-bottom: 5px; }
+h3 { color: #1e3a8a; font-size: 18px; margin: 20px 0 10px 0; }
 
 /* ==============================
    PÁRRAFOS Y LISTAS
 ============================== */
-p {
-  margin-bottom: 18px;
-  line-height: 1.7;
-}
-
-ul {
-  margin-left: 20px;
-  margin-bottom: 18px;
-  line-height: 1.7;
-}
+p, ul { line-height: 1.7; margin-bottom: 18px; }
+ul { margin-left: 20px; }
 
 /* ==============================
    ENLACES
 ============================== */
-a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 /* ==============================
    BOTONES
@@ -119,10 +60,7 @@ button, .btn {
   font-size: 14px;
   transition: background 0.2s;
 }
-
-button:hover, .btn:hover {
-  background: #09407a;
-}
+button:hover, .btn:hover { background: #09407a; }
 
 /* ==============================
    INPUTS Y SELECTS
@@ -139,7 +77,7 @@ input, select, textarea {
 }
 
 /* ==============================
-   TARJETAS DE SECCION
+   TARJETAS Y SECCIONES
 ============================== */
 .section-card {
   background: #f9faff;
@@ -149,9 +87,6 @@ input, select, textarea {
   border-radius: 8px;
 }
 
-/* ==============================
-   TARJETAS DE RESULTADOS (SIMULADOR)
-============================== */
 .cards {
   display: flex;
   gap: 10px;
@@ -175,11 +110,7 @@ input, select, textarea {
 /* ==============================
    FORMULARIOS
 ============================== */
-.form-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.form-vertical { display: flex; flex-direction: column; gap: 10px; }
 
 #leadForm {
   margin-top: 20px;
@@ -189,65 +120,37 @@ input, select, textarea {
   background: #f9fafb;
 }
 
-#leadForm label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 14px;
-}
+#leadForm label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
 
 #leadForm input[type="text"],
 #leadForm input[type="email"],
-#leadForm input[type="tel"] {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-}
+#leadForm input[type="tel"] { width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 14px; }
 
 /* ==============================
    TABLA DE AMORTIZACION
 ============================== */
 .tabla-amortizacion {
-  width: max-content;   /* 👈 este es el cambio importante */
+  width: max-content;
   min-width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-.tabla-amortizacion th,
-.tabla-amortizacion td {
+.tabla-amortizacion th, .tabla-amortizacion td {
   padding: 8px 10px;
   text-align: right;
   border-bottom: 1px solid #e5e7eb;
-  white-space: nowrap;   /* evita que los números se rompan en varias líneas */
+  white-space: nowrap;
 }
 
-.tabla-amortizacion th {
-  background: #f1f3f6;
-  text-align: center;
-}
+.tabla-amortizacion th { background: #f1f3f6; text-align: center; }
+.tabla-amortizacion tbody tr:nth-child(even) { background: #f9fafb; }
 
-.tabla-amortizacion tbody tr:nth-child(even) {
-  background: #f9fafb;
-}
+#tablaContainer { overflow-x: auto; overflow-y: hidden; max-width: 100%; transition: max-height 0.5s ease; }
 
-#tablaContainer {
-  overflow-x: auto;     /* permite scroll horizontal */
-  overflow-y: hidden;   /* evita scroll vertical */
-  max-width: 100%;
-  transition: max-height 0.5s ease;
-}
-/* Contenedor centrado */
-.btn-container {
-  display: flex;
-  justify-content: center;
-  margin: 25px 0;
-}
-
-/* Botón moderno */
+/* ==============================
+   BOTÓN MODERNO
+============================== */
 #verTabla {
   padding: 12px 24px;
   font-size: 16px;
@@ -258,13 +161,7 @@ input, select, textarea {
   cursor: pointer;
   transition: background 0.2s, transform 0.2s;
 }
-
-#verTabla:hover {
-  background-color: #09407a;
-  transform: scale(1.05);
-}
-
-/* Animación de despliegue */
+#verTabla:hover { background-color: #09407a; transform: scale(1.05); }
 
 /* ==============================
    FOOTER
@@ -274,7 +171,7 @@ input, select, textarea {
   padding: 20px;
   font-size: 13px;
   color: #555;
-  margin-top: auto; /* fuerza que el footer quede abajo */
+  margin-top: auto;
   border-top: 1px solid #ddd;
 }
 
@@ -297,43 +194,13 @@ input, select, textarea {
   flex-wrap: wrap;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
 }
-
-#cookie-banner p {
-  margin: 0;
-  flex: 1;
-}
-
-#cookie-banner a {
-  color: #ffd700;
-  text-decoration: underline;
-}
-
-#cookie-banner button {
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 6px 12px;
-  font-size: 13px;
-}
-
-#btnAceptarCookies {
-  background-color: #ffd700;
-  color: #000;
-}
-
-#btnAceptarCookies:hover {
-  background-color: #e6c200;
-}
-
-#btnRechazarCookies {
-  background-color: #888;
-  color: #fff;
-  padding: 4px 8px;
-}
-
-#btnRechazarCookies:hover {
-  background-color: #666;
-}
+#cookie-banner p { margin: 0; flex: 1; }
+#cookie-banner a { color: #ffd700; text-decoration: underline; }
+#cookie-banner button { border: none; border-radius: 4px; cursor: pointer; padding: 6px 12px; font-size: 13px; }
+#btnAceptarCookies { background-color: #ffd700; color: #000; }
+#btnAceptarCookies:hover { background-color: #e6c200; }
+#btnRechazarCookies { background-color: #888; color: #fff; padding: 4px 8px; }
+#btnRechazarCookies:hover { background-color: #666; }
 
 /* ==============================
    BOTÓN FLOTANTE FAQ
@@ -356,60 +223,10 @@ input, select, textarea {
   transition: background 0.2s, transform 0.2s;
   z-index: 1000;
 }
-
-#faqButton:hover {
-  background-color: #09407a;
-  transform: scale(1.2);
-}
+#faqButton:hover { background-color: #09407a; transform: scale(1.2); }
 
 /* ==============================
-   RESPONSIVE
-============================== */
-@media (max-width: 600px) {
-  .cards .card {
-    flex: 0 0 45%;
-  }
-
-  body > .container {
-    margin: 20px;
-    padding: 20px;
-  }
-
-  #cookie-banner {
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
-  }
-
-  #cookie-banner button {
-    width: auto;
-  }
-
-   /* ==============================
-   HERO BOTONES ORDENADOS
-============================== */
-.hero-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.hero-buttons .btn {
-  min-width: 150px;
-  padding: 12px 20px;
-  font-size: 16px;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.hero-buttons .btn:hover {
-  background-color: #09407a;
-  transform: scale(1.05);
-}
-
-/* ==============================
-   FAQ - Contenedor y Búsqueda
+   FAQ
 ============================== */
 .faq-container {
   max-width: 800px;
@@ -420,91 +237,22 @@ input, select, textarea {
   border: 1px solid #d1d5db;
   box-shadow: 0 6px 20px rgba(0,0,0,0.05);
 }
+.faq-container h1 { text-align: center; color: #0d4f8b; margin-bottom: 20px; }
+#faqSearch { width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 14px; }
 
-.faq-container h1 {
-  text-align: center;
-  color: #0d4f8b;
-  margin-bottom: 20px;
-}
-
-#faqSearch {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-}
+.faq-item { border-bottom: 1px solid #e5e7eb; padding: 12px 0; }
+.faq-question { font-weight: bold; cursor: pointer; position: relative; padding-right: 25px; }
+.faq-question::after { content: '+'; position: absolute; right: 0; font-weight: bold; font-size: 20px; transition: transform 0.2s; }
+.faq-item.active .faq-answer { display: block; }
+.faq-item.active .faq-question::after { content: '-'; transform: rotate(0deg); }
+.faq-answer { display: none; margin-top: 8px; color: #555; }
 
 /* ==============================
-   FAQ - Items y Acordeón
+   BLOQUE OPERACIONES
 ============================== */
-.faq-item {
-  border-bottom: 1px solid #e5e7eb;
-  padding: 12px 0;
-}
-
-.faq-question {
-  font-weight: bold;
-  cursor: pointer;
-  position: relative;
-  padding-right: 25px;
-}
-
-.faq-question::after {
-  content: '+';
-  position: absolute;
-  right: 0;
-  font-weight: bold;
-  font-size: 20px;
-  transition: transform 0.2s;
-}
-
-.faq-answer {
-  display: none;
-  margin-top: 8px;
-  color: #555;
-}
-
-.faq-item.active .faq-answer {
-  display: block;
-}
-
-.faq-item.active .faq-question::after {
-  content: '-';
-  transform: rotate(0deg);
-}
-
-/* ==============================
-   RESPONSIVE FAQ
-============================== */
-@media (max-width: 600px) {
-  .faq-container {
-    padding: 20px;
-  }
-  .hero-buttons .btn {
-    min-width: 120px;
-    font-size: 14px;
-  }
-
-   /* ==============================
-   BLOQUE OPERACIONES (PRE-ANÁLISIS)
-============================== */
-
-.operaciones-section {
-  margin-top: 40px;
-}
-
-.operaciones-section h2 {
-  text-align: center;
-  color: #1e40af;
-}
-
-.operaciones-sub {
-  text-align: center;
-  color: #6b7280;
-  margin-bottom: 25px;
-}
+.operaciones-section { margin-top: 40px; }
+.operaciones-section h2 { text-align: center; color: #1e40af; }
+.operaciones-sub { text-align: center; color: #6b7280; margin-bottom: 25px; }
 
 .operacion-card {
   background: #ffffff;
@@ -515,11 +263,7 @@ input, select, textarea {
   transition: all 0.3s ease;
   cursor: pointer;
 }
-
-.operacion-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
+.operacion-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
 
 .card-header {
   padding: 18px;
@@ -536,24 +280,9 @@ input, select, textarea {
   overflow-y: hidden;
   transition: max-height 0.4s ease, padding 0.3s ease;
 }
-
-.card-content.open {
-  max-height: 800px; /* suficiente para todo el contenido */
-  overflow-y: auto;  /* scroll si excede */
-  padding: 20px 18px;
-}
-   
-.card-content h4 {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #1e3a8a;
-}
-
-.card-content ul,
-.card-content ol {
-  margin-left: 18px;
-}
-
+.card-content.open { max-height: 800px; overflow-y: auto; padding: 20px 18px; }
+.card-content h4 { margin-top: 10px; font-size: 14px; color: #1e3a8a; }
+.card-content ul, .card-content ol { margin-left: 18px; }
 .card-content button {
   margin-top: 15px;
   width: 100%;
@@ -563,610 +292,27 @@ input, select, textarea {
   border-radius: 6px;
   padding: 10px;
 }
-
-.card-content button:hover {
-  background-color: #09407a;
-}
-}/* ==============================
-   ESTILOS GLOBALES PARA TODA LA WEB
-============================== */
+.card-content button:hover { background-color: #09407a; }
 
 /* ==============================
-   BODY Y CONTENEDORES
+   MEDIA QUERIES
 ============================== */
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f6fa;
-  color: #1f2937;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* garantiza altura completa */
-}
-
-body > .container {
-  max-width: 900px;
-  margin: 50px auto;
-  padding: 25px 30px;
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-  flex: 1; /* ocupa el espacio disponible */
-}
-
-/* ==============================
-   TITULOS
-============================== */
-h1:not(.brand-title) {
-  color: #0d4f8b;
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 30px;
-}
-/* ==============================
-   MARCA SUPERIOR
-============================== */
-
-.brand-title {
-  display: block;
-  text-align: left;
-  font-size: 24px;
-  font-weight: 700;
-  color: #0d4f8b !important;
-  line-height: 1.2;
-  margin-bottom: 10px;
-}
-
-.brand-main {
-  font-size: 20px;
-  font-weight: 600;
-  color: #0d4f8b;
-  letter-spacing: 0.5px;
-}
-
-.brand-sub {
-  display: block;
-  font-size: 16px;
-  font-weight: 400;
-  color: #6b7280;
-}
-
-h2 {
-  color: #1e40af;
-  font-size: 22px;
-  margin-top: 25px;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #e0e4f1;
-  padding-bottom: 5px;
-}
-
-h3 {
-  color: #1e3a8a;
-  font-size: 18px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-/* ==============================
-   PÁRRAFOS Y LISTAS
-============================== */
-p {
-  margin-bottom: 18px;
-  line-height: 1.7;
-}
-
-ul {
-  margin-left: 20px;
-  margin-bottom: 18px;
-  line-height: 1.7;
-}
-
-/* ==============================
-   ENLACES
-============================== */
-a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ==============================
-   BOTONES
-============================== */
-button, .btn {
-  padding: 10px 18px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: #0d4f8b;
-  color: #fff;
-  font-size: 14px;
-  transition: background 0.2s;
-}
-
-button:hover, .btn:hover {
-  background: #09407a;
-}
-
-/* ==============================
-   INPUTS Y SELECTS
-============================== */
-input, select, textarea {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0 12px 0;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #333;
-  box-sizing: border-box;
-}
-
-/* ==============================
-   TARJETAS DE SECCION
-============================== */
-.section-card {
-  background: #f9faff;
-  border-left: 5px solid #1e3a8a;
-  padding: 20px 25px;
-  margin-bottom: 25px;
-  border-radius: 8px;
-}
-
-/* ==============================
-   TARJETAS DE RESULTADOS (SIMULADOR)
-============================== */
-.cards {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 15px;
-}
-
-.card {
-  flex: 1;
-  min-width: 100px;
-  padding: 10px;
-  font-size: 13px;
-  text-align: center;
-  color: #555;
-  background: #f9fafb;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-}
-
-/* ==============================
-   FORMULARIOS
-============================== */
-.form-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-#leadForm {
-  margin-top: 20px;
-  padding: 15px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: #f9fafb;
-}
-
-#leadForm label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-#leadForm input[type="text"],
-#leadForm input[type="email"],
-#leadForm input[type="tel"] {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-}
-
-/* ==============================
-   TABLA DE AMORTIZACION
-============================== */
-.tabla-amortizacion {
-  width: max-content;   /* 👈 este es el cambio importante */
-  min-width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-.tabla-amortizacion th,
-.tabla-amortizacion td {
-  padding: 8px 10px;
-  text-align: right;
-  border-bottom: 1px solid #e5e7eb;
-  white-space: nowrap;   /* evita que los números se rompan en varias líneas */
-}
-
-.tabla-amortizacion th {
-  background: #f1f3f6;
-  text-align: center;
-}
-
-.tabla-amortizacion tbody tr:nth-child(even) {
-  background: #f9fafb;
-}
-
-#tablaContainer {
-  overflow-x: auto;     /* permite scroll horizontal */
-  overflow-y: hidden;   /* evita scroll vertical */
-  max-width: 100%;
-  transition: max-height 0.5s ease;
-}
-/* Contenedor centrado */
-.btn-container {
-  display: flex;
-  justify-content: center;
-  margin: 25px 0;
-}
-
-/* Botón moderno */
-#verTabla {
-  padding: 12px 24px;
-  font-size: 16px;
-  background-color: #0d4f8b;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-}
-
-#verTabla:hover {
-  background-color: #09407a;
-  transform: scale(1.05);
-}
-
-/* Animación de despliegue */
-
-/* ==============================
-   FOOTER
-============================== */
-.footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 13px;
-  color: #555;
-  margin-top: auto; /* fuerza que el footer quede abajo */
-  border-top: 1px solid #ddd;
-}
-
-/* ==============================
-   BANNER DE COOKIES
-============================== */
-#cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(51,51,51,0.95);
-  color: #fff;
-  padding: 10px 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
-  font-size: 13px;
-  flex-wrap: wrap;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
-}
-
-#cookie-banner p {
-  margin: 0;
-  flex: 1;
-}
-
-#cookie-banner a {
-  color: #ffd700;
-  text-decoration: underline;
-}
-
-#cookie-banner button {
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 6px 12px;
-  font-size: 13px;
-}
-
-#btnAceptarCookies {
-  background-color: #ffd700;
-  color: #000;
-}
-
-#btnAceptarCookies:hover {
-  background-color: #e6c200;
-}
-
-#btnRechazarCookies {
-  background-color: #888;
-  color: #fff;
-  padding: 4px 8px;
-}
-
-#btnRechazarCookies:hover {
-  background-color: #666;
-}
-
-/* ==============================
-   BOTÓN FLOTANTE FAQ
-============================== */
-#faqButton {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  background-color: #0d4f8b;
-  color: white;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 50px;
-  font-weight: bold;
-  font-size: 24px;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: background 0.2s, transform 0.2s;
-  z-index: 1000;
-}
-
-#faqButton:hover {
-  background-color: #09407a;
-  transform: scale(1.2);
-}
-
-/* ==============================
-   RESPONSIVE
-============================== */
-@media (max-width: 600px) {
-  .cards .card {
-    flex: 0 0 45%;
-  }
-
-  body > .container {
-    margin: 20px;
-    padding: 20px;
-  }
-
-  #cookie-banner {
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
-  }
-
-  #cookie-banner button {
-    width: auto;
-  }
-
-   /* ==============================
-   HERO BOTONES ORDENADOS
-============================== */
-.hero-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.hero-buttons .btn {
-  min-width: 150px;
-  padding: 12px 20px;
-  font-size: 16px;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.hero-buttons .btn:hover {
-  background-color: #09407a;
-  transform: scale(1.05);
-}
-
-/* ==============================
-   FAQ - Contenedor y Búsqueda
-============================== */
-.faq-container {
-  max-width: 800px;
-  margin: auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-}
-
-.faq-container h1 {
-  text-align: center;
-  color: #0d4f8b;
-  margin-bottom: 20px;
-}
-
-#faqSearch {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-}
-
-/* ==============================
-   FAQ - Items y Acordeón
-============================== */
-.faq-item {
-  border-bottom: 1px solid #e5e7eb;
-  padding: 12px 0;
-}
-
-.faq-question {
-  font-weight: bold;
-  cursor: pointer;
-  position: relative;
-  padding-right: 25px;
-}
-
-.faq-question::after {
-  content: '+';
-  position: absolute;
-  right: 0;
-  font-weight: bold;
-  font-size: 20px;
-  transition: transform 0.2s;
-}
-
-.faq-answer {
-  display: none;
-  margin-top: 8px;
-  color: #555;
-}
-
-.faq-item.active .faq-answer {
-  display: block;
-}
-
-.faq-item.active .faq-question::after {
-  content: '-';
-  transform: rotate(0deg);
-}
-
-   /* ==============================
-   BLOQUE OPERACIONES (PRE-ANÁLISIS)
-============================== */
-
-.operaciones-section {
-  margin-top: 40px;
-}
-
-.operaciones-section h2 {
-  text-align: center;
-  color: #1e40af;
-}
-
-.operaciones-sub {
-  text-align: center;
-  color: #6b7280;
-  margin-bottom: 25px;
-}
-
-.operacion-card {
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.operacion-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-.card-header {
-  padding: 18px;
-  font-weight: 600;
-  font-size: 16px;
-  background: #f1f5f9;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.card-content {
-  max-height: 0;
-  overflow-y: hidden;
-  transition: max-height 0.4s ease, padding 0.3s ease;
-}
-
-.card-content.open {
-  max-height: 800px; /* suficiente para todo el contenido */
-  overflow-y: auto;  /* scroll si excede */
-  padding: 20px 18px;
-}
-   
-.card-content h4 {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #1e3a8a;
-}
-
-.card-content ul,
-.card-content ol {
-  margin-left: 18px;
-}
-
-.card-content button {
-  margin-top: 15px;
-  width: 100%;
-  font-size: 14px;
-  background-color: #0d4f8b;
-  color: #fff;
-  border-radius: 6px;
-  padding: 10px;
-}
-
-.card-content button:hover {
-  background-color: #09407a;
-}
-/* =====================================
-   MODO APP BANCARIA PREMIUM
-===================================== */
-
 @media (max-width: 768px) {
+  body { background: #f2f4f8; }
+  body > .container { margin: 15px; padding: 18px; border-radius: 16px; }
+  .brand-title { text-align: center; margin-bottom: 20px; }
+  .card, .operacion-card { border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  button, .btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: 600; }
+  input, select { padding: 12px; font-size: 16px; border-radius: 10px; }
+  .cards .card { flex: 0 0 100%; }
+}
 
-  body {
-    background: #f2f4f8;
-  }
-
-  body > .container {
-    margin: 15px;
-    padding: 18px;
-    border-radius: 16px;
-  }
-
-  .brand-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .card,
-  .operacion-card {
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-  }
-
-  button, .btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  input, select {
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 10px;
-  }
-
-  .cards .card {
-    flex: 0 0 100%;
-  }
-
+@media (max-width: 600px) {
+  .cards .card { flex: 0 0 45%; }
+  body > .container { margin: 20px; padding: 20px; }
+  #cookie-banner { flex-direction: column; text-align: center; gap: 8px; }
+  #cookie-banner button { width: auto; }
+  .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+  .hero-buttons .btn { min-width: 120px; font-size: 14px; }
+  .faq-container { padding: 20px; }
 }
