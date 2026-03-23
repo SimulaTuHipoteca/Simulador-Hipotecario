@@ -91,147 +91,174 @@ Acepto la <a href="/politica-privacidad" target="_blank">política de privacidad
 </footer>
 
 <script>
-/* --- Comparador JS --- */
-let bancoCount = 0;
-function addBanco(){
-  bancoCount++;
-  const container = document.getElementById('bancos-container');
-  const div = document.createElement('div');
-  div.id = `banco-${bancoCount}`;
-  div.className = "banco-card";
-  div.innerHTML = `
-<button class="remove-btn" onclick="removeBanco(${bancoCount})">×</button>
-<label>Nombre del banco:<input type="text" id="nombre-${bancoCount}" placeholder="Banco Ejemplo"></label>
-<label>Periodo inicial fijo (meses):<input type="number" id="plazoFijo-${bancoCount}" value="60" min="0" onfocus="clearZero(this)"></label>
-<label>TIN inicial fijo (%):<input type="number" id="tinFijo-${bancoCount}" value="2.5" step="0.01" min="0" onfocus="clearZero(this)"></label>
-<label>TIN variable restante (%):<input type="number" id="tinVariable-${bancoCount}" value="3.5" step="0.01" min="0" onfocus="clearZero(this)"></label>
-<label>Bonificación (%):<input type="number" id="bonificacion-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
-<label>Comisión (€):<input type="number" id="comision-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
-<label>Coste de seguros (€):<input type="number" id="seguros-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
-<label>Comisión por amortización (%):<input type="number" id="amortizacion-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
-`;
-  container.appendChild(div);
-}
+document.addEventListener("DOMContentLoaded", () => {
+  let bancoCount = 0;
 
-function removeBanco(id){ const div=document.getElementById(`banco-${id}`); if(div) div.remove(); }
-function clearZero(input){ if(input.value==='0') input.value=''; }
+  // --- Añadir banco ---
+  function addBanco() {
+    bancoCount++;
+    const container = document.getElementById('bancos-container');
+    if (!container) return;
 
-function calcularCuota(capital, tin, plazo){
-  const i = tin/100/12;
-  return (capital*i*Math.pow(1+i,plazo))/(Math.pow(1+i,plazo)-1);
-}
-
-function calcularComparacion(){
-  const capital = parseFloat(document.getElementById('capitalOperacion').value)||0;
-  const plazoTotal = parseInt(document.getElementById('plazoOperacion').value)||1;
-  if(capital<=0 || plazoTotal<=0){ alert("Capital y plazo deben ser positivos"); return; }
-
-  const tbody=document.querySelector("#tablaResultados tbody");
-  tbody.innerHTML="";
-  let mejores=[];
-
-  for(let i=1;i<=bancoCount;i++){
-    const div=document.getElementById(`banco-${i}`);
-    if(!div) continue;
-    const nombre=document.getElementById(`nombre-${i}`).value || `Banco ${i}`;
-    const plazoFijo=parseInt(document.getElementById(`plazoFijo-${i}`).value)||0;
-    const tinFijo=parseFloat(document.getElementById(`tinFijo-${i}`).value)||0;
-    const tinVariable=parseFloat(document.getElementById(`tinVariable-${i}`).value)||0;
-    const bonificacion=parseFloat(document.getElementById(`bonificacion-${i}`).value)||0;
-    const comision=parseFloat(document.getElementById(`comision-${i}`).value)||0;
-    const seguros=parseFloat(document.getElementById(`seguros-${i}`).value)||0;
-    const amortizacion=parseFloat(document.getElementById(`amortizacion-${i}`).value)||0;
-
-    let tinFijoReal = Math.max(0, tinFijo - bonificacion);
-    let tinVariableReal = Math.max(0, tinVariable - bonificacion);
-    const capitalTotal = capital + comision + seguros + capital*amortizacion/100;
-
-    let plazoVariable = plazoTotal - plazoFijo;
-    let cuotaFija = calcularCuota(capitalTotal, tinFijoReal, plazoFijo>0?plazoFijo:1);
-    let capitalRestante = cuotaFija*plazoFijo - capitalTotal;
-    if(capitalRestante<0) capitalRestante=0;
-    let cuotaVariable = plazoVariable>0 ? calcularCuota(capitalRestante, tinVariableReal, plazoVariable) : 0;
-
-    let cuotaMedia = ((cuotaFija*plazoFijo)+(cuotaVariable*plazoVariable))/plazoTotal;
-    let interesesTotales = cuotaFija*plazoFijo + cuotaVariable*plazoVariable - capital;
-    let totalPagar = capital + interesesTotales + comision + seguros + capital*amortizacion/100;
-
-    tbody.innerHTML += `<tr>
-<td>${nombre}</td>
-<td>${tinFijo.toFixed(2)}</td>
-<td>${plazoFijo}</td>
-<td>${tinVariable.toFixed(2)}</td>
-<td>${bonificacion.toFixed(2)}</td>
-<td>${comision.toFixed(2)}</td>
-<td>${seguros.toFixed(2)}</td>
-<td>${amortizacion.toFixed(2)}</td>
-<td>${cuotaMedia.toFixed(2)}</td>
-<td>${interesesTotales.toFixed(2)}</td>
-<td>${totalPagar.toFixed(2)}</td>
-</tr>`;
-
-    mejores.push({nombre,total:totalPagar});
+    const div = document.createElement('div');
+    div.id = `banco-${bancoCount}`;
+    div.className = "banco-card";
+    div.innerHTML = `
+      <button class="remove-btn" onclick="removeBanco(${bancoCount})">×</button>
+      <label>Nombre del banco:<input type="text" id="nombre-${bancoCount}" placeholder="Banco Ejemplo"></label>
+      <label>Periodo inicial fijo (meses):<input type="number" id="plazoFijo-${bancoCount}" value="60" min="0" onfocus="clearZero(this)"></label>
+      <label>TIN inicial fijo (%):<input type="number" id="tinFijo-${bancoCount}" value="2.5" step="0.01" min="0" onfocus="clearZero(this)"></label>
+      <label>TIN variable restante (%):<input type="number" id="tinVariable-${bancoCount}" value="3.5" step="0.01" min="0" onfocus="clearZero(this)"></label>
+      <label>Bonificación (%):<input type="number" id="bonificacion-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
+      <label>Comisión (€):<input type="number" id="comision-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
+      <label>Coste de seguros (€):<input type="number" id="seguros-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
+      <label>Comisión por amortización (%):<input type="number" id="amortizacion-${bancoCount}" value="0" step="0.01" min="0" onfocus="clearZero(this)"></label>
+    `;
+    container.appendChild(div);
   }
 
-  if(mejores.length>0){
-    mejores.sort((a,b)=>a.total-b.total);
-    const rows = tbody.querySelectorAll("tr");
-    rows.forEach(row=>{
-      if(row.cells[0].innerText===mejores[0].nombre){
-        row.style.backgroundColor="#198754";
-        row.style.color="#fff";
-      }
+  window.addBanco = addBanco;
+
+  // --- Remover banco ---
+  function removeBanco(id) {
+    const div = document.getElementById(`banco-${id}`);
+    if (div) div.remove();
+  }
+  window.removeBanco = removeBanco;
+
+  // --- Limpiar ceros ---
+  function clearZero(input) { if(input.value==='0') input.value=''; }
+  window.clearZero = clearZero;
+
+  // --- Calcular cuota ---
+  function calcularCuota(capital, tin, plazo) {
+    if (plazo <= 0 || tin <= 0) return 0;
+    const i = tin / 100 / 12;
+    return (capital * i * Math.pow(1 + i, plazo)) / (Math.pow(1 + i, plazo) - 1);
+  }
+
+  // --- Comparación ---
+  window.calcularComparacion = function() {
+    const capital = parseFloat(document.getElementById('capitalOperacion')?.value) || 0;
+    const plazoTotal = parseInt(document.getElementById('plazoOperacion')?.value) || 1;
+    if (capital <= 0 || plazoTotal <= 0) { alert("Capital y plazo deben ser positivos"); return; }
+
+    const tbody = document.querySelector("#tablaResultados tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+    const mejores = [];
+
+    for (let i = 1; i <= bancoCount; i++) {
+      const div = document.getElementById(`banco-${i}`);
+      if (!div) continue;
+
+      const nombre = document.getElementById(`nombre-${i}`)?.value || `Banco ${i}`;
+      const plazoFijo = parseInt(document.getElementById(`plazoFijo-${i}`)?.value) || 0;
+      const tinFijo = parseFloat(document.getElementById(`tinFijo-${i}`)?.value) || 0;
+      const tinVariable = parseFloat(document.getElementById(`tinVariable-${i}`)?.value) || 0;
+      const bonificacion = parseFloat(document.getElementById(`bonificacion-${i}`)?.value) || 0;
+      const comision = parseFloat(document.getElementById(`comision-${i}`)?.value) || 0;
+      const seguros = parseFloat(document.getElementById(`seguros-${i}`)?.value) || 0;
+      const amortizacion = parseFloat(document.getElementById(`amortizacion-${i}`)?.value) || 0;
+
+      const tinFijoReal = Math.max(0, tinFijo - bonificacion);
+      const tinVariableReal = Math.max(0, tinVariable - bonificacion);
+      const capitalTotal = capital + comision + seguros + capital * amortizacion / 100;
+
+      const plazoVariable = plazoTotal - plazoFijo;
+      const cuotaFija = calcularCuota(capitalTotal, tinFijoReal, plazoFijo>0?plazoFijo:1);
+      let capitalRestante = cuotaFija * (plazoFijo>0?plazoFijo:1) - capitalTotal;
+      if (capitalRestante < 0) capitalRestante = 0;
+      const cuotaVariable = plazoVariable>0 ? calcularCuota(capitalRestante, tinVariableReal, plazoVariable) : 0;
+
+      const cuotaMedia = ((cuotaFija*plazoFijo) + (cuotaVariable*plazoVariable)) / plazoTotal;
+      const interesesTotales = cuotaFija*plazoFijo + cuotaVariable*plazoVariable - capital;
+      const totalPagar = capital + interesesTotales + comision + seguros + capital*amortizacion/100;
+
+      tbody.innerHTML += `<tr>
+        <td>${nombre}</td>
+        <td>${tinFijo.toFixed(2)}</td>
+        <td>${plazoFijo}</td>
+        <td>${tinVariable.toFixed(2)}</td>
+        <td>${bonificacion.toFixed(2)}</td>
+        <td>${comision.toFixed(2)}</td>
+        <td>${seguros.toFixed(2)}</td>
+        <td>${amortizacion.toFixed(2)}</td>
+        <td>${cuotaMedia.toFixed(2)}</td>
+        <td>${interesesTotales.toFixed(2)}</td>
+        <td>${totalPagar.toFixed(2)}</td>
+      </tr>`;
+
+      mejores.push({nombre, total: totalPagar});
+    }
+
+    // Resaltar mejor oferta
+    if(mejores.length>0){
+      mejores.sort((a,b)=>a.total-b.total);
+      const rows = tbody.querySelectorAll("tr");
+      rows.forEach(row=>{
+        if(row.cells[0].innerText === mejores[0].nombre){
+          row.style.backgroundColor = "#198754";
+          row.style.color = "#fff";
+        } else {
+          row.style.backgroundColor = "";
+          row.style.color = "";
+        }
+      });
+    }
+  }
+
+  // --- Descargar PDF ---
+  window.descargarPDFCorreo = function() {
+    const email = document.getElementById('emailUsuario')?.value.trim();
+    const acepta = document.getElementById('aceptaDatos')?.checked;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert("Introduce un correo válido"); return; }
+    if (!acepta) { alert("Debes aceptar la política de privacidad"); return; }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("Comparativa avanzada de hipotecas mixtas", 20, 20);
+
+    const tableData = [];
+    document.querySelectorAll("#tablaResultados tbody tr").forEach(tr => {
+      const row = [];
+      tr.querySelectorAll("td").forEach(td => row.push(td.innerText));
+      tableData.push(row);
     });
+
+    doc.autoTable({head:[["Banco","TIN Fijo","Período Fijo","TIN Variable","Bonificación","Comisión","Seguros","Amortización (%)","Cuota Media","Intereses","Total"]], body:tableData, startY:30});
+    const pdfBlob = doc.output('blob');
+
+    const formData = new FormData();
+    formData.append('pdf', pdfBlob, 'Comparativa_Hipotecas_Mixtas.pdf');
+    formData.append('email', email);
+
+    fetch('/enviar-pdf-correo',{method:'POST',body:formData})
+      .then(resp=>resp.json())
+      .then(data=>alert(data.message || "PDF enviado al correo"))
+      .catch(err=>{ console.error(err); alert("Error enviando PDF"); });
   }
-}
 
-function descargarPDFCorreo(){
-  const email=document.getElementById('emailUsuario').value.trim();
-  const acepta=document.getElementById('aceptaDatos').checked;
-  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert("Introduce un correo válido"); return; }
-  if(!acepta){ alert("Debes aceptar la política de privacidad"); return; }
+  // --- Descargar CSV ---
+  window.descargarCSV = function() {
+    const rows = [["Banco","TIN Fijo","Período Fijo","TIN Variable","Bonificación","Comisión","Seguros","Amortización (%)","Cuota Media","Intereses","Total"]];
+    document.querySelectorAll("#tablaResultados tbody tr").forEach(tr=>{
+      const row=[];
+      tr.querySelectorAll("td").forEach(td=>row.push(td.innerText));
+      rows.push(row);
+    });
+    const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download","Comparativa_Hipotecas_Mixtas.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
-  const { jsPDF }=window.jspdf;
-  const doc=new jsPDF();
-  doc.setFontSize(16);
-  doc.text("Comparativa avanzada de hipotecas mixtas",20,20);
-
-  const tableData=[];
-  document.querySelectorAll("#tablaResultados tbody tr").forEach(tr=>{
-    const row=[];
-    tr.querySelectorAll("td").forEach(td=>row.push(td.innerText));
-    tableData.push(row);
-  });
-
-  doc.autoTable({head:[["Banco","TIN Fijo","Período Fijo","TIN Variable","Bonificación","Comisión","Seguros","Amortización (%)","Cuota Media","Intereses","Total"]], body:tableData, startY:30});
-  const pdfBlob=doc.output('blob');
-
-  const formData=new FormData();
-  formData.append('pdf',pdfBlob,'Comparativa_Hipotecas_Mixtas.pdf');
-  formData.append('email',email);
-
-  fetch('/enviar-pdf-correo',{method:'POST',body:formData})
-  .then(resp=>resp.json())
-  .then(data=>alert(data.message||"PDF enviado al correo"))
-  .catch(err=>{ console.error(err); alert("Error enviando PDF"); });
-}
-
-function descargarCSV(){
-  const rows=[["Banco","TIN Fijo","Período Fijo","TIN Variable","Bonificación","Comisión","Seguros","Amortización (%)","Cuota Media","Intereses","Total"]];
-  document.querySelectorAll("#tablaResultados tbody tr").forEach(tr=>{
-    const row=[];
-    tr.querySelectorAll("td").forEach(td=>row.push(td.innerText));
-    rows.push(row);
-  });
-  let csvContent="data:text/csv;charset=utf-8,"+rows.map(e=>e.join(",")).join("\n");
-  const encodedUri=encodeURI(csvContent);
-  const link=document.createElement("a");
-  link.setAttribute("href",encodedUri);
-  link.setAttribute("download","Comparativa_Hipotecas_Mixtas.csv");
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
+});
 </script>
 
 </body>
