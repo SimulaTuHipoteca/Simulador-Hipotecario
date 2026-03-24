@@ -1,18 +1,18 @@
-// --- SELECCIÓN DE SECCIÓN ---
-const btnCalculadora = document.getElementById("btnCalculadora");
+// --- SELECCIÓN DE SECCIÓN CON BOTÓN FLOTANTE ---
+const btnCalculadoraFlotante = document.getElementById("btnCalculadoraFlotante");
 const calculadoraDiv = document.getElementById("calculadora");
 const perfilDiv = document.getElementById("perfil");
 
-btnCalculadora.addEventListener("click", () => {
+btnCalculadoraFlotante.addEventListener("click", () => {
   // Si calculadora está oculta o vacía -> mostrar
   if (calculadoraDiv.style.display === "none" || calculadoraDiv.style.display === "") {
     calculadoraDiv.style.display = "block";
     perfilDiv.style.display = "none"; // ocultar perfil
+    calculadoraDiv.scrollIntoView({ behavior: "smooth" });
   } else {
     // Si ya estaba visible -> ocultar
     calculadoraDiv.style.display = "none";
   }
-  calculadoraDiv.scrollIntoView({ behavior: "smooth" });
 });
 
 // --- ELEMENTOS CALCULADORA ---
