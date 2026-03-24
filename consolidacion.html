@@ -3,49 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kaoba Finance | Simulador de Consolidación</title>
-
+<title>Kaoba Finance | Simulador</title>
 <style>
 body{font-family:Arial,sans-serif;background:#f7f9fb;margin:0}
-.container{max-width:850px;margin:30px auto;background:#fff;padding:25px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
-h1{color:#0d6efd;text-align:center}
-h2{color:#0d6efd;margin-top:30px}
+.container{max-width:900px;margin:30px auto;background:#fff;padding:25px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+h1,h2{color:#0d6efd;text-align:center}
+h2{margin-top:30px}
 label{display:block;margin-top:10px;font-weight:600}
 input,select,button{width:100%;padding:8px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:14px}
-input:focus{border-color:#0d6efd;outline:none}
+input:focus,select:focus{border-color:#0d6efd;outline:none}
 button{background:#0d6efd;color:#fff;border:none;font-size:15px;margin-top:15px;cursor:pointer}
 button:hover{background:#0b5ed7}
 .deuda{border:1px solid #ddd;padding:15px;border-radius:8px;margin-top:15px;position:relative;background:#fafafa}
 .remove{position:absolute;top:8px;right:8px;background:#dc3545;color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer}
-.resultado{margin-top:25px;padding:15px;border-radius:8px;background:#f1f5ff}
+.resultado{margin-top:25px;padding:15px;border-radius:8px;background:#f1f5ff;font-size:15px}
 .resultado strong{color:#0d6efd}
 table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{border:1px solid #ddd;padding:8px;text-align:center}
 th{background:#f1f5ff}
 </style>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
-
 <body>
 
 <div class="container">
 
-<h1>Simulador de Consolidación de Deudas</h1>
+<h1>Consolidación / subrogación </h1>
 
-<h2>1️⃣ Tus deudas actuales</h2>
+<h2>1️⃣ Tipo de operación</h2>
+<label>Selecciona operación
+<select id="tipoOperacion">
+  <option value="consolidacion">Consolidación</option>
+  <option value="subrogacion">Subrogación</option>
+</select>
+</label>
+
+<h2>2️⃣ Tus deudas actuales</h2>
 <div id="deudas"></div>
 <button type="button" onclick="addDeuda()">+ Añadir deuda</button>
 
-<h2>2️⃣ Nuevo préstamo</h2>
-
-<label>Plazo (meses)
-<input type="number" id="plazoNuevo" value="36" min="1" onfocus="clearZero(this)">
+<h2>3️⃣ Nuevo préstamo</h2>
+<label>Tipo de hipoteca
+<select id="tipoHipoteca" onchange="toggleMixta()">
+  <option value="fija">Fija</option>
+  <option value="mixta">Mixta</option>
+</select>
 </label>
 
-<label>TIN anual (%)
-<input type="number" id="interesNuevo" value="7" step="0.01" min="0" onfocus="clearZero(this)">
+<div id="plazoFijoDiv" style="display:none">
+<label>Plazo fijo (años)
+<input type="number" id="plazoFijo" value="5" min="0" onfocus="clearZero(this)">
+</label>
+</div>
+
+<label>Plazo total (años)
+<input type="number" id="plazoNuevo" value="20" min="1" onfocus="clearZero(this)">
+</label>
+
+<label>TIN anual fijo (%)
+<input type="number" id="interesNuevo" value="3.5" step="0.01" min="0" onfocus="clearZero(this)">
+</label>
+
+<label>Diferencial (%) <small>(para hipoteca mixta/variable)</small>
+<input type="number" id="diferencial" value="1" step="0.01" min="0" onfocus="clearZero(this)">
+</label>
+
+<label>EURÍBOR actual (%)
+<input type="number" id="euriborActual" value="4.5" step="0.01" min="0" onfocus="clearZero(this)">
 </label>
 
 <label>Gastos / comisiones (€)
@@ -55,7 +80,6 @@ th{background:#f1f5ff}
 <button onclick="calcular()">Calcular ahorro</button>
 
 <div id="resultados" style="display:none">
-
 <div class="resultado">
 <strong>Ahorro mensual:</strong> <span id="ahorroMensual"></span><br>
 <strong>Ahorro total:</strong> <span id="ahorroTotal"></span>
@@ -76,21 +100,18 @@ th{background:#f1f5ff}
 </label>
 
 <button onclick="enviarPDF()">Descargar PDF y enviar</button>
-<button onclick="descargarCSV()">Descargar CSV</button>
-
 </div>
 
 </div>
 
 <script>
 let count=0;
-
 function addDeuda(){
-count++;
-let div=document.createElement("div");
-div.className="deuda";
-div.id="d"+count;
-div.innerHTML=`
+  count++;
+  let div=document.createElement("div");
+  div.className="deuda";
+  div.id="d"+count;
+  div.innerHTML=`
 <button class="remove" onclick="removeDeuda(${count})">×</button>
 <label>Capital (€)
 <input type="number" id="capital${count}" value="0" min="0" onfocus="clearZero(this)">
@@ -98,107 +119,102 @@ div.innerHTML=`
 <label>TIN (%)
 <input type="number" id="interes${count}" value="0" min="0" step="0.01" onfocus="clearZero(this)">
 </label>
-<label>Plazo (meses)
+<label>Plazo (años)
 <input type="number" id="plazo${count}" value="0" min="1" onfocus="clearZero(this)">
-</label>
-`;
-document.getElementById("deudas").appendChild(div);
+</label>`;
+  document.getElementById("deudas").appendChild(div);
 }
-
-function removeDeuda(id){
-let d=document.getElementById("d"+id);
-if(d)d.remove();
-}
-
-function clearZero(i){if(i.value==="0")i.value=""}
+function removeDeuda(id){let d=document.getElementById("d"+id); if(d)d.remove();}
+function clearZero(i){if(i.value==="0")i.value="";}
 
 function cuota(c,i,p){
-let r=i/100/12;
-return (c*r*Math.pow(1+r,p))/(Math.pow(1+r,p)-1);
+  let r=i/100/12;
+  return (c*r*Math.pow(1+r,p*12))/(Math.pow(1+r,p*12)-1);
+}
+
+function toggleMixta(){
+  let tipo=document.getElementById("tipoHipoteca").value;
+  document.getElementById("plazoFijoDiv").style.display=(tipo==="mixta")?"block":"none";
 }
 
 function calcular(){
-let total=0, cuotaAntes=0, interesesAntes=0;
+  let totalCapital=0, cuotaAntes=0, interesesAntes=0;
+  for(let i=1;i<=count;i++){
+    let cap=document.getElementById("capital"+i);
+    if(!cap) continue;
+    let c=parseFloat(cap.value)||0;
+    let tin=parseFloat(document.getElementById("interes"+i).value)||0;
+    let p=parseInt(document.getElementById("plazo"+i).value)||0;
+    if(c<=0||p<=0){alert("Revisa las deudas");return;}
+    let q=cuota(c,tin,p);
+    totalCapital+=c;
+    cuotaAntes+=q;
+    interesesAntes+=q*p*12-c;
+  }
 
-for(let i=1;i<=count;i++){
-let cap=document.getElementById("capital"+i);
-if(!cap)continue;
-let c=parseFloat(cap.value)||0;
-let tin=parseFloat(document.getElementById("interes"+i).value)||0;
-let p=parseInt(document.getElementById("plazo"+i).value)||0;
-if(c<=0||p<=0)return alert("Revisa las deudas");
-let q=cuota(c,tin,p);
-total+=c;
-cuotaAntes+=q;
-interesesAntes+=q*p-c;
-}
+  let plazoNuevo=parseInt(document.getElementById("plazoNuevo").value);
+  let tinNuevo=parseFloat(document.getElementById("interesNuevo").value);
+  let comisiones=parseFloat(document.getElementById("comisionesNuevo").value)||0;
+  let diferencial=parseFloat(document.getElementById("diferencial").value)||0;
+  let euribor=parseFloat(document.getElementById("euriborActual").value)||0;
+  let tipoHipoteca=document.getElementById("tipoHipoteca").value;
+  let plazoFijo=parseInt(document.getElementById("plazoFijo").value)||0;
 
-let plazo=parseInt(document.getElementById("plazoNuevo").value);
-let tinNuevo=parseFloat(document.getElementById("interesNuevo").value);
-let comisiones=parseFloat(document.getElementById("comisionesNuevo").value)||0;
+  let tinFinal=(tipoHipoteca==="mixta")?euribor+diferencial:tinNuevo;
+  let cuotaDespues=0;
 
-let cuotaDespues=cuota(total+comisiones,tinNuevo,plazo);
-let interesesDespues=cuotaDespues*plazo-total-comisiones;
+  if(tipoHipoteca==="fija"){
+    cuotaDespues=cuota(totalCapital+comisiones,tinFinal,plazoNuevo);
+  }else{
+    let plazoVar=plazoNuevo-plazoFijo;
+    let cuotaF=cuota(totalCapital+comisiones,tinFinal,plazoFijo>0?plazoFijo:1);
+    let capitalRestante=cuotaF*plazoFijo*12-(totalCapital+comisiones);
+    if(capitalRestante<0) capitalRestante=0;
+    let cuotaVar=plazoVar>0?cuota(capitalRestante,tinFinal,plazoVar):0;
+    cuotaDespues=((cuotaF*plazoFijo*12)+(cuotaVar*plazoVar*12))/(plazoNuevo*12);
+  }
 
-document.getElementById("cuotaAntes").innerText=cuotaAntes.toFixed(2)+" €";
-document.getElementById("cuotaDespues").innerText=cuotaDespues.toFixed(2)+" €";
-document.getElementById("interesesAntes").innerText=interesesAntes.toFixed(2)+" €";
-document.getElementById("interesesDespues").innerText=interesesDespues.toFixed(2)+" €";
+  let interesesDespues=cuotaDespues*plazoNuevo*12-(totalCapital+comisiones);
 
-document.getElementById("ahorroMensual").innerText=(cuotaAntes-cuotaDespues).toFixed(2)+" €";
-document.getElementById("ahorroTotal").innerText=(interesesAntes-interesesDespues).toFixed(2)+" €";
+  document.getElementById("cuotaAntes").innerText=cuotaAntes.toFixed(2)+" €";
+  document.getElementById("cuotaDespues").innerText=cuotaDespues.toFixed(2)+" €";
+  document.getElementById("interesesAntes").innerText=interesesAntes.toFixed(2)+" €";
+  document.getElementById("interesesDespues").innerText=interesesDespues.toFixed(2)+" €";
 
-document.getElementById("resultados").style.display="block";
+  let ahorroM=cuotaAntes-cuotaDespues;
+  let ahorroT=interesesAntes-interesesDespues;
+  document.getElementById("ahorroMensual").innerText=(ahorroM>0?ahorroM.toFixed(2)+" €":"No hay ahorro");
+  document.getElementById("ahorroTotal").innerText=(ahorroT>0?ahorroT.toFixed(2)+" €":"No hay ahorro");
+
+  document.getElementById("resultados").style.display="block";
 }
 
 function enviarPDF(){
-let email=document.getElementById("email").value.trim();
-let rgpd=document.getElementById("rgpd").checked;
+  let email=document.getElementById("email").value.trim();
+  let rgpd=document.getElementById("rgpd").checked;
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert("Email inválido"); return;}
+  if(!rgpd){ alert("Debes aceptar la política de privacidad"); return;}
 
-if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-return alert("Email inválido");
-
-if(!rgpd)
-return alert("Debes aceptar la política de privacidad");
-
-const {jsPDF}=window.jspdf;
-let doc=new jsPDF();
-doc.text("Simulación Consolidación - Kaoba Finance",20,20);
-
-doc.autoTable({
-startY:30,
-head:[["Concepto","Antes","Después"]],
-body:[
-["Cuota mensual",cuotaAntes.innerText,cuotaDespues.innerText],
-["Intereses totales",interesesAntes.innerText,interesesDespues.innerText]
-]
-});
-
-let blob=doc.output("blob");
-let formData=new FormData();
-formData.append("pdf",blob,"Simulacion.pdf");
-formData.append("email",email);
-
-fetch("/enviar-pdf-correo",{method:"POST",body:formData})
-.then(r=>r.json())
-.then(d=>alert(d.message||"PDF enviado"))
-.catch(()=>alert("Error enviando PDF"));
-}
-
-function descargarCSV(){
-let rows=[
-["Concepto","Antes","Después"],
-["Cuota mensual",cuotaAntes.innerText,cuotaDespues.innerText],
-["Intereses totales",interesesAntes.innerText,interesesDespues.innerText]
-];
-
-let csv="data:text/csv;charset=utf-8,"+rows.map(e=>e.join(",")).join("\n");
-let link=document.createElement("a");
-link.href=encodeURI(csv);
-link.download="Simulacion.csv";
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
+  const {jsPDF}=window.jspdf;
+  let doc=new jsPDF();
+  doc.text("Simulación Hipoteca - Kaoba Finance",20,20);
+  doc.autoTable({
+    startY:30,
+    head:[["Concepto","Antes","Después"]],
+    body:[
+      ["Cuota mensual",document.getElementById("cuotaAntes").innerText,document.getElementById("cuotaDespues").innerText],
+      ["Intereses totales",document.getElementById("interesesAntes").innerText,document.getElementById("interesesDespues").innerText],
+      ["Ahorro mensual",document.getElementById("ahorroMensual").innerText,document.getElementById("ahorroTotal").innerText]
+    ]
+  });
+  let blob=doc.output("blob");
+  let formData=new FormData();
+  formData.append("pdf",blob,"Simulacion.pdf");
+  formData.append("email",email);
+  fetch("/enviar-pdf-correo",{method:"POST",body:formData})
+  .then(r=>r.json())
+  .then(d=>alert(d.message||"PDF enviado"))
+  .catch(()=>alert("Error enviando PDF"));
 }
 </script>
 
