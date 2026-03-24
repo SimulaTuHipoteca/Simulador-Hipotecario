@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   const btnRechazar=document.getElementById("btnRechazarCookies");
   if(!banner || !btnAceptar || !btnRechazar) return;
   const cookiesAceptadas=localStorage.getItem("cookiesAceptadas");
-  if(cookiesAceptadas==="true"||cookiesAcept=== "false") {
+ if(cookiesAceptadas === "true" || cookiesAceptadas === "false") {
     banner.style.display = "none";
   } else {
     banner.style.display = "flex";
