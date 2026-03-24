@@ -307,7 +307,7 @@ if (enviarBtn && statusSpan) {
       console.error("Error de conexión con el servidor:", err);
       statusSpan.style.color = "red";
       statusSpan.innerText = "Error de conexión con el servidor.";
-    }
+    
   });
 
 
