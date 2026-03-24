@@ -226,23 +226,25 @@ document.addEventListener("DOMContentLoaded", () => {
 // -----------------------------
 // ENVÍO DE LEADS Y PDF
 // -----------------------------
-const enviarBtn = document.getElementById("enviarLead");
-const statusSpan = document.getElementById("leadMensaje"); // ya existe en tu HTML
+  // Elemento de estado ya existente
+  const statusSpan = document.getElementById("leadMensaje");
+  const enviarBtn = document.getElementById("enviarLead");
 
-if (enviarBtn && statusSpan) {
+  if (!enviarBtn || !statusSpan) return;
+
   enviarBtn.addEventListener("click", async () => {
     const nombre = document.getElementById("leadNombre")?.value.trim() || "";
     const email = document.getElementById("leadEmail")?.value.trim() || "";
     const consentimiento = document.getElementById("leadConsentimiento")?.checked || false;
 
-    // Validación básica
+    // Validación
     if (!nombre || !email || !consentimiento) {
       statusSpan.style.color = "red";
       statusSpan.innerText = "Por favor completa todos los campos y acepta la política.";
       return;
     }
 
-    // --- Preparar datos del PDF ---
+    // Preparar PDF
     const capital = document.getElementById("perfilCapital")?.innerText || "0";
     const cuota = document.getElementById("perfilCuota")?.innerText || "0";
     const ltv = document.getElementById("perfilLTV")?.innerText || "0";
@@ -253,7 +255,6 @@ if (enviarBtn && statusSpan) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Cabecera simple
     doc.setFontSize(16);
     doc.text("Simulación Kaoba Finance", 20, 20);
     doc.setFontSize(12);
@@ -261,7 +262,6 @@ if (enviarBtn && statusSpan) {
     doc.text(`Email: ${email}`, 20, 37);
     doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 44);
 
-    // Resultados
     const data = [
       ["Importe estimado de préstamo", capital],
       ["Cuota mensual estimada", cuota],
@@ -280,7 +280,6 @@ if (enviarBtn && statusSpan) {
       y += 7;
     });
 
-    // Generar Blob
     const pdfBlob = doc.output("blob");
     const formData = new FormData();
     formData.append("nombre", nombre);
@@ -292,7 +291,6 @@ if (enviarBtn && statusSpan) {
         method: "POST",
         body: formData
       });
-
       const result = await response.json();
 
       if (result.ok) {
@@ -302,13 +300,10 @@ if (enviarBtn && statusSpan) {
         statusSpan.style.color = "red";
         statusSpan.innerText = "Error enviando simulación. Intenta de nuevo.";
       }
-
     } catch (err) {
-      console.error("Error de conexión con el servidor:", err);
+      console.error(err);
       statusSpan.style.color = "red";
       statusSpan.innerText = "Error de conexión con el servidor.";
-    
+    }
   });
-
-
 });
