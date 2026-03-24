@@ -1,4 +1,6 @@
-// --- SELECCIÓN DE SECCIÓN CON BOTÓN FLOTANTE ---
+// -----------------------------
+// SELECCIÓN DE ELEMENTOS MODAL
+// -----------------------------
 const btnCalculadoraFlotante = document.getElementById("btnCalculadoraFlotante");
 const modal = document.getElementById("modalCalculadora");
 const cerrar = document.getElementById("cerrarModal");
@@ -11,14 +13,13 @@ cerrar.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
-// Cerrar si se hace clic fuera del contenido
 window.addEventListener("click", (e) => {
-  if (e.target == modal) {
-    modal.style.display = "none";
-  }
+  if (e.target === modal) modal.style.display = "none";
 });
 
-// --- ELEMENTOS CALCULADORA ---
+// -----------------------------
+// ELEMENTOS CALCULADORA PRINCIPAL
+// -----------------------------
 const prestamoInput = document.getElementById("prestamo");
 const interesInput = document.getElementById("interes");
 const anosInput = document.getElementById("anos");
@@ -32,22 +33,48 @@ const verTablaBtn = document.getElementById("verTabla");
 const tablaContainer = document.getElementById("tablaContainer");
 const tbody = document.querySelector("#tabla tbody");
 
-// --- FORMATO MONEDA ---
+// -----------------------------
+// ELEMENTOS CALCULADORA MODAL
+// -----------------------------
+const prestamoInputModal = document.getElementById("prestamoModal");
+const interesInputModal = document.getElementById("interesModal");
+const anosInputModal = document.getElementById("anosModal");
+
+const cuotaOutModal = document.getElementById("cuotaModal");
+const interesesTotalesOutModal = document.getElementById("interesesTotalesModal");
+const totalPagadoOutModal = document.getElementById("totalPagadoModal");
+
+const verTablaBtnModal = document.getElementById("verTablaModal");
+const tablaContainerModal = document.getElementById("tablaContainerModal");
+const tbodyModal = document.querySelector("#tablaModal tbody");
+
+// -----------------------------
+// SECCIONES PERFIL Y CALCULADORA
+// -----------------------------
+const perfilDiv = document.getElementById("perfil");
+const calculadoraDiv = document.getElementById("calculadora");
+
+// -----------------------------
+// FORMATO MONEDA
+// -----------------------------
 function formatMoney(n) {
   return new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(n);
 }
+function formatMoneyPerfil(n) { return formatMoney(n); }
 
-// --- CALCULO HIPOTECA ---
-function calcular() {
-  const capital = parseFloat(prestamoInput.value) || 0;
-  const interes = (parseFloat(interesInput.value) / 100) / 12 || 0;
-  const anos = parseFloat(anosInput.value) || 0;
+// -----------------------------
+// FUNCIONES CALCULADORA
+// -----------------------------
+function calcular(inputs, cuotaEl, interesesEl, totalEl, resultadosDivEl, verTablaBtnEl, tablaContainerEl) {
+  const capital = parseFloat(inputs[0].value) || 0;
+  const interes = (parseFloat(inputs[1].value) / 100) / 12 || 0;
+  const anos = parseFloat(inputs[2].value) || 0;
   const n = anos * 12;
 
   if (capital <= 0 || interes <= 0 || anos <= 0) {
-    resultadosDiv.style.display = "flex";
-    verTablaBtn.style.display = "none";
-    tablaContainer.style.display = "none";
+    resultadosDivEl.style.display = "flex";
+    verTablaBtnEl.style.display = "none";
+    tablaContainerEl.style.display = "none";
     return;
   }
 
@@ -55,32 +82,20 @@ function calcular() {
   const totalPagado = cuota * n;
   const interesesTotales = totalPagado - capital;
 
-  cuotaOut.innerText = formatMoney(cuota);
-  interesesTotalesOut.innerText = formatMoney(interesesTotales);
-  totalPagadoOut.innerText = formatMoney(totalPagado);
+  cuotaEl.innerText = formatMoney(cuota);
+  interesesEl.innerText = formatMoney(interesesTotales);
+  totalEl.innerText = formatMoney(totalPagado);
 
-  resultadosDiv.style.display = "flex";
-  verTablaBtn.style.display = "block";
-  tablaContainer.style.display = "none";
+  resultadosDivEl.style.display = "flex";
+  verTablaBtnEl.style.display = "block";
+  tablaContainerEl.style.display = "none";
 }
 
-// --- TABLA AMORTIZACIÓN ---
-verTablaBtn.addEventListener("click", () => {
-  if (tablaContainer.style.display === "none") {
-    generarTabla();
-    tablaContainer.style.display = "block";
-    verTablaBtn.innerText = "Ocultar tabla de amortización";
-  } else {
-    tablaContainer.style.display = "none";
-    verTablaBtn.innerText = "Ver cuadro de amortización";
-  }
-});
-
-function generarTabla() {
-  tbody.innerHTML = "";
-  const capital = parseFloat(prestamoInput.value) || 0;
-  const interes = (parseFloat(interesInput.value) / 100) / 12 || 0;
-  const anos = parseFloat(anosInput.value) || 0;
+function generarTabla(inputs, tbodyEl) {
+  tbodyEl.innerHTML = "";
+  const capital = parseFloat(inputs[0].value) || 0;
+  const interes = (parseFloat(inputs[1].value) / 100) / 12 || 0;
+  const anos = parseFloat(inputs[2].value) || 0;
   const n = anos * 12;
   const cuota = capital * (interes * Math.pow(1 + interes, n)) / (Math.pow(1 + interes, n) - 1);
   let saldo = capital;
@@ -89,7 +104,7 @@ function generarTabla() {
     const interesMes = saldo * interes;
     const capitalMes = cuota - interesMes;
     saldo -= capitalMes;
-    tbody.innerHTML += `<tr>
+    tbodyEl.innerHTML += `<tr>
       <td>${i}</td>
       <td>${formatMoney(cuota)}</td>
       <td>${formatMoney(interesMes)}</td>
@@ -99,10 +114,46 @@ function generarTabla() {
   }
 }
 
-// Eventos automáticos calculadora
-[prestamoInput, interesInput, anosInput].forEach(el => el.addEventListener("input", calcular));
+// Eventos principales
+[prestamoInput, interesInput, anosInput].forEach(el => el.addEventListener("input", () =>
+  calcular([prestamoInput, interesInput, anosInput], cuotaOut, interesesTotalesOut, totalPagadoOut, resultadosDiv, verTablaBtn, tablaContainer)
+));
 
-// --- ELEMENTOS PERFIL ---
+// Eventos modal
+[prestamoInputModal, interesInputModal, anosInputModal].forEach(el => el.addEventListener("input", () =>
+  calcular([prestamoInputModal, interesInputModal, anosInputModal], cuotaOutModal, interesesTotalesOutModal, totalPagadoOutModal, resultadosDiv, verTablaBtnModal, tablaContainerModal)
+));
+
+// Tabla principal
+verTablaBtn.addEventListener("click", () => {
+  if (tablaContainer.style.display === "none") {
+    generarTabla([prestamoInput, interesInput, anosInput], tbody);
+    tablaContainer.style.display = "block";
+    verTablaBtn.innerText = "Ocultar tabla de amortización";
+  } else {
+    tablaContainer.style.display = "none";
+    verTablaBtn.innerText = "Ver cuadro de amortización";
+  }
+});
+
+// Tabla modal
+verTablaBtnModal.addEventListener("click", () => {
+  if (tablaContainerModal.style.display === "none") {
+    generarTabla([prestamoInputModal, interesInputModal, anosInputModal], tbodyModal);
+    tablaContainerModal.style.display = "block";
+    verTablaBtnModal.innerText = "Ocultar tabla de amortización";
+  } else {
+    tablaContainerModal.style.display = "none";
+    verTablaBtnModal.innerText = "Ver cuadro de amortización";
+  }
+});
+
+// -----------------------------
+// PERFIL FINANCIERO (igual que tu original)
+// -----------------------------
+let plazoEditadoPorUsuario = false;
+
+// Declaración de todos los elementos de perfil (igual que tu script original)
 const perfilTitulares = document.getElementById("perfilTitulares");
 const perfilEdad1 = document.getElementById("perfilEdad1");
 const perfilEdad2 = document.getElementById("perfilEdad2");
@@ -120,7 +171,6 @@ const perfilTipoVivienda = document.getElementById("perfilTipoVivienda");
 const perfilComunidad = document.getElementById("perfilComunidad");
 const perfilPrimeraSegunda = document.getElementById("perfilPrimeraSegunda");
 const perfilPlazo = document.getElementById("perfilPlazo");
-
 const perfilCapitalOut = document.getElementById("perfilCapital");
 const perfilCuotaOut = document.getElementById("perfilCuota");
 const perfilLTVOut = document.getElementById("perfilLTV");
@@ -128,6 +178,14 @@ const perfilGastosOut = document.getElementById("perfilGastos");
 const perfilLTIOut = document.getElementById("perfilLTI");
 const perfilCompatibleOut = document.getElementById("perfilCompatible");
 const avisoSegunda = document.getElementById("avisoSegunda");
+
+// Función calcularPerfil() y eventos igual que tu script original
+// ...
+
+// -----------------------------
+// Resto de funciones: envío PDF, cookies, operaciones
+// -----------------------------
+// Mantener exactamente como tu script original
 
 // Formato moneda perfil
 function formatMoneyPerfil(n) {
