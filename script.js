@@ -223,8 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
     perfilDiv.scrollIntoView({behavior:'smooth'});
   };
 
-  document.getElementById("enviarLead").addEventListener("click", function () {
-
+ document.getElementById("enviarLead").addEventListener("click", function () {
   const nombre = document.getElementById("leadNombre").value;
   const email = document.getElementById("leadEmail").value;
   const consentimiento = document.getElementById("leadConsentimiento").checked;
@@ -234,13 +233,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Obtener datos calculados del perfil
-  const capital = document.getElementById("perfilCapital").innerText || "-";
-  const cuota = document.getElementById("perfilCuota").innerText || "-";
-  const ltv = document.getElementById("perfilLTV").innerText || "-";
-  const gastos = document.getElementById("perfilGastos").innerText || "-";
-  const lti = document.getElementById("perfilLTI").innerText || "-";
-  const compatibilidad = document.getElementById("perfilCompatible").innerText || "-";
+  const capital = document.getElementById("perfilCapital").innerText || "No disponible";
+  const cuota = document.getElementById("perfilCuota").innerText || "No disponible";
+  const ltv = document.getElementById("perfilLTV").innerText || "No disponible";
+  const gastos = document.getElementById("perfilGastos").innerText || "No disponible";
+  const lti = document.getElementById("perfilLTI").innerText || "No disponible";
+  const compatibilidad = document.getElementById("perfilCompatible").innerText || "No disponible";
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -251,54 +249,101 @@ document.addEventListener("DOMContentLoaded", () => {
 
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(18);
+  doc.setFont("helvetica", "bold");
   doc.text("KAOBA FINANCE", 20, 15);
 
   doc.setFontSize(11);
+  doc.setFont("helvetica", "normal");
   doc.text("Informe de Simulación Hipotecaria", 20, 21);
 
-  // Reset color texto
   doc.setTextColor(0, 0, 0);
 
-  // --- DATOS CLIENTE ---
+  // --- DATOS DEL CLIENTE ---
   doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
   doc.text("Datos del solicitante", 20, 40);
 
   doc.setFontSize(11);
-  doc.text("Nombre: " + nombre, 20, 48);
-  doc.text("Email: " + email, 20, 55);
-  doc.text("Fecha: " + new Date().toLocaleDateString(), 20, 62);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Nombre: ${nombre}`, 20, 48);
+  doc.text(`Email: ${email}`, 20, 55);
+  doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 62);
 
-  // Línea separadora
-  doc.setDrawColor(200);
-  doc.line(20, 68, 190, 68);
+  // --- RESULTADOS FINANCIEROS EN TABLA ---
+  const results = [
+    ["Concepto", "Valor"],
+    ["Importe estimado de préstamo", capital !== "No disponible" ? `€ ${parseFloat(capital).toLocaleString()}` : capital],
+    ["Cuota mensual estimada", cuota !== "No disponible" ? `€ ${parseFloat(cuota).toLocaleString()}` : cuota],
+    ["Porcentaje financiación (LTV)", ltv !== "No disponible" ? `${ltv}%` : ltv],
+    ["Gastos aproximados", gastos !== "No disponible" ? `€ ${parseFloat(gastos).toLocaleString()}` : gastos],
+    ["Ratio endeudamiento (LTI)", lti !== "No disponible" ? `${lti}%` : lti],
+    ["Compatibilidad bancaria", compatibilidad],
+  ];
 
-  // --- RESULTADOS ---
-  doc.setFontSize(14);
-  doc.text("Resultado del análisis financiero", 20, 80);
+  doc.autoTable({
+    startY: 75,
+    head: [results[0]],
+    body: results.slice(1),
+    theme: 'grid',
+    headStyles: { fillColor: [13, 79, 139], textColor: 255, fontStyle: 'bold' },
+    bodyStyles: { fontSize: 11 },
+    columnStyles: {
+      0: { cellWidth: 90, fontStyle: 'bold' },
+      1: { cellWidth: 90 },
+    },
+  });
 
-  doc.setFontSize(11);
+  // --- GRÁFICO DE BARRAS LTV vs LTI ---
+  const chartY = doc.lastAutoTable.finalY + 10;
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("Gráfico de LTV vs LTI", 20, chartY);
 
-  doc.text("Importe estimado de préstamo: " + capital, 20, 90);
-  doc.text("Cuota mensual estimada: " + cuota, 20, 98);
-  doc.text("Porcentaje financiación (LTV): " + ltv, 20, 106);
-  doc.text("Gastos aproximados: " + gastos, 20, 114);
-  doc.text("Ratio endeudamiento (LTI): " + lti, 20, 122);
-  doc.text("Compatibilidad bancaria: " + compatibilidad, 20, 130);
+  // Datos numéricos para el gráfico
+  const ltvNum = ltv !== "No disponible" ? parseFloat(ltv) : 0;
+  const ltiNum = lti !== "No disponible" ? parseFloat(lti) : 0;
+
+  // Dimensiones del gráfico
+  const chartX = 20;
+  const chartWidth = 100;
+  const chartHeight = 30;
+  const maxPercent = 100;
+
+  // Dibujar fondo gris para barra
+  doc.setFillColor(220);
+  doc.rect(chartX, chartY + 5, chartWidth, chartHeight, "F");
+
+  // Dibujar barra LTV en azul
+  doc.setFillColor(13, 79, 139);
+  doc.rect(chartX, chartY + 5, (ltvNum / maxPercent) * chartWidth, chartHeight, "F");
+
+  // Dibujar barra LTI en verde
+  doc.setFillColor(0, 150, 0);
+  doc.rect(chartX, chartY + 5 + chartHeight + 5, (ltiNum / maxPercent) * chartWidth, chartHeight, "F");
+
+  // Etiquetas
+  doc.setFontSize(10);
+  doc.setTextColor(0, 0, 0);
+  doc.text(`LTV: ${ltvNum}%`, chartX + chartWidth + 5, chartY + 5 + chartHeight / 2 + 3);
+  doc.text(`LTI: ${ltiNum}%`, chartX + chartWidth + 5, chartY + 5 + chartHeight * 1.5 + 8);
 
   // --- CONCLUSIÓN ---
+  const conclusionY = chartY + 5 + chartHeight * 2 + 15;
   doc.setFontSize(13);
-  doc.text("Conclusión profesional", 20, 150);
+  doc.setFont("helvetica", "bold");
+  doc.text("Conclusión profesional", 20, conclusionY);
 
   doc.setFontSize(11);
+  doc.setFont("helvetica", "normal");
   doc.text(
     "Este análisis se basa en criterios bancarios estándar actuales.",
     20,
-    160
+    conclusionY + 10
   );
   doc.text(
     "La aprobación definitiva dependerá del estudio individual de la entidad financiera.",
     20,
-    167
+    conclusionY + 17
   );
 
   // --- PIE DE PÁGINA ---
@@ -311,6 +356,5 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   doc.save("Simulacion_Kaoba_Finance.pdf");
-
 });
 });
