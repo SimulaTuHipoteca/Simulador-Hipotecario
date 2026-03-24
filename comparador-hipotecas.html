@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kaoba Finance | Comparador de Hipotecas</title>
+<title>Kaoba Finance | Comparador de ofertas hipotecarias</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -129,15 +129,15 @@ th{background:#f1f3f6;}
 <h2>Datos generales</h2>
 
 <label>Capital (€)
-<input type="number" id="capital" value="0" onfocus="clearZero(this)">
+<input type="number" id="capital" value="" placeholder="Ej: 150000" onfocus="clearInput(this)">
 </label>
 
-<label>Plazo total (meses)
-<input type="number" id="plazo" value="240">
+<label>Plazo total (años)
+<input type="number" id="plazo" value="" placeholder="Ej: 20" onfocus="clearInput(this)">
 </label>
 
 <label>Euríbor actual (%)
-<input type="number" id="euribor" value="3.50" step="0.01">
+<input type="number" id="euribor" value="" placeholder="Ej: 3.50" step="0.01" onfocus="clearInput(this)">
 </label>
 
 <hr>
@@ -150,8 +150,12 @@ th{background:#f1f3f6;}
 
 <h2>Resultados</h2>
 
-<label>Email para recibir PDF
-<input type="email" id="email">
+<label>Nombre
+<input type="text" id="nombreUsuario" placeholder="Tu nombre" onfocus="clearInput(this)">
+</label>
+
+<label>Email
+<input type="email" id="emailUsuario" placeholder="tuemail@ejemplo.com" onfocus="clearInput(this)">
 </label>
 
 <label>
@@ -161,7 +165,6 @@ Acepto política de privacidad
 
 <button onclick="calcular()">Calcular</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
-<button onclick="descargarCSV()">Descargar CSV</button>
 
 <div class="table-container">
 <table id="tabla">
@@ -183,9 +186,7 @@ Acepto política de privacidad
 <script>
 let contador=0;
 
-function clearZero(input){
-  if(input.value==="0") input.value="";
-}
+function clearInput(input){ input.value=""; }
 
 function addBanco(){
   contador++;
@@ -195,7 +196,7 @@ function addBanco(){
   div.innerHTML=`
   <button class="remove-btn" onclick="removeBanco(${contador})">×</button>
   <label>Nombre
-  <input type="text" id="nombre-${contador}" placeholder="Banco ${contador}">
+  <input type="text" id="nombre-${contador}" placeholder="Banco ${contador}" onfocus="clearInput(this)">
   </label>
 
   <label>Tipo
@@ -208,30 +209,30 @@ function addBanco(){
 
   <div id="bloque-fija-${contador}">
     <label>TIN fijo (%)
-    <input type="number" id="tinFijo-${contador}" step="0.01">
+    <input type="number" id="tinFijo-${contador}" step="0.01" onfocus="clearInput(this)">
     </label>
   </div>
 
   <div id="bloque-mixta-${contador}" style="display:none;">
     <label>Meses fijo
-    <input type="number" id="mesesFijo-${contador}" value="60">
+    <input type="number" id="mesesFijo-${contador}" value="" onfocus="clearInput(this)">
     </label>
     <label>TIN fijo (%)
-    <input type="number" id="tinMixtoFijo-${contador}" step="0.01">
+    <input type="number" id="tinMixtoFijo-${contador}" step="0.01" onfocus="clearInput(this)">
     </label>
     <label>Diferencial (%)
-    <input type="number" id="diferencial-${contador}" step="0.01">
+    <input type="number" id="diferencial-${contador}" step="0.01" onfocus="clearInput(this)">
     </label>
   </div>
 
   <div id="bloque-variable-${contador}" style="display:none;">
     <label>Diferencial (%)
-    <input type="number" id="difVar-${contador}" step="0.01">
+    <input type="number" id="difVar-${contador}" step="0.01" onfocus="clearInput(this)">
     </label>
   </div>
 
   <label>Amortización anticipada (€ opcional)
-  <input type="number" id="amortizacion-${contador}" value="0">
+  <input type="number" id="amortizacion-${contador}" value="" onfocus="clearInput(this)">
   </label>
   `;
   document.getElementById("bancos").appendChild(div);
@@ -261,6 +262,8 @@ function calcular(){
   const plazo=parseInt(document.getElementById("plazo").value)||1;
   const euribor=parseFloat(document.getElementById("euribor").value)||0;
 
+  if(capital<=0||plazo<=0){ alert("Introduce capital y plazo correctos"); return; }
+
   const tbody=document.querySelector("#tabla tbody");
   tbody.innerHTML="";
   let resultados=[];
@@ -275,15 +278,15 @@ function calcular(){
 
     if(tipo==="fija"){
       const tin=parseFloat(document.getElementById("tinFijo-"+i).value)||0;
-      cuotaMedia=cuota(capital,tin,plazo);
-      intereses=cuotaMedia*plazo-capital;
+      cuotaMedia=cuota(capital,tin,plazo*12);
+      intereses=cuotaMedia*plazo*12-capital;
     }
 
     if(tipo==="variable"){
       const dif=parseFloat(document.getElementById("difVar-"+i).value)||0;
       const tin=euribor+dif;
-      cuotaMedia=cuota(capital,tin,plazo);
-      intereses=cuotaMedia*plazo-capital;
+      cuotaMedia=cuota(capital,tin,plazo*12);
+      intereses=cuotaMedia*plazo*12-capital;
     }
 
     if(tipo==="mixta"){
@@ -292,12 +295,12 @@ function calcular(){
       const dif=parseFloat(document.getElementById("diferencial-"+i).value)||0;
 
       const cuotaFija=cuota(capital,tinFijo,mesesFijo);
-      const restante=capital - (cuotaFija*mesesFijo - capital);
+      const capitalRestante=capital - (cuotaFija*mesesFijo - capital);
       const tinVar=euribor+dif;
-      const cuotaVar=cuota(restante,tinVar,plazo-mesesFijo);
+      const cuotaVar=cuota(capitalRestante,tinVar,(plazo*12)-mesesFijo);
 
-      cuotaMedia=((cuotaFija*mesesFijo)+(cuotaVar*(plazo-mesesFijo)))/plazo;
-      intereses=cuotaFija*mesesFijo+cuotaVar*(plazo-mesesFijo)-capital;
+      cuotaMedia=((cuotaFija*mesesFijo)+(cuotaVar*((plazo*12)-mesesFijo)))/(plazo*12);
+      intereses=cuotaFija*mesesFijo+cuotaVar*((plazo*12)-mesesFijo)-capital;
     }
 
     const total=capital+intereses;
@@ -321,25 +324,18 @@ function calcular(){
 }
 
 function descargarPDF(){
+  const nombreUsuario=document.getElementById("nombreUsuario").value.trim();
+  const emailUsuario=document.getElementById("emailUsuario").value.trim();
+  const acepta=document.getElementById("acepta").checked;
+
+  if(!nombreUsuario || !emailUsuario){ alert("Debes introducir tu nombre y correo para descargar el PDF"); return; }
+  if(!acepta){ alert("Debes aceptar la política de privacidad"); return; }
+
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF();
-  doc.text("Comparativa Hipotecas - Kaoba Finance",20,20);
+  doc.text(`Comparativa Hipotecas - ${nombreUsuario}`,20,20);
   doc.autoTable({html:'#tabla',startY:30});
-  doc.save("Comparativa.pdf");
-}
-
-function descargarCSV(){
-  let csv="";
-  document.querySelectorAll("#tabla tr").forEach(tr=>{
-    let row=[];
-    tr.querySelectorAll("th,td").forEach(td=>row.push(td.innerText));
-    csv+=row.join(",")+"\\n";
-  });
-  const blob=new Blob([csv],{type:"text/csv"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="comparativa.csv";
-  a.click();
+  doc.save("Comparativa_Hipotecas.pdf");
 }
 </script>
 
