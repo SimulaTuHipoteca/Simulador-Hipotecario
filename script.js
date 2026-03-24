@@ -1,17 +1,20 @@
 // --- SELECCIÓN DE SECCIÓN CON BOTÓN FLOTANTE ---
 const btnCalculadoraFlotante = document.getElementById("btnCalculadoraFlotante");
-const calculadoraDiv = document.getElementById("calculadora");
-const perfilDiv = document.getElementById("perfil");
+const modal = document.getElementById("modalCalculadora");
+const cerrar = document.getElementById("cerrarModal");
 
 btnCalculadoraFlotante.addEventListener("click", () => {
-  // Si calculadora está oculta o vacía -> mostrar
-  if (calculadoraDiv.style.display === "none" || calculadoraDiv.style.display === "") {
-    calculadoraDiv.style.display = "block";
-    perfilDiv.style.display = "none"; // ocultar perfil
-    calculadoraDiv.scrollIntoView({ behavior: "smooth" });
-  } else {
-    // Si ya estaba visible -> ocultar
-    calculadoraDiv.style.display = "none";
+  modal.style.display = "block";
+});
+
+cerrar.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+// Cerrar si se hace clic fuera del contenido
+window.addEventListener("click", (e) => {
+  if (e.target == modal) {
+    modal.style.display = "none";
   }
 });
 
