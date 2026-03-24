@@ -316,23 +316,28 @@ input, select, textarea {
   .hero-buttons .btn { min-width: 120px; font-size: 14px; }
   .faq-container { padding: 20px; }
 }
-/* BOTÓN FLOTANTE CALCULADORA */
+/* BOTÓN FLOTANTE */
 #btnCalculadoraFlotante {
   position: fixed;
-  bottom: 90px; /* deja espacio sobre el FAQ */
+  bottom: 80px;
   right: 20px;
   width: 50px;
   height: 50px;
   background-color: #0d4f8b;
-  color: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
+  color: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: background 0.2s, transform 0.2s;
   z-index: 1000;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+#btnCalculadoraFlotante:hover {
+  background-color: #09407a;
+  transform: scale(1.2);
 }
 
 #btnCalculadoraFlotante svg {
@@ -341,21 +346,38 @@ input, select, textarea {
   fill: white;
 }
 
-#btnCalculadoraFlotante:hover {
-  background-color: #09407a;
-  transform: scale(1.2);
+/* MODAL CALCULADORA */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
 }
 
-/* Ajustes para móviles */
-@media (max-width: 600px) {
-  #btnCalculadoraFlotante {
-    bottom: 80px; /* un poco más arriba que el FAQ */
-    width: 45px;
-    height: 45px;
-  }
+.modal-content {
+  background-color: #fff;
+  margin: 80px auto;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  position: relative;
+}
 
-  #btnCalculadoraFlotante svg {
-    width: 20px;
-    height: 20px;
-  }
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #0d4f8b;
 }
