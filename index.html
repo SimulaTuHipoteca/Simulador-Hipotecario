@@ -12,297 +12,307 @@
 <meta property="og:url" content="https://kaobafinance.es">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <link rel="stylesheet" href="style.css">
-<!-- jsPDF para generar PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
 <div class="container">
 
-<div class="brand-title">
-  <span class="brand-main">Kaoba Finance</span>
-  <span class="brand-sub">Simulador</span>
-</div>
-<p style="text-align:center; font-size:14px; color:#6b7280;">
-  Análisis financiero orientativo basado en criterios bancarios actuales.
-</p>
+  <!-- BRAND -->
+  <div class="brand-title">
+    <span class="brand-main">Kaoba Finance</span>
+    <span class="brand-sub">Simulador</span>
+  </div>
+  <p style="text-align:center; font-size:14px; color:#6b7280;">
+    Análisis financiero orientativo basado en criterios bancarios actuales.
+  </p>
   
-<!-- BOTONES INICIO CENTRADOS Y RESPONSIVOS -->
-<div class="hero-buttons"></div>
-  
-<p class="euribor-info">
-  Euribor actual (Índice de referencia): 2,36% a marzo 2026
-</p>
+  <p class="euribor-info">
+    Euribor actual (Índice de referencia): 2,36% a marzo 2026
+  </p>
 
-<section class="operaciones-section">
-  <h2>¿Qué tipo de operación quieres realizar?</h2>
-  <p class="operaciones-sub">Selecciona una opción antes de analizar tu perfil.</p>
+  <!-- OPERACIONES -->
+  <section class="operaciones-section">
+    <h2>¿Qué tipo de operación quieres realizar?</h2>
+    <p class="operaciones-sub">Selecciona una opción antes de analizar tu perfil.</p>
 
-  <!-- Operaciones: primera vivienda, cambio, inversión -->
-  <div class="operacion-card" onclick="abrirOperacion('compra')">
-    <div class="card-header">🏡 Comprar primera vivienda</div>
-    <div id="compra" class="card-content">
-      <h4>Cómo funciona</h4>
-      <p>El banco financia hasta el 80% del valor de compra o tasación; en algunos casos podría ser mayor, aunque la tasación siempre será el 80% para conceder el préstamo.</p>
-      <h4>Requisitos habituales</h4>
-      <ul>
-        <li>Contrato indefinido o ingresos estables.</li>
-        <li>Ratio de endeudamiento &lt; 35%.</li>
-        <li>Ahorros del 20% + gastos (~10%).</li>
-        <li>Tener como mínimo la entrada necesaria para cubrir gastos.</li>
-      </ul>
-      <h4>Gastos aproximados</h4>
-      <ul>
-        <li>Notaría, gestoría y registro: 1.900–2.500€.</li>
-        <li>Tasación: 300–500€.</li>
-        <li>Impuestos (ITP o IVA según vivienda).</li>
-      </ul>
-      <h4>Procedimiento</h4>
-      <ol>
-        <li>Estudio de viabilidad.</li>
-        <li>Tasación.</li>
-        <li>Aprobación bancaria.</li>
-        <li>Firma ante notario.</li>
-      </ol>
-      <button onclick="irAnalisis(event,'Compra Primera Vivienda')">Analizar mi perfil</button>
+    <!-- Comprar primera vivienda -->
+    <div class="operacion-card" onclick="abrirOperacion('compra')">
+      <div class="card-header">🏡 Comprar primera vivienda</div>
+      <div id="compra" class="card-content">
+        <h4>Cómo funciona</h4>
+        <p>El banco financia hasta el 80% del valor de compra o tasación; en algunos casos el préstamo podría concederse a un porcentaje superior, aunque la tasación siempre será el 80% para la concesión del préstamo.</p>
+        <h4>Requisitos habituales</h4>
+        <ul>
+          <li>Contrato indefinido o ingresos estables.</li>
+          <li>Ratio de endeudamiento &lt; 35%.</li>
+          <li>Ahorros del 20% + gastos (~10%).</li>
+          <li>Tener como mínimo la entrada necesaria para cubrir gastos.</li>
+        </ul>
+        <h4>Gastos aproximados</h4>
+        <ul>
+          <li>Notaría, gestoría y registro: 1.900–2.500€.</li>
+          <li>Tasación: 300–500€.</li>
+          <li>Impuestos (ITP o IVA según vivienda).</li>
+        </ul>
+        <h4>Procedimiento</h4>
+        <ol>
+          <li>Estudio de viabilidad.</li>
+          <li>Tasación.</li>
+          <li>Aprobación bancaria.</li>
+          <li>Firma ante notario.</li>
+        </ol>
+        <button onclick="irAnalisis(event,'Compra Primera Vivienda')">Analizar mi perfil</button>
+      </div>
     </div>
-  </div>
 
-  <div class="operacion-card" onclick="abrirOperacion('cambio')">
-    <div class="card-header">🔄 Cambiar mi hipoteca</div>
-    <div id="cambio" class="card-content">
-      <h4>Cómo funciona</h4>
-      <p>Otro banco mejora tu interés actual y asume tu préstamo.</p>
-      <h4>Requisitos habituales</h4>
-      <ul>
-        <li>Buen historial de pago.</li>
-        <li>2 o más años con el préstamo.</li>
-        <li>Capital pendiente atractivo (ideal < 70%).</li>
-        <li>Mejora real de condiciones.</li>
-      </ul>
-      <h4>Gastos aproximados</h4>
-      <ul>
-        <li>Tasación.</li>
-        <li>Posible comisión por subrogación/cancelación parcial o total.</li>
-        <li>Gestoría, notaría y registro.</li>
-      </ul>
-      <h4>Procedimiento</h4>
-      <ol>
-        <li>Oferta vinculante del nuevo banco.</li>
-        <li>Derecho de tanteo del banco actual.</li>
-        <li>Firma de subrogación.</li>
-      </ol>
-      <button onclick="irAnalisis(event,'Cambio de Hipoteca')">Analizar mi perfil</button>
+    <!-- Cambiar hipoteca -->
+    <div class="operacion-card" onclick="abrirOperacion('cambio')">
+      <div class="card-header">🔄 Cambiar mi hipoteca</div>
+      <div id="cambio" class="card-content">
+        <h4>Cómo funciona</h4>
+        <p>Otro banco mejora tu interés actual y asume tu préstamo.</p>
+        <h4>Requisitos habituales</h4>
+        <ul>
+          <li>Buen historial de pago.</li>
+          <li>Tener 2 o más años de antigüedad con el préstamo.</li>
+          <li>Capital pendiente atractivo (ideal < 70%).</li>
+          <li>Mejora real de condiciones.</li>
+        </ul>
+        <h4>Gastos aproximados</h4>
+        <ul>
+          <li>Tasación.</li>
+          <li>Posible comisión por subrogación/cancelación parcial o total.</li>
+          <li>Gestoría, notaría y registro.</li>
+        </ul>
+        <h4>Procedimiento</h4>
+        <ol>
+          <li>Oferta vinculante del nuevo banco.</li>
+          <li>Derecho de tanteo del banco actual.</li>
+          <li>Firma de subrogación.</li>
+        </ol>
+        <button onclick="irAnalisis(event,'Cambio de Hipoteca')">Analizar mi perfil</button>
+      </div>
     </div>
-  </div>
 
-  <div class="operacion-card" onclick="abrirOperacion('inversion')">
-    <div class="card-header">💼 Invertir en vivienda</div>
-    <div id="inversion" class="card-content">
-      <h4>Cómo funciona</h4>
-      <p>Financiación más restrictiva, el banco suele conceder 60–70% del valor o tasación, eligiendo el menor, con plazos más cortos según cada banco.</p>
-      <h4>Requisitos habituales</h4>
-      <ul>
-        <li>Ingresos altos.</li>
-        <li>Estabilidad financiera.</li>
-        <li>Buen scoring bancario.</li>
-        <li>Aportación del 20–30% + gastos.</li>
-      </ul>
-      <h4>Gastos aproximados</h4>
-      <ul>
-        <li>Similares a primera vivienda, pero con menor financiación.</li>
-        <li>Notaría, gestoría y registro: 1.900–2.500€.</li>
-        <li>Tasación: 300–500€.</li>
-        <li>Impuestos (ITP o IVA según vivienda).</li>
-      </ul>
-      <h4>Procedimiento</h4>
-      <ol>
-        <li>Análisis más estrictos.</li>
-        <li>Estudio de viabilidad.</li>
-        <li>Tasación.</li>
-        <li>Aprobación bancaria.</li>
-        <li>Firma ante notario.</li>
-      </ol>
-      <button onclick="irAnalisis(event,'Inversión')">Analizar mi perfil</button>
+    <!-- Invertir en vivienda -->
+    <div class="operacion-card" onclick="abrirOperacion('inversion')">
+      <div class="card-header">💼 Invertir en vivienda</div>
+      <div id="inversion" class="card-content">
+        <h4>Cómo funciona</h4>
+        <p>Financiación más restrictiva, el banco suele conceder el 60–70% del valor de la vivienda o tasación, eligiendo el menor de ambos casos. Plazo de la hipoteca podría ser inferior a lo habitual según cada banco.</p>
+        <h4>Requisitos habituales</h4>
+        <ul>
+          <li>Ingresos altos.</li>
+          <li>Estabilidad financiera.</li>
+          <li>Buen scoring bancario.</li>
+          <li>Aportación del 20-30% + gastos.</li>
+        </ul>
+        <h4>Gastos aproximados</h4>
+        <ul>
+          <li>Similares a primera vivienda.</li>
+          <li>Notaría, gestoría y registro: 1.900–2.500€.</li>
+          <li>Tasación: 300–500€.</li>
+          <li>Impuestos (ITP o IVA según vivienda).</li>
+        </ul>
+        <h4>Procedimiento</h4>
+        <ol>
+          <li>Análisis más estrictos.</li>
+          <li>Estudio de viabilidad.</li>
+          <li>Tasación.</li>
+          <li>Aprobación bancaria.</li>
+          <li>Firma ante notario.</li>
+        </ol>
+        <button onclick="irAnalisis(event,'Inversión')">Analizar mi perfil</button>
+      </div>
     </div>
-  </div>
-</section>
 
-<h2 style="text-align:center;">Herramientas financieras avanzadas</h2>
-<p class="operaciones-sub">
-  Simuladores profesionales para analizar y comparar tus opciones.
-</p>
+    <!-- Herramientas financieras avanzadas -->
+    <h2 style="text-align:center;">Herramientas financieras avanzadas</h2>
+    <p class="operaciones-sub">Simuladores profesionales para analizar y comparar tus opciones.</p>
 
-<section class="operaciones-section">
-  <div class="operacion-card" onclick="abrirOperacion('consolidacion')">
-    <div class="card-header">💳 Consolidación de deudas</div>
-    <div id="consolidacion" class="card-content">
-      <p>Unifica tus préstamos y tarjetas en una sola cuota mensual. Reduce tu ratio de endeudamiento y mejora tu perfil financiero.</p>
-      <button onclick="window.location.href='consolidacion.html'">Ir a simulador</button>
+    <!-- Consolidación -->
+    <div class="operacion-card" onclick="abrirOperacion('consolidacion')">
+      <div class="card-header">💳 Consolidación de deudas</div>
+      <div id="consolidacion" class="card-content">
+        <p>Unifica tus préstamos y tarjetas en una sola cuota mensual. Reduce tu ratio de endeudamiento y mejora tu perfil financiero.</p>
+        <button onclick="window.location.href='consolidacion.html'">Ir a simulador</button>
+      </div>
     </div>
-  </div>
 
-  <div class="operacion-card" onclick="abrirOperacion('comparador')">
-    <div class="card-header">🏦 Comparador de hipotecas</div>
-    <div id="comparador" class="card-content">
-      <p>Compara las condiciones hipotecarias ofrecidas por los bancos y determina la mejor opción: fijas, variables o mixtas, incluyendo bonificaciones, seguros y comisiones.</p>
-      <button onclick="window.location.href='comparador-hipotecas.html'">Comparar ahora</button>
+    <!-- Comparador -->
+    <div class="operacion-card" onclick="abrirOperacion('comparador')">
+      <div class="card-header">🏦 Comparador de hipotecas</div>
+      <div id="comparador" class="card-content">
+        <p>Compara las condiciones hipotecarias que te han ofrecido las entidades, incluyendo tipos fijos, variables y mixtos, bonificaciones, seguros y comisiones.</p>
+        <button onclick="window.location.href='comparador-hipotecas.html'">Comparar ahora</button>
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- PERFIL FINANCIERO COMPLETO -->
-<div id="perfil" class="seccion" style="display:none;">
-  <h2>Analizar Perfil Financiero</h2>
-  <div id="operacionSeleccionada" class="operacion-badge" style="display:none;"></div>
+  </section>
 
-  <label>Número de titulares</label>
-  <select id="perfilTitulares">
-    <option value="1">1 titular</option>
-    <option value="2">2 titulares</option>
-  </select>
+  <!-- PERFIL FINANCIERO -->
+  <div id="perfil" class="seccion" style="display:none;">
+    <h2>Analizar Perfil Financiero</h2>
+    <div id="operacionSeleccionada" style="display:none;"></div>
 
-  <div class="titulares-grid">
-    <!-- TITULAR 1 -->
+    <label>Número de titulares</label>
+    <select id="perfilTitulares">
+      <option value="1">1 titular</option>
+      <option value="2">2 titulares</option>
+    </select>
+
+    <div class="titulares-grid">
+      <!-- TITULAR 1 -->
+      <div class="titular">
+        <label>Edad titular 1</label>
+        <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
+        <label>Ingreso mensual titular 1 (€)</label>
+        <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
+        <label>Número de pagas al año</label>
+        <input id="perfilPagas" type="number" value="12">
+      </div>
+
+      <!-- TITULAR 2 -->
+      <div class="titular" id="titular2Div" style="display:none;">
+        <label>Edad titular 2</label>
+        <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
+        <label>Ingreso mensual titular 2 (€)</label>
+        <input id="perfilSalario2" type="number" placeholder="Ej: 2000">
+      </div>
+    </div>
+
     <div class="titular">
-      <label>Edad titular 1</label>
-      <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
-      <label>Ingreso mensual titular 1 (€)</label>
-      <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
-      <label>Número de pagas al año</label>
-      <input id="perfilPagas" type="number" value="12">
+      <label>Ahorro disponible (€)</label>
+      <input id="perfilAhorros" type="number" placeholder="Ej: 50000">
+      <label>Deuda / pagos mensuales (€)</label>
+      <input id="perfilDeuda" type="number" placeholder="Ej: 350">
+      <label>Otro ingreso mensual opcional (€)</label>
+      <input id="perfilOtroIngreso" type="number" placeholder="Opcional">
+      <label>Agregar datos de la vivienda</label>
+      <input type="checkbox" id="agregardatosdelavivienda">
     </div>
-    <!-- TITULAR 2 -->
-    <div class="titular" id="titular2Div" style="display:none;">
-      <label>Edad titular 2</label>
-      <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
-      <label>Ingreso mensual titular 2 (€)</label>
-      <input id="perfilSalario2" type="number" placeholder="Ej: 2000">
+
+    <!-- INFO VIVIENDA -->
+    <div id="viviendaInfo" class="titular" style="display:none;">
+      <label>Precio vivienda (€)</label>
+      <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
+      <label>Tipo de vivienda</label>
+      <select id="perfilTipoVivienda">
+        <option value="segundaMano">Segunda mano (ITP)</option>
+        <option value="obraNueva">Obra nueva (IVA 10%)</option>
+      </select>
+      <label>Comunidad Autónoma</label>
+      <select id="perfilComunidad">
+        <option value="0.07">Andalucía (7%)</option>
+        <option value="0.08">Aragón (8%)</option>
+        <option value="0.08">Asturias (8%)</option>
+        <option value="0.08">Islas Baleares (8%)</option>
+        <option value="0.065">Canarias (6,5%)</option>
+        <option value="0.10">Cantabria (10%)</option>
+        <option value="0.08">Castilla y León (8%)</option>
+        <option value="0.09">Castilla-La Mancha (9%)</option>
+        <option value="0.10">Cataluña (10%)</option>
+        <option value="0.10">Comunidad Valenciana (10%)</option>
+        <option value="0.08">Extremadura (8%)</option>
+        <option value="0.09">Galicia (9%)</option>
+        <option value="0.07">La Rioja (7%)</option>
+        <option value="0.06">Madrid (6%)</option>
+        <option value="0.08">Murcia (8%)</option>
+        <option value="0.06">Navarra (6%)</option>
+        <option value="0.07">País Vasco (7%)</option>
+        <option value="0.06">Ceuta (6%)</option>
+        <option value="0.06">Melilla (6%)</option>
+      </select>
+      <label>Vivienda habitual o Segunda residencia</label>
+      <select id="perfilPrimeraSegunda">
+        <option value="primera">Vivienda habitual</option>
+        <option value="segunda">Segunda residencia o inversión</option>
+      </select>
+      <label>Plazo máximo (años)</label>
+      <input id="perfilPlazo" type="number" placeholder="Máximo según edad">
     </div>
-  </div>
 
-  <div class="titular">
-    <label>Ahorro disponible (€)</label>
-    <input id="perfilAhorros" type="number" placeholder="Ej: 50000">
-    <label>Deuda / pagos mensuales (€)</label>
-    <input id="perfilDeuda" type="number" placeholder="Ej: 350">
-    <label>Otro ingreso mensual opcional (€)</label>
-    <input id="perfilOtroIngreso" type="number" placeholder="Opcional">
-    <label>Agregar datos de la vivienda</label>
-    <input type="checkbox" id="agregardatosdelavivienda">
-  </div>
+    <!-- RESULTADOS PERFIL -->
+    <div class="cards" id="perfilResultados">
+      <div class="card"><p>Importe de préstamo</p><h3 id="perfilCapital"></h3></div>
+      <div class="card"><p>Cuota mensual</p><h3 id="perfilCuota"></h3></div>
+      <div class="card"><p>% Financiación (LTV)</p><h3 id="perfilLTV"></h3></div>
+      <div class="card"><p>Gastos</p><h3 id="perfilGastos"></h3></div>
+      <div class="card"><p>Ratio (LTI)</p><h3 id="perfilLTI"></h3></div>
+      <div class="card"><p>Compatibilidad</p><h3 id="perfilCompatible"></h3></div>
+    </div>
 
-  <!-- INFO VIVIENDA -->
-  <div id="viviendaInfo" class="titular" style="display:none;">
-    <label>Precio vivienda (€)</label>
-    <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
-    <label>Tipo de vivienda</label>
-    <select id="perfilTipoVivienda">
-      <option value="segundaMano">Segunda mano (ITP)</option>
-      <option value="obraNueva">Obra nueva (IVA 10%)</option>
-    </select>
-    <label>Comunidad Autónoma</label>
-    <select id="perfilComunidad">
-      <option value="0.07">Andalucía (7%)</option>
-      <option value="0.08">Aragón (8%)</option>
-      <option value="0.08">Asturias (8%)</option>
-      <option value="0.08">Islas Baleares (8%)</option>
-      <option value="0.065">Canarias (6,5%)</option>
-      <option value="0.10">Cantabria (10%)</option>
-      <option value="0.08">Castilla y León (8%)</option>
-      <option value="0.09">Castilla-La Mancha (9%)</option>
-      <option value="0.10">Cataluña (10%)</option>
-      <option value="0.10">Comunidad Valenciana (10%)</option>
-      <option value="0.08">Extremadura (8%)</option>
-      <option value="0.09">Galicia (9%)</option>
-      <option value="0.07">La Rioja (7%)</option>
-      <option value="0.06">Madrid (6%)</option>
-      <option value="0.08">Murcia (8%)</option>
-      <option value="0.06">Navarra (6%)</option>
-      <option value="0.07">País Vasco (7%)</option>
-      <option value="0.06">Ceuta (6%)</option>
-      <option value="0.06">Melilla (6%)</option>
-    </select>
-    <label>Vivienda habitual o segunda residencia</label>
-    <select id="perfilPrimeraSegunda">
-      <option value="primera">Vivienda habitual</option>
-      <option value="segunda">Segunda residencia o inversión</option>
-    </select>
-    <label>Plazo máximo (años)</label>
-    <input id="perfilPlazo" type="number" placeholder="Máximo según edad">
-  </div>
+    <!-- FORMULARIO DE LEADS -->
+    <div id="leadFormContainer">
+      <form id="leadForm">
+        <h3>Recibe tu simulación por correo</h3>
+        <label>Nombre</label>
+        <input type="text" id="leadNombre" placeholder="Ej: Juan Pérez" required>
+        <label>Correo electrónico</label>
+        <input type="email" id="leadEmail" placeholder="Ej: juan@email.com" required>
+        <label>
+          <input type="checkbox" id="leadConsentimiento" required>
+          Acepto la <a href="politica-privacidad.html" target="_blank">política de privacidad</a>.
+        </label>
+        <button type="button" id="enviarLead">Recibir simulación</button>
+      </form>
+      <p id="leadMensaje" class="lead-mensaje">¡Simulación lista! Puedes descargar tu PDF.</p>
+    </div>
 
-  <!-- RESULTADOS PERFIL -->
-  <div class="cards" id="perfilResultados">
-    <div class="card"><p>Importe de préstamo</p><h3 id="perfilCapital"></h3></div>
-    <div class="card"><p>Cuota mensual</p><h3 id="perfilCuota"></h3></div>
-    <div class="card"><p>% Financiación (LTV)</p><h3 id="perfilLTV"></h3></div>
-    <div class="card"><p>Gastos</p><h3 id="perfilGastos"></h3></div>
-    <div class="card"><p>Ratio (LTI)</p><h3 id="perfilLTI"></h3></div>
-    <div class="card"><p>Compatibilidad</p><h3 id="perfilCompatible"></h3></div>
-  </div>
-
-  <div id="avisoSegunda" class="alerta-segunda"></div>
-
-  <!-- FORMULARIO DE LEADS -->
-  <div id="leadFormContainer">
-    <form id="leadForm">
-      <h3>Recibe tu simulación por correo</h3>
-      <label>Nombre</label>
-      <input type="text" id="leadNombre" placeholder="Ej: Juan Pérez" required>
-      <label>Correo electrónico</label>
-      <input type="email" id="leadEmail" placeholder="Ej: juan@email.com" required>
-      <label>
-        <input type="checkbox" id="leadConsentimiento" required>
-        Acepto la <a href="politica-privacidad.html" target="_blank">política de privacidad</a>.
-      </label>
-      <button type="button" id="enviarLead">Recibir simulación</button>
-    </form>
-    <p id="leadMensaje" class="lead-mensaje">¡Simulación lista! Puedes descargar tu PDF.</p>
-  </div>
-
-</div> <!-- FIN PERFIL FINANCIERO -->
+  </div> <!-- FIN PERFIL -->
 
 </div> <!-- FIN CONTAINER -->
 
 <!-- BANNER DE COOKIES -->
 <div id="cookie-banner">
-  <p>
-    Este sitio utiliza cookies para mejorar la experiencia del usuario.
-    <a href="cookies.html">Más información</a>
-  </p>
+  <p>Este sitio utiliza cookies para mejorar la experiencia del usuario. <a href="cookies.html">Más información</a></p>
   <button id="btnAceptarCookies">Aceptar</button>
   <button id="btnRechazarCookies">Rechazar</button>
 </div>
 
-<!-- BOTÓN FLOTANTE CALCULADORA -->
-<div class="floating-buttons">
-  <button id="btnCalculadoraFlotante" class="btn-float" title="Abrir calculadora">
-    <svg viewBox="0 0 24 24">
-      <path d="M7 4h10v2H7V4zm0 4h10v2H7V8zm0 4h10v2H7v-2zm0 4h10v2H7v-2zm0 4h10v2H7v-2z"/>
-    </svg>
-  </button>
+<!-- BOTONES FLOTANTES -->
+<button id="btnCalculadoraFlotante" title="Abrir calculadora">
+  <svg viewBox="0 0 24 24"><path d="M7 4h10v2H7V4zm0 4h10v2H7V8zm0 4h10v2H7v-2zm0 4h10v2H7v-2zm0 4h10v2H7v-2z"/></svg>
+</button>
+<a href="faq.html" id="faqButton" title="Preguntas Frecuentes"><span>?</span></a>
+
+<!-- MODAL CALCULADORA -->
+<div id="modalCalculadora" class="modal">
+  <div class="modal-content">
+    <span id="cerrarModal" class="close">&times;</span>
+    <h2>Calculadora</h2>
+    <div class="form-vertical">
+      <label>Importe del préstamo (€)</label>
+      <input id="prestamo" type="number" placeholder="Ej: 150000">
+      <label>Tipo de interés (%)</label>
+      <input id="interes" type="number" step="0.01" placeholder="Ej: 3">
+      <label>Plazo (años)</label>
+      <input id="anos" type="number" placeholder="Ej: 30">
+    </div>
+    <div class="cards" id="resultados">
+      <div class="card"><p>Cuota mensual</p><h3 id="cuota"></h3></div>
+      <div class="card"><p>Intereses totales</p><h3 id="interesesTotales"></h3></div>
+      <div class="card"><p>Total a pagar</p><h3 id="totalPagado"></h3></div>
+    </div>
+    <div class="btn-container">
+      <button id="verTabla" style="display:none;">Ver cuadro de amortización</button>
+    </div>
+    <div id="tablaContainer" style="display:none;">
+      <h2>Tabla de amortización</h2>
+      <table id="tabla" class="tabla-amortizacion">
+        <thead><tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Restante</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- FOOTER -->
-<footer style="
-  font-size: 12px;
-  text-align: center;
-  padding: 10px;
-  background-color: #f9f9f9;
-  color: #555;
-  border-top: 1px solid #ddd;
-  position: relative;
-  width: 100%;
-">
+<footer>
   &copy; 2026 Kaoba Finance. Todos los derechos reservados. |
-  <a href="sobre-nosotros.html" style="color:#555;text-decoration:underline;">Sobre Nosotros</a> |
-  <a href="politica-privacidad.html" style="color:#555;text-decoration:underline;">Política de Privacidad</a> |
-  <a href="cookies.html" style="color:#555;text-decoration:underline;">Cookies</a> |
-  <a href="aviso-legal.html" style="color:#555;text-decoration:underline;">Aviso Legal</a> |
-  Contacto: <a href="mailto:hipotecasimulador@gmail.com" style="color:#555;text-decoration:underline;">hipotecasimulador@gmail.com</a>
-</footer>
-
-<script src="script.js" defer></script>
-</body>
-</html>
+  <a href="sobre-nosotros.html">Sobre Nosotros</a> |
+  <a href="politica-privacidad.html">Política de Privacidad</a> |
+  <a href="cookies.html">Cookies</a> |
+  <a href="aviso-legal.html">Aviso Legal</a> |
+ 
