@@ -222,7 +222,8 @@ document.addEventListener("DOMContentLoaded", () => {
     calcularPerfil();
     perfilDiv.scrollIntoView({behavior:'smooth'});
   };
-const statusSpan = document.getElementById("leadMensaje");document.getElementById("enviarLead").addEventListener("click", async function () {
+
+  const statusSpan = document.getElementById("leadMensaje");document.getElementById("enviarLead").addEventListener("click", async function () {
   const nombre = document.getElementById("leadNombre").value.trim();
   const email = document.getElementById("leadEmail").value.trim();
   const consentimiento = document.getElementById("leadConsentimiento").checked;
@@ -344,7 +345,7 @@ const statusSpan = document.getElementById("leadMensaje");document.getElementByI
     // Mensaje unificado en la página
     if (data.ok) {
       statusSpan.style.color = "green";
-      statusSpan.innerText = `Simulación enviada a ${email}`;
+statusSpan.innerText = `Simulación enviada a ${email}`;
     } else {
       statusSpan.style.color = "red";
       statusSpan.innerText = "Error enviando simulación";
