@@ -9,92 +9,132 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#f5f6fa;}
-header{background:#0d4f8b;color:#fff;text-align:center;padding:25px;}
-main{max-width:1100px;margin:30px auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.05);}
-h2{color:#0d4f8b;}
-label{display:block;margin-top:10px;font-weight:600;}
-input,select{width:100%;padding:8px;margin-top:4px;border:1px solid #d1d5db;border-radius:6px;}
-button{background:#0d4f8b;color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;margin-top:15px;transition:0.2s;}
+/* ====== RESET Y BASE ====== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f8f9fa;color:#333;line-height:1.6;padding:20px;}
+h1,h2{color:#0d4f8b;}
+
+/* ====== HEADER ====== */
+header{
+  background:#0d4f8b;color:#fff;
+  padding:18px;
+  text-align:center;
+  border-radius:8px;
+}
+header p{font-size:1rem;margin-top:6px;}
+
+/* ====== BOTÓN VOLVER ====== */
+.volver{
+  display:inline-block;
+  background:#0d4f8b;color:#fff;
+  padding:8px 14px;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.2s;
+  margin-bottom:12px;
+}
+.volver:hover{background:#09407a;}
+
+/* ====== CONTENEDOR ====== */
+main{
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  max-width:1100px;
+  margin:auto;
+  box-shadow:0 6px 18px rgba(0,0,0,0.1);
+}
+label{display:block;margin-top:14px;font-weight:600;}
+input, select{width:100%;padding:10px;margin-top:6px;border:1px solid #d1d5db;border-radius:6px;font-size:0.95rem;}
+button{background:#0d4f8b;color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:16px;font-size:1rem;}
 button:hover{background:#09407a;}
-.banco-card{border:1px solid #e3e8ef;padding:20px;border-radius:12px;margin-top:20px;position:relative;background:#fafbff;transition:0.25s;}
-.banco-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.08);}
-.remove-btn{position:absolute;top:15px;right:15px;width:28px;height:28px;border-radius:50%;background:#fff;color:#dc3545;font-size:18px;font-weight:bold;border:none;box-shadow:0 2px 6px rgba(0,0,0,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s;}
+
+/* ====== TARJETAS BANCOS ====== */
+.banco-card{
+  background:#fafbff;border:1px solid #e3e8ef;
+  padding:18px;border-radius:10px;
+  margin-top:20px;position:relative;
+  transition:0.25s;
+}
+.banco-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,0.07);}
+.remove-btn{
+  position:absolute;top:12px;right:12px;
+  width:28px;height:28px;border-radius:50%;
+  background:#fff;color:#dc3545;font-size:18px;border:none;
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+  cursor:pointer;transition:0.15s;
+}
 .remove-btn:hover{background:#dc3545;color:#fff;transform:scale(1.1);}
-.table-container{overflow-x:auto;margin-top:20px;}
+
+/* ====== TABLA ====== */
+.table-container{overflow-x:auto;margin-top:22px;}
 table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:center;}
+th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:center;font-size:0.95rem;}
 th{background:#f1f3f6;}
-.mejor{background:#198754 !important;color:#fff;}
-.amort-table{margin-top:15px;width:100%;border-collapse:collapse;}
-.amort-table th, .amort-table td{border:1px solid #ddd;padding:6px;font-size:13px;text-align:center;}
-.amort-toggle{color:#0d4f8b;text-decoration:underline;cursor:pointer;font-weight:600;margin-top:8px;display:inline-block;}
+.mejor{background:#198754;color:#fff !important;}
+
+/* ====== AMORTIZACIÓN ====== */
+.amort-table{margin-top:12px;width:100%;border-collapse:collapse;}
+.amort-table th,.amort-table td{border:1px solid #ddd;padding:6px;font-size:13px;text-align:center;}
+.amort-toggle{color:#0d4f8b;cursor:pointer;font-weight:600;text-decoration:underline;}
 </style>
 </head>
 
 <body>
+
 <header>
-<h1>Kaoba Finance</h1>
-<p>Comparador profesional de hipotecas</p>
+  <h1>Kaoba Finance</h1>
+  <p>Comparador profesional de hipotecas</p>
 </header>
 
-  <div style="position: absolute; top: 20px; left: 20px;">
-  <a href="/" style="
-      display:inline-block;
-      padding:8px 16px;
-      background:#0d4f8b;
-      color:#fff;
-      border-radius:6px;
-      text-decoration:none;
-      font-weight:600;
-      transition:0.2s;
-  ">
-    ← Volver al inicio
-  </a>
-</div>
+<a href="/" class="volver">← Volver al inicio</a>
 
 <main>
-<h2>Datos generales</h2>
-<label>Capital (€)
-<input type="number" id="capital" value="0" onfocus="clearZero(this)">
-</label>
-<label>Plazo total (años)
-<input type="number" id="plazo" value="20" step="0.5" onfocus="clearZero(this)">
-</label>
-<label>Euríbor actual (%)
-<input type="number" id="euribor" value="3.50" step="0.01">
-</label>
+  <h2>Datos generales</h2>
+  <label>Capital (€)
+    <input type="number" id="capital" value="0" onfocus="clearZero(this)">
+  </label>
+  <label>Plazo total (años)
+    <input type="number" id="plazo" value="20" step="0.5" onfocus="clearZero(this)">
+  </label>
+  <label>Euríbor actual (%)
+    <input type="number" id="euribor" value="3.50" step="0.01">
+  </label>
 
-<hr>
-<h2>Ofertas bancarias</h2>
-<div id="bancos"></div>
-<button onclick="addBanco()">+ Añadir banco</button>
+  <hr style="margin:18px 0;">
+  <h2>Ofertas bancarias</h2>
+  <div id="bancos"></div>
+  <button onclick="addBanco()">+ Añadir banco</button>
 
-<hr>
-<h2>Resultados</h2>
-<label>Nombre
-<input type="text" id="nombreUsuario" placeholder="Tu nombre">
-</label>
-<label>Email
-<input type="email" id="emailUsuario" placeholder="tu@email.com">
-</label>
-<label><input type="checkbox" id="acepta"> Acepto política de privacidad</label>
+  <hr style="margin:18px 0;">
+  <h2>Resultados</h2>
 
-<button onclick="calcular()">Calcular</button>
-<button onclick="descargarPDF()">Descargar PDF</button>
+  <label>Nombre
+    <input type="text" id="nombreUsuario" placeholder="Tu nombre">
+  </label>
+  <label>Email
+    <input type="email" id="emailUsuario" placeholder="tu@email.com">
+  </label>
+  <label><input type="checkbox" id="acepta"> Acepto política de privacidad</label>
 
-<div class="table-container">
-<table id="tabla">
-<thead>
-<tr><th>Banco</th><th>Tipo</th><th>Cuota media</th><th>Intereses</th><th>Total</th><th>Amortización</th></tr>
-</thead>
-<tbody></tbody>
-</table>
-</div>
+  <button onclick="calcular()">Calcular</button>
+  <button onclick="descargarPDF()">Descargar PDF</button>
+
+  <div class="table-container">
+    <table id="tabla">
+      <thead>
+        <tr><th>Banco</th><th>Tipo</th><th>Cuota media</th><th>Intereses</th><th>Total</th><th>Amortización</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
 </main>
 
 <script>
-let contador=0;
+let contador = 0;
+
 function clearZero(input){ if(input.value==="0") input.value=""; }
 
 function addBanco(){
@@ -114,11 +154,13 @@ function addBanco(){
         <option value="variable">Variable</option>
       </select>
     </label>
+
     <div id="bloque-fija-${contador}">
       <label>TIN fijo (%)
         <input type="number" id="tinFijo-${contador}" step="0.01">
       </label>
     </div>
+
     <div id="bloque-mixta-${contador}" style="display:none;">
       <label>Meses fijo
         <input type="number" id="mesesFijo-${contador}" value="60">
@@ -130,53 +172,67 @@ function addBanco(){
         <input type="number" id="diferencial-${contador}" step="0.01">
       </label>
     </div>
+
     <div id="bloque-variable-${contador}" style="display:none;">
       <label>Diferencial (%)
         <input type="number" id="difVar-${contador}" step="0.01">
       </label>
     </div>
-    <label><input type="checkbox" id="amortSi-${contador}" onchange="calcular()"> Se cobra comisión por amortización</label>
+
+    <label><input type="checkbox" id="amortSi-${contador}"> Se cobra comisión por amortización</label>
   `;
   document.getElementById("bancos").appendChild(div);
 }
 
 function removeBanco(id){
-  const div=document.getElementById("banco-"+id);
-  div.style.opacity="0";
-  div.style.transform="scale(0.9)";
-  setTimeout(()=>div.remove(),200);
+  document.getElementById("banco-"+id)?.remove();
 }
 
 function toggleTipo(id){
   const tipo=document.getElementById("tipo-"+id).value;
-  document.getElementById("bloque-fija-"+id).style.display=tipo==="fija"?"block":"none";
-  document.getElementById("bloque-mixta-"+id).style.display=tipo==="mixta"?"block":"none";
-  document.getElementById("bloque-variable-"+id).style.display=tipo==="variable"?"block":"none";
+  document.getElementById("bloque-fija-"+id).style.display = tipo==="fija"?"block":"none";
+  document.getElementById("bloque-mixta-"+id).style.display = tipo==="mixta"?"block":"none";
+  document.getElementById("bloque-variable-"+id).style.display = tipo==="variable"?"block":"none";
 }
 
+// ====== GENERADOR DE AMORTIZACIÓN REAL ======
 function generarAmortizacion(capital, tin, plazoMeses, tipo, amortSi){
   const amortRows=[];
-  let capPend=capital;
-  for(let m=1;m<=plazoMeses;m++){
-    const i=tin/100/12;
-    let cuotaBase=(capPend*i*Math.pow(1+i,1))/(Math.pow(1+i,1)-1);
-    let amortizacion=0;
+  let capPend = capital;
+  const i = tin/100/12;
+
+  for(let m=1; m<=plazoMeses; m++){
+    // Cuota mensual con fórmula estándar
+    let cuotaBase = (capPend * i) / (1 - Math.pow(1+i, -(plazoMeses - m + 1)));
+    let amortizacion = 0;
+
+    // Comisiones
     if(amortSi){
       if(tipo==="fija"){
-        const año=Math.ceil(m/12);
-        if(año<=10) amortizacion=capPend*0.02/12;
-        else if(año<=20) amortizacion=capPend*0.015/12;
+        const año = Math.ceil(m/12);
+        if(año<=10) amortizacion = capPend*0.02/12;
+        else amortizacion = capPend*0.015/12;
       }
       if(tipo==="mixta"){
-        const año=Math.ceil(m/12);
-        if(año<=3) amortizacion=capPend*0.0025;
-        else if(año<=5) amortizacion=capPend*0.0015;
+        const año = Math.ceil(m/12);
+        if(año<=3) amortizacion = capPend*0.0025;
+        else amortizacion = capPend*0.0015;
       }
     }
-    const cuotaTotal=cuotaBase+amortizacion;
-    capPend-=amortizacion;
-    amortRows.push({mes:m, cuota:cuotaTotal.toFixed(2), amort:amortizacion.toFixed(2), pendiente:capPend.toFixed(2)});
+
+    const intereses = capPend * i;
+    const pagoCapital = cuotaBase - intereses + amortizacion;
+    capPend -= pagoCapital;
+    if(capPend < 0) capPend = 0;
+
+    amortRows.push({
+      mes: m,
+      cuota: (cuotaBase + amortizacion).toFixed(2),
+      amort: pagoCapital.toFixed(2),
+      pendiente: capPend.toFixed(2)
+    });
   }
+
   return amortRows;
 }
 
@@ -197,32 +253,35 @@ function calcular(){
     const nombre=document.getElementById("nombre-"+i).value||("Banco "+i);
     const tipo=document.getElementById("tipo-"+i).value;
     const amortSi=document.getElementById("amortSi-"+i).checked;
-    let cuotaMedia=0, intereses=0, amortRows=[];
+    let amortRows=[];
 
     if(tipo==="fija"){
       const tin=parseFloat(document.getElementById("tinFijo-"+i).value)||0;
-      amortRows=generarAmortizacion(capital, tin, plazoMeses, tipo, amortSi);
-    } else if(tipo==="variable"){
+      amortRows=generarAmortizacion(capital,tin,plazoMeses,tipo,amortSi);
+    }
+    else if(tipo==="variable"){
       const dif=parseFloat(document.getElementById("difVar-"+i).value)||0;
-      const tin=euribor+dif;
-      amortRows=generarAmortizacion(capital, tin, plazoMeses, tipo, amortSi);
-    } else if(tipo==="mixta"){
+      amortRows=generarAmortizacion(capital,euribor+dif,plazoMeses,tipo,amortSi);
+    }
+    else{
       const mesesFijo=parseInt(document.getElementById("mesesFijo-"+i).value)||0;
       const tinFijo=parseFloat(document.getElementById("tinMixtoFijo-"+i).value)||0;
       const dif=parseFloat(document.getElementById("diferencial-"+i).value)||0;
-      const amortFija=generarAmortizacion(capital, tinFijo, mesesFijo, "fija", amortSi);
-      const restante=capital-amortFija.reduce((a,b)=>a+parseFloat(b.amort),0);
-      const amortVariable=generarAmortizacion(restante, euribor+dif, plazoMeses-mesesFijo, "variable", amortSi);
+
+      const amortFija=generarAmortizacion(capital,tinFijo,mesesFijo,"fija",amortSi);
+      const pagadoFija=amortFija.reduce((a,b)=>a+parseFloat(b.amort),0);
+      const restante=capital - pagadoFija;
+      const amortVariable=generarAmortizacion(restante,euribor+dif,plazoMeses-mesesFijo,"variable",amortSi);
+
       amortRows=[...amortFija,...amortVariable];
     }
 
-    cuotaMedia=amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses;
-    intereses=amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital;
+    const cuotaMedia=amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses;
+    const intereses=amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0) - capital;
     resultados.push({nombre,tipo,cuotaMedia,intereses,total:capital+intereses,amortRows});
   }
 
   resultados.sort((a,b)=>a.total-b.total);
-  tbody.innerHTML="";
 
   resultados.forEach((r,index)=>{
     const row=document.createElement("tr");
@@ -234,36 +293,33 @@ function calcular(){
       <td>${r.intereses.toFixed(2)} €</td>
       <td>${r.total.toFixed(2)} €</td>
       <td><span class="amort-toggle" onclick="toggleAmort(${index})">Ver</span>
-      <div id="amort-${index}" style="display:none;"></div>
-      </td>
+      <div id="amort-${index}" style="display:none;"></div></td>
     `;
     tbody.appendChild(row);
 
     const amortDiv=document.getElementById("amort-"+index);
-    let html="<table class='amort-table'><tr><th>Mes</th><th>Cuota</th><th>Amortización</th><th>Pendiente</th></tr>";
-    r.amortRows.forEach(m=>{
-      html+=`<tr><td>${m.mes}</td><td>${m.cuota} €</td><td>${m.amort} €</td><td>${m.pendiente} €</td></tr>`;
-    });
-    html+="</table>";
-    amortDiv.innerHTML=html;
+    let html="<table class='amort-table'><tr><th>Mes</th><th>Cuota</th><th>Amort</th><th>Pendiente</th></tr>";
+    r.amortRows.forEach(m=>html+=`<tr><td>${m.mes}</td><td>${m.cuota} €</td><td>${m.amort} €</td><td>${m.pendiente} €</td></tr>`);
+    amortDiv.innerHTML=html+"</table>";
   });
 }
 
 function toggleAmort(index){
   const div=document.getElementById("amort-"+index);
-  div.style.display=div.style.display==="none"?"block":"none";
+  div.style.display = div.style.display==="none"?"block":"none";
 }
 
 function descargarPDF(){
   const nombre=document.getElementById("nombreUsuario").value.trim();
   const email=document.getElementById("emailUsuario").value.trim();
-  if(!nombre||!email){ alert("Debes completar nombre y correo para descargar PDF"); return; }
+  if(!nombre||!email){ alert("Completa nombre y correo"); return; }
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF();
   doc.text("Comparativa Hipotecas - Kaoba Finance",20,20);
   doc.autoTable({html:'#tabla',startY:30});
-  doc.save("Comparativa.pdf");
+  doc.save("Comparativa_Hipotecas.pdf");
 }
 </script>
+
 </body>
 </html>
