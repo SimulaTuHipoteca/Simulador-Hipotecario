@@ -342,14 +342,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     const data = await response.json();
 
-    // Mensaje unificado en la página
-    if (data.ok) {
-      statusSpan.style.color = "green";
-statusSpan.innerText = `Simulación enviada a ${email}`;
-    } else {
-      statusSpan.style.color = "red";
-      statusSpan.innerText = "Error enviando simulación";
-    }
+    //  unificado en la página
+    
 
   } catch (err) {
     console.error("Error de conexión con el servidor", err);
