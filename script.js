@@ -257,7 +257,7 @@ if (enviarBtn && statusSpan) {
     const lti = document.getElementById("perfilLTI")?.innerText || "0";
     const compatibilidad = document.getElementById("perfilCompatible")?.innerText || "-";
 
-    const { jsPDF } = window.jspdf;
+    
     if (!window.jspdf) {
   console.error("jsPDF no cargado");
   return;
