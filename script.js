@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
 
   // -----------------------------
   // FUNCIONES AUXILIARES
@@ -182,8 +182,13 @@ if (perfilTitulares && titular2Div) {
     calcularPerfil();
   });
 }
-  if(yaTieneVivienda) yaTieneVivienda.addEventListener("change",()=>{ viviendaInfo.style.display=yaTieneVivienda.checked?"block":"none"; calcularPerfil(); });
-  calcularPerfil();
+if (yaTieneVivienda && viviendaInfo) {
+  yaTieneVivienda.addEventListener("change", () => {
+    viviendaInfo.style.display = yaTieneVivienda.checked ? "block" : "none";
+    calcularPerfil();
+  });
+}
+
 
   // -----------------------------
   // COOKIES
