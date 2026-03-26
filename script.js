@@ -234,7 +234,7 @@ if (perfilTitulares && titular2Div) {
 // -----------------------------
 const statusSpan = document.getElementById("leadMensaje");
 const enviarBtn = document.getElementById("enviarLead");
-const SERVER_URL = ""; // Aquí pon tu endpoint si quieres enviar la simulación
+
 
 if (enviarBtn && statusSpan) {
   enviarBtn.addEventListener("click", async () => {
