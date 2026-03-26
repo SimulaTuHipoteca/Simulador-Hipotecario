@@ -322,10 +322,6 @@ if (enviarBtn && statusSpan) {
         formData.append("pdf", pdfBlob, "Simulacion_Kaoba_Finance.pdf");
       }
 
-      const response = await fetch(SERVER_URL, {
-        method: "POST",
-        body: formData
-      });
 
       const result = await response.json();
 
