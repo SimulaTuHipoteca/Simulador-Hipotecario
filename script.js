@@ -176,7 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
     .forEach(el => { if(el){ el.addEventListener("input",calcularPerfil); el.addEventListener("change",calcularPerfil); } });
   [perfilTitulares,perfilTipoVivienda,perfilComunidad,perfilPrimeraSegunda]
     .forEach(el => { if(el) el.addEventListener("change",calcularPerfil); });
-  if(perfilTitulares) perfilTitulares.addEventListener("change",()=>{ titular2Div.style.display=perfilTitulares.value==="2"?"block":"none"; calcularPerfil(); });
+if (perfilTitulares && titular2Div) {
+  perfilTitulares.addEventListener("change", () => {
+    titular2Div.style.display = perfilTitulares.value === "2" ? "block" : "none";
+    calcularPerfil();
+  });
+}
   if(yaTieneVivienda) yaTieneVivienda.addEventListener("change",()=>{ viviendaInfo.style.display=yaTieneVivienda.checked?"block":"none"; calcularPerfil(); });
   calcularPerfil();
 
@@ -253,6 +258,11 @@ if (enviarBtn && statusSpan) {
     const compatibilidad = document.getElementById("perfilCompatible")?.innerText || "-";
 
     const { jsPDF } = window.jspdf;
+    if (!window.jspdf) {
+  console.error("jsPDF no cargado");
+  return;
+}
+const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
     doc.setFontSize(16);
