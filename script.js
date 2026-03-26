@@ -265,10 +265,12 @@ if (enviarBtn && statusSpan) {
     
     if (!window.jspdf) {
   console.error("jsPDF no cargado");
+  alert("Error generando el PDF. Inténtalo más tarde.");
   return;
 }
+
 const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+const doc = new jsPDF();
 
     doc.setFontSize(16);
     doc.text("Simulación Kaoba Finance", 20, 20);
