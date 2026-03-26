@@ -324,7 +324,8 @@ if (doc) {
   statusSpan.innerText = "Simulación generada, pero PDF no disponible.";
 }
 
-      const result = await response.json();
+      // const response = await fetch(SERVER_URL, { method: "POST", body: JSON.stringify(datos) });
+// const result = await response.json();
 
       if (result.ok) {
         statusSpan.style.color = "green";
