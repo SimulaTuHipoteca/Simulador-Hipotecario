@@ -234,12 +234,11 @@ if (yaTieneVivienda && viviendaInfo) {
   };
 
 
- // -----------------------------
+// -----------------------------
 // ENVÍO DE LEADS Y PDF (demo + envío opcional)
 // -----------------------------
 const statusSpan = document.getElementById("leadMensaje");
 const enviarBtn = document.getElementById("enviarLead");
-
 
 if (enviarBtn && statusSpan) {
   enviarBtn.addEventListener("click", async () => {
@@ -247,14 +246,14 @@ if (enviarBtn && statusSpan) {
     const email = document.getElementById("leadEmail")?.value.trim() || "";
     const consentimiento = document.getElementById("leadConsentimiento")?.checked || false;
 
-    // Validación
+    // Validación básica
     if (!nombre || !email || !consentimiento) {
       statusSpan.style.color = "red";
       statusSpan.innerText = "Por favor completa todos los campos y acepta la política.";
       return;
     }
 
-    // Preparar PDF
+    // Datos del perfil
     const capital = document.getElementById("perfilCapital")?.innerText || "0";
     const cuota = document.getElementById("perfilCuota")?.innerText || "0";
     const ltv = document.getElementById("perfilLTV")?.innerText || "0";
@@ -262,57 +261,66 @@ if (enviarBtn && statusSpan) {
     const lti = document.getElementById("perfilLTI")?.innerText || "0";
     const compatibilidad = document.getElementById("perfilCompatible")?.innerText || "-";
 
-    
-    if (!window.jspdf) {
-  console.error("jsPDF no cargado");
-  alert("Error generando el PDF. Inténtalo más tarde.");
-  return;
-}
+    // -----------------------------
+    // GENERACIÓN DE PDF (solo si jsPDF está cargado)
+    // -----------------------------
+    let doc = null;
+    try {
+      if (window.jspdf) {
+        const { jsPDF } = window.jspdf;
+        doc = new jsPDF();
 
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text("Simulación Kaoba Finance", 20, 20);
+        doc.setFontSize(12);
+        doc.text(`Nombre: ${nombre}`, 20, 30);
+        doc.text(`Email: ${email}`, 20, 37);
+        doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 44);
 
-    doc.setFontSize(16);
-    doc.text("Simulación Kaoba Finance", 20, 20);
-    doc.setFontSize(12);
-    doc.text(`Nombre: ${nombre}`, 20, 30);
-    doc.text(`Email: ${email}`, 20, 37);
-    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 44);
+        const data = [
+          ["Importe estimado de préstamo", capital],
+          ["Cuota mensual estimada", cuota],
+          ["% Financiación (LTV)", ltv],
+          ["Gastos aproximados", gastos],
+          ["Ratio endeudamiento (LTI)", lti],
+          ["Compatibilidad bancaria", compatibilidad]
+        ];
 
-    const data = [
-      ["Importe estimado de préstamo", capital],
-      ["Cuota mensual estimada", cuota],
-      ["% Financiación (LTV)", ltv],
-      ["Gastos aproximados", gastos],
-      ["Ratio endeudamiento (LTI)", lti],
-      ["Compatibilidad bancaria", compatibilidad]
-    ];
+        let y = 55;
+        data.forEach(row => {
+          doc.setFont("helvetica", "bold");
+          doc.text(row[0] + ":", 20, y);
+          doc.setFont("helvetica", "normal");
+          doc.text(row[1], 110, y);
+          y += 7;
+        });
 
-    let y = 55;
-    data.forEach(row => {
-      doc.setFont("helvetica", "bold");
-      doc.text(row[0] + ":", 20, y);
-      doc.setFont("helvetica", "normal");
-      doc.text(row[1], 110, y);
-      y += 7;
-    });
-
-    // Descargar PDF siempre
-    doc.save("Simulacion_Kaoba_Finance.pdf");
+        // Descargar PDF siempre que jsPDF esté disponible
+        doc.save("Simulacion_Kaoba_Finance.pdf");
+      } else {
+        console.warn("jsPDF no cargado, PDF no se generará.");
+      }
+    } catch (e) {
+      console.error("Error generando PDF:", e);
+    }
 
     statusSpan.style.color = "green";
-    statusSpan.innerText = "Simulación generada y PDF descargado (modo demo)";
+    statusSpan.innerText = doc ? "Simulación generada y PDF descargado (modo demo)" : "Simulación generada (PDF no disponible)";
 
-    // Si no hay servidor configurado, salimos
-    
+    // -----------------------------
+    // ENVÍO AL SERVIDOR (opcional)
+    // -----------------------------
+    if (typeof SERVER_URL === "undefined" || !SERVER_URL) return;
 
-    // Intentar enviar al servidor
     try {
-      const pdfBlob = doc.output("blob");
       const formData = new FormData();
       formData.append("nombre", nombre);
       formData.append("email", email);
-      formData.append("pdf", pdfBlob, "Simulacion_Kaoba_Finance.pdf");
+
+      if (doc) {
+        const pdfBlob = doc.output("blob");
+        formData.append("pdf", pdfBlob, "Simulacion_Kaoba_Finance.pdf");
+      }
 
       const response = await fetch(SERVER_URL, {
         method: "POST",
