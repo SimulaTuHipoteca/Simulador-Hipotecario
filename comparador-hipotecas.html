@@ -232,8 +232,10 @@ function toggleAmort(index){
 }
 
 function descargarPDF(){
+
   const nombreUsuario = document.getElementById("nombreUsuario").value.trim();
   const emailUsuario = document.getElementById("emailUsuario").value.trim();
+
   if(!nombreUsuario || !emailUsuario){ 
     alert("Completa nombre y correo"); 
     return; 
@@ -242,15 +244,43 @@ function descargarPDF(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  doc.setFontSize(16);
-  doc.text("Comparativa Hipotecas - Kaoba Finance", 20, 20);
-  doc.setFontSize(12);
-  doc.text(`Nombre: ${nombreUsuario}`, 20, 30);
-  doc.text(`Email: ${emailUsuario}`, 20, 37);
-  doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 44);
+  // =========================
+  // CABECERA
+  // =========================
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.text("KAOBA FINANCE", 20, 20);
 
+  doc.setFontSize(12);
+  doc.text("Informe comparativo de hipotecas", 20, 28);
+
+  doc.setLineWidth(0.5);
+  doc.line(20, 32, 190, 32);
+
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 150, 20);
+
+  // =========================
+  // CLIENTE
+  // =========================
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("Datos del cliente", 20, 45);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.text(`Nombre: ${nombreUsuario}`, 20, 53);
+  doc.text(`Email: ${emailUsuario}`, 20, 59);
+
+  // =========================
+  // TABLA COMPARATIVA
+  // =========================
   const tbody = document.querySelector("#tabla tbody");
   const data = [];
+  let mejorBanco = "";
+  let mejorTotal = Infinity;
+
   for (let row of tbody.rows){
     const banco = row.cells[0].innerText;
     const tipo = row.cells[1].innerText;
@@ -258,21 +288,100 @@ function descargarPDF(){
     const intereses = row.cells[3].innerText;
     const total = row.cells[4].innerText;
     const ahorro = row.cells[5].innerText || "-";
-    const esMejor = row.cells[0].innerText.includes("★ Mejor") ? "★ " : "";
-    data.push([esMejor + banco.replace("★ Mejor",""), tipo, cuota, intereses, total, ahorro]);
+
+    const totalNum = parseFloat(total.replace("€","").replace(",","."));
+
+    if(totalNum < mejorTotal){
+      mejorTotal = totalNum;
+      mejorBanco = banco;
+    }
+
+    data.push([banco, tipo, cuota, intereses, total, ahorro]);
   }
 
   doc.autoTable({
-    head: [["Banco", "Tipo", "Cuota media", "Intereses", "Total", "Ahorro"]],
+    head: [["Banco", "Tipo", "Cuota", "Intereses", "Total", "Ahorro"]],
     body: data,
-    startY: 55,
-    headStyles: { fillColor: [13,79,139], textColor: 255, fontStyle: 'bold' },
+    startY: 70,
+    headStyles: { fillColor: [13,79,139], textColor: 255 },
     alternateRowStyles: { fillColor: [245,245,245] },
-    columnStyles: { 0:{cellWidth:40},1:{cellWidth:25},2:{cellWidth:30},3:{cellWidth:30},4:{cellWidth:30},5:{cellWidth:30} },
-    styles: { fontSize:10, cellPadding:3 }
+    styles: { fontSize:10 }
   });
 
-  doc.save("Comparativa_Hipotecas_Resumen.pdf");
+  let finalY = doc.lastAutoTable.finalY + 10;
+
+  // =========================
+  // MEJOR OPCIÓN
+  // =========================
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("Mejor opción recomendada", 20, finalY);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+
+  doc.text(
+    `Según el análisis, la opción más favorable es: ${mejorBanco}, al presentar el menor coste total.`,
+    20,
+    finalY + 8,
+    { maxWidth: 170 }
+  );
+
+  // =========================
+  // ANÁLISIS
+  // =========================
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("Análisis financiero", 20, finalY + 25);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+
+  doc.text(
+    "Las diferencias entre ofertas se deben principalmente al tipo de interés aplicado y la estructura (fija, variable o mixta). Es importante valorar no solo la cuota mensual sino el coste total del préstamo.",
+    20,
+    finalY + 33,
+    { maxWidth: 170 }
+  );
+
+  // =========================
+  // RECOMENDACIONES
+  // =========================
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("Recomendaciones", 20, finalY + 55);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+
+  const recomendaciones = [
+    "- Comparar TIN y TAE antes de decidir",
+    "- Revisar comisiones de amortización anticipada",
+    "- Analizar estabilidad del Euríbor en hipotecas variables",
+    "- Negociar condiciones con varias entidades"
+  ];
+
+  recomendaciones.forEach((rec, i) => {
+    doc.text(rec, 20, finalY + 63 + (i * 6));
+  });
+
+  // =========================
+  // DISCLAIMER
+  // =========================
+  doc.setFontSize(8);
+  doc.setTextColor(120);
+
+  doc.text(
+    "Este documento es una simulación orientativa basada en condiciones introducidas por el usuario. No constituye una oferta vinculante ni garantiza la concesión de la hipoteca. La aprobación final depende de cada entidad bancaria.",
+    20,
+    280,
+    { maxWidth: 170 }
+  );
+
+  // =========================
+  // EXPORTAR
+  // =========================
+  doc.save("Informe_Comparativa_Kaoba.pdf");
 }
 </script>
 </body>
