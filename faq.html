@@ -7,8 +7,16 @@
 <link rel="stylesheet" href="style.css">
 <style>
 /* =========================
-   ACORDEÓN FAQ
+   ACORDEÓN FAQ MODERNO
 ========================= */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f4f6f8;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+}
+
 .faq-section {
   max-width: 900px;
   margin: 50px auto;
@@ -27,26 +35,27 @@
 
 #faqSearch {
   width: 100%;
-  padding: 10px 15px;
+  padding: 12px 15px;
   margin-bottom: 20px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   box-sizing: border-box;
 }
 
 .faq-item {
   margin-bottom: 15px;
-  border: 1px solid #d1d5db;
   border-radius: 8px;
   overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #d1d5db;
 }
 
 .faq-question {
-  background: #f0f4ff;
+  background: #e0edff;
   padding: 15px 20px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   color: #0d4f8b;
   border: none;
   width: 100%;
@@ -54,29 +63,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.2s;
+  font-size: 16px;
+  transition: background 0.3s;
 }
 
 .faq-question:hover {
-  background: #e0e7ff;
+  background: #cfe0ff;
 }
 
 .faq-question::after {
   content: '+';
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
+  transition: transform 0.3s;
 }
 
 .faq-item.active .faq-question::after {
   content: '-';
+  transform: rotate(180deg);
 }
 
 .faq-answer {
-  padding: 15px 20px;
-  display: none;
+  max-height: 0;
+  padding: 0 20px;
+  overflow: hidden;
   background: #f9fafb;
   line-height: 1.7;
   color: #1f2937;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+  padding: 15px 20px;
+  max-height: 500px; /* Ajusta según contenido */
 }
 
 .faq-answer ul {
@@ -88,159 +107,192 @@
   margin-bottom: 5px;
 }
 
+/* Tooltip para términos */
+.tooltip {
+  border-bottom: 1px dotted #0d4f8b;
+  cursor: help;
+  position: relative;
+}
+
+.tooltip:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 0;
+  bottom: 125%;
+  background: #0d4f8b;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .faq-section {
     margin: 20px;
     padding: 20px;
   }
+
+  .faq-question {
+    font-size: 15px;
+  }
 }
 </style>
 </head>
-
 <body>
 <section class="faq-section" aria-label="Preguntas Frecuentes">
-  <h1>Preguntas Frecuentes</h1>
+  <h1>Preguntas Frecuentes 🏠</h1>
   <input type="text" id="faqSearch" placeholder="Buscar pregunta..." aria-label="Buscar pregunta">
 
-  <!-- PREGUNTAS COMPLETAS -->
+  <!-- PREGUNTAS -->
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">1. ¿Qué es una hipoteca y cómo funciona?</button>
-    <div class="faq-answer">Una hipoteca es un préstamo que el banco te da para comprar una casa. Pagas una cuota mensual que incluye parte del dinero prestado y los intereses.</div>
+    <div class="faq-answer">💡 Una hipoteca es un préstamo para comprar tu vivienda. Pagas una cuota mensual que incluye parte del dinero prestado y los intereses. Consejo: paga un poquito más cada mes si puedes, así reduces intereses y tiempo de préstamo.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">2. Tipos de hipoteca: fija, variable y mixta</button>
     <div class="faq-answer">
-      <ul>
-        <li><strong>Fija:</strong> cuota e interés constantes durante todo el préstamo.</li>
-        <li><strong>Variable:</strong> interés que puede subir o bajar según el mercado.</li>
-        <li><strong>Mixta:</strong> periodo inicial fijo y luego variable.</li>
-      </ul>
+      🔹 <strong>Fija:</strong> Cuota e interés constantes durante todo el préstamo.<br>
+      🔹 <strong>Variable:</strong> Interés que sube o baja según el mercado.<br>
+      🔹 <strong>Mixta:</strong> Periodo inicial fijo y luego variable.<br>
+      💡 Tip: Si no quieres sorpresas en la cuota, la fija es más tranquila.
     </div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">3. ¿Cómo se calcula la cuota mensual?</button>
-    <div class="faq-answer">La cuota depende del dinero que pediste, los intereses y el plazo del préstamo. Nuestro simulador te permite calcularlo automáticamente y ver diferentes escenarios.</div>
+    <div class="faq-answer">📊 La cuota depende de cuánto pides, el interés y el plazo. Con nuestro simulador puedes probar distintos escenarios y ver cuál se ajusta mejor a tu presupuesto.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">4. Gastos adicionales al comprar una vivienda</button>
-    <div class="faq-answer">Además del precio, debes considerar: impuestos, notaría, registro, tasación y seguros obligatorios. Estos gastos pueden sumar un 10-15% extra del precio.</div>
+    <div class="faq-answer">⚠️ Además del precio, considera impuestos, notaría, registro, tasación y seguros. Esto puede sumar un 10-15% extra. Tip: pide un presupuesto completo antes de decidir.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">5. ¿Qué documentos necesito para solicitar una hipoteca?</button>
-    <div class="faq-answer">Normalmente: DNI o NIE, nóminas recientes, declaración de impuestos, contrato de trabajo y documentos de la vivienda que quieres comprar.</div>
+    <div class="faq-answer">📄 Normalmente: DNI/NIE, nóminas, declaración de impuestos, contrato de trabajo y documentos de la vivienda. Consejo: tenlos listos para acelerar la aprobación.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">6. ¿Puedo pedir una hipoteca si no tengo ahorros?</button>
-    <div class="faq-answer">Algunos bancos requieren un porcentaje mínimo de entrada (habitualmente 20%). Sin ahorros, puede ser difícil, aunque existen opciones con aval o ayudas especiales.</div>
+    <div class="faq-answer">💰 La mayoría de bancos pide alrededor del 20% de entrada. Sin ahorros, puede ser más difícil, aunque hay opciones con aval o ayudas especiales.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">7. ¿Qué pasa si no puedo pagar mi hipoteca?</button>
-    <div class="faq-answer">Es importante avisar al banco cuanto antes. Podrían ofrecer soluciones como aplazar pagos, reestructurar la deuda o refinanciar. Ignorar pagos puede llevar a problemas legales.</div>
+    <div class="faq-answer">⚠️ Avísale al banco cuanto antes. Pueden ofrecer aplazar pagos, reestructurar deuda o refinanciar. Ignorar pagos puede traer problemas legales.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">8. ¿Qué es el valor de tasación de una vivienda?</button>
-    <div class="faq-answer">Es el precio estimado por un profesional para determinar cuánto vale la casa. Los bancos lo usan para calcular cuánto prestarte.</div>
+    <div class="faq-answer">🏠 Es el precio estimado por un profesional para determinar cuánto vale la casa. Los bancos lo usan para calcular cuánto prestarte.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">9. ¿Cómo elegir entre vivienda nueva o de segunda mano?</button>
-    <div class="faq-answer">Considera el precio, estado de la vivienda, ubicación, impuestos y posibles reformas. Las viviendas nuevas suelen tener menos mantenimiento inicial.</div>
+    <div class="faq-answer">🔹 Evalúa precio, estado, ubicación, impuestos y reformas. Las nuevas suelen requerir menos mantenimiento inicial.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">10. ¿Qué seguros son obligatorios o recomendables?</button>
-    <div class="faq-answer">Obligatorio: seguro de hogar si lo exige el banco. Recomendables: seguro de vida y seguro de protección de pagos para cubrir imprevistos.</div>
+    <div class="faq-answer">🛡️ Obligatorio: seguro de hogar si el banco lo pide.<br>Recomendable: seguro de vida y protección de pagos para cubrir imprevistos.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">11. ¿Cómo afecta mi historial crediticio?</button>
-    <div class="faq-answer">Un historial limpio aumenta tus posibilidades de aprobación y puede bajar tu interés. Moras o deudas elevadas pueden dificultar obtener la hipoteca.</div>
+    <div class="faq-answer">📈 Un historial limpio ayuda a obtener mejores condiciones. Moras o deudas elevadas pueden dificultar la aprobación.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">12. ¿Puedo cambiar de hipoteca o refinanciarla?</button>
-    <div class="faq-answer">Sí, se llama subrogación o refinanciación. Permite cambiar condiciones, banco o interés para reducir cuota o plazo.</div>
+    <div class="faq-answer">🔄 Sí, mediante subrogación o refinanciación. Te permite cambiar banco, interés o plazo para reducir cuota o tiempo.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">13. ¿Existen ayudas o subvenciones?</button>
-    <div class="faq-answer">Sí, según tu edad, tipo de vivienda o situación económica. Consulta ayudas locales, como jóvenes o vivienda protegida.</div>
+    <div class="faq-answer">🎁 Depende de tu edad, vivienda o situación económica. Consulta ayudas locales para jóvenes o vivienda protegida.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">14. ¿Qué impuestos debo pagar?</button>
-    <div class="faq-answer">Impuesto de Transmisiones Patrimoniales (ITP) o IVA para nueva construcción, más gastos de notaría y registro.</div>
+    <div class="faq-answer">💸 Impuesto de Transmisiones Patrimoniales (ITP) o IVA en nueva construcción, más gastos de notaría y registro.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">15. ¿Qué plazo es mejor: corto o largo?</button>
-    <div class="faq-answer">Plazo corto: pagas menos intereses pero cuota más alta. Plazo largo: cuota más baja pero pagas más intereses. Depende de tu capacidad de pago.</div>
+    <div class="faq-answer">⏳ Corto: pagas menos intereses pero cuota más alta. Largo: cuota baja pero más intereses. Depende de tu capacidad de pago.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">16. ¿Cómo ahorrar para la entrada de una vivienda?</button>
-    <div class="faq-answer">Haz un presupuesto mensual, reduce gastos innecesarios y destina un porcentaje fijo de tus ingresos para el ahorro.</div>
+    <div class="faq-answer">💡 Haz un presupuesto mensual, reduce gastos y destina un porcentaje fijo de tus ingresos al ahorro.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">17. ¿Qué diferencia hay entre simulador y oferta real?</button>
-    <div class="faq-answer">El simulador da estimaciones aproximadas de cuotas e intereses. La oferta real depende del banco, tus ingresos y condiciones legales.</div>
+    <div class="faq-answer">📊 El simulador da estimaciones. La oferta real depende del banco, tus ingresos y condiciones legales.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">18. ¿Qué factores influyen en el interés?</button>
-    <div class="faq-answer">Historial crediticio, plazo, tipo de hipoteca, situación económica del país y políticas del banco.</div>
+    <div class="faq-answer">💰 Historial crediticio, plazo, tipo de hipoteca y situación económica del país.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">19. ¿Cómo mejorar mi aprobación bancaria?</button>
-    <div class="faq-answer">Mantén deudas bajas, ingresos estables y buen historial crediticio. Nuestro simulador te permite planificar antes de solicitarla.</div>
+    <div class="faq-answer">✅ Mantén deudas bajas, ingresos estables y buen historial crediticio. El simulador te ayuda a planificar antes de solicitarla.</div>
   </div>
 
   <div class="faq-item">
     <button class="faq-question" aria-expanded="false">20. ¿Qué es el seguro de protección de pagos?</button>
-    <div class="faq-answer">Es un seguro que cubre tu hipoteca temporalmente en caso de desempleo, enfermedad o accidente, evitando impagos.</div>
+    <div class="faq-answer">🛡️ Cubre tu hipoteca temporalmente ante desempleo, enfermedad o accidente, evitando impagos.</div>
   </div>
-
 </section>
 
 <script>
+// Acordeón
 const faqItems = document.querySelectorAll('.faq-item');
 const searchInput = document.getElementById('faqSearch');
 
-// Acordeón: solo una pregunta abierta
 faqItems.forEach(item => {
   const question = item.querySelector('.faq-question');
   question.addEventListener('click', () => {
-    faqItems.forEach(i => {
-      if (i !== item) {
-        i.classList.remove('active');
-        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-        i.querySelector('.faq-answer').style.display = 'none';
-      }
-    });
-
     const isActive = item.classList.toggle('active');
     question.setAttribute('aria-expanded', isActive);
-    item.querySelector('.faq-answer').style.display = isActive ? 'block' : 'none';
   });
 });
 
-// Buscador FAQ
+// Buscador con destacado
 searchInput.addEventListener('input', () => {
   const filter = searchInput.value.toLowerCase();
+  let anyVisible = false;
   faqItems.forEach(item => {
     const questionText = item.querySelector('.faq-question').textContent.toLowerCase();
-    item.style.display = questionText.includes(filter) ? '' : 'none';
+    if (questionText.includes(filter)) {
+      item.style.display = '';
+      anyVisible = true;
+    } else {
+      item.style.display = 'none';
+    }
   });
+
+  if (!anyVisible) {
+    if (!document.querySelector('#noResults')) {
+      const noRes = document.createElement('div');
+      noRes.id = 'noResults';
+      noRes.textContent = '😕 No se encontraron resultados.';
+      noRes.style.textAlign = 'center';
+      noRes.style.padding = '15px';
+      document.querySelector('.faq-section').appendChild(noRes);
+    }
+  } else {
+    const noRes = document.querySelector('#noResults');
+    if (noRes) noRes.remove();
+  }
 });
 </script>
 </body>
