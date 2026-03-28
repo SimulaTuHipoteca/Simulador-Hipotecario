@@ -233,7 +233,15 @@ function calcular(){
 
     const cuotaMedia=amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses;
     const intereses=amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital;
-    resultados.push({nombre,tipo,cuotaMedia,intereses,total:capital+intereses,amortRows});
+    resultados.push({
+  nombre,
+  tipo,
+  cuotaMedia,
+  intereses,
+  total: capital + intereses,
+  amortRows,
+  mesesFijo // 👈 necesario para mostrar la cuota variable
+});
   }
 
   resultados.sort((a,b)=>a.total-b.total);
@@ -246,7 +254,20 @@ function calcular(){
     row.innerHTML=`
       <td>${r.nombre} ${mejorIndicador}</td>
       <td>${r.tipo}</td>
-      <td>${r.cuotaMedia.toFixed(2)} €</td>
+     <td>
+  ${
+    r.tipo === "mixta"
+      ? `
+        ${parseFloat(r.amortRows[0].cuota).toFixed(2)} €<br>
+        <span style="font-size:12px;color:#666;">
+          luego ~${parseFloat(
+            r.amortRows[r.mesesFijo]?.cuota || r.amortRows[r.mesesFijo - 1]?.cuota
+          ).toFixed(2)} €
+        </span>
+      `
+      : `${r.cuotaMedia.toFixed(2)} €`
+  }
+</td>
       <td>${r.intereses.toFixed(2)} €</td>
       <td>${r.total.toFixed(2)} €</td>
       <td class="ahorro">${ahorro>0?ahorro+' €':''}</td>
@@ -319,7 +340,13 @@ function descargarPDF(){
   for (let row of tbody.rows){
     const banco = row.cells[0].innerText;
     const tipo = row.cells[1].innerText;
-    const cuota = row.cells[2].innerText;
+    let cuota = row.cells[2].innerText;
+
+// Mejorar legibilidad de mixtas en PDF
+if(cuota.includes("luego")){
+  const partes = cuota.split("luego");
+  cuota = `Inicial: ${partes[0].trim()} / Variable: ${partes[1].replace("~","").trim()}`;
+}
     const intereses = row.cells[3].innerText;
     const total = row.cells[4].innerText;
     const ahorro = row.cells[5].innerText || "-";
