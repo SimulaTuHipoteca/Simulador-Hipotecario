@@ -168,14 +168,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const lti = ingresosAnuales > 0 ? ((cuota + deudas) * 12) / ingresosAnuales : 0;
 
     // Mensaje perfil
-    const mensajePerfil = document.getElementById("mensajePerfil");
-    if (mensajePerfil) {
-      mensajePerfil.style.display = "block";
-      mensajePerfil.className = "mensaje-perfil";
-      if (lti <= 0.35) { mensajePerfil.innerText = "¡Buen perfil financiero! Puedes optar a condiciones favorables."; mensajePerfil.classList.add("mensaje-ok"); }
-      else if (lti <= 0.40) { mensajePerfil.innerText = "Perfil aceptable. Podrías obtener financiación con algunas condiciones."; mensajePerfil.classList.add("mensaje-warning"); }
-      else { mensajePerfil.innerText = "Perfil con riesgo elevado. Será difícil acceder a financiación en condiciones estándar."; mensajePerfil.classList.add("mensaje-bad"); }
-    }
+  // Mensaje perfil actualizado
+const mensajePerfil = document.getElementById("mensajePerfil");
+if (mensajePerfil) {
+  mensajePerfil.className = "mensaje-perfil";
+
+  // Esconde mensaje si los datos no están completos o el plazo es 0
+  if (ingresos <= 0 || plazo <= 0 || cuota <= 0) {
+    mensajePerfil.style.display = "none";
+    return;
+  }
+
+  let viable = false;
+
+  // Reglas de viabilidad considerando LTI y LTV
+  if (lti <= 0.35) viable = true;           // perfil muy bueno
+  else if (lti <= 0.40 && ltv <= 90) viable = true; // perfil bueno, bancos flexibles
+  else if (lti <= 0.45 && ltv <= 95) viable = true; // perfil excelente, bancos muy flexibles
+
+  if (viable) {
+    mensajePerfil.style.display = "block";
+    mensajePerfil.innerText = "¡Buen perfil financiero! Puedes optar a condiciones favorables.";
+    mensajePerfil.classList.add("mensaje-ok");
+  } else if (lti <= 0.40) {
+    mensajePerfil.style.display = "block";
+    mensajePerfil.innerText = "Perfil aceptable. Podrías obtener financiación con algunas condiciones.";
+    mensajePerfil.classList.add("mensaje-warning");
+  } else {
+    mensajePerfil.style.display = "none"; // No mostrar si el perfil es débil
+  }
+}
 
     // Aviso segunda residencia
     if (perfilFields.primeraSegunda.value === "segunda" && ltv > 70 && perfilFields.avisoSegunda) {
