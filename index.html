@@ -241,7 +241,7 @@
   <button id="btnRechazarCookies">Rechazar</button>
 </div>
 
-<!-- BOTONES FLOTANTES -->
+<!-- BOTÓN FLOTANTE -->
 <button id="btnCalculadoraFlotante" title="Abrir calculadora">
   <svg viewBox="0 0 64 64">
     <rect x="6" y="6" width="52" height="52" rx="10" fill="#0d4f8b"/>
@@ -255,64 +255,16 @@
   </svg>
 </button>
 
+<!-- BOTÓN FAQ -->
 <a href="faq.html" id="faqButton" title="Preguntas Frecuentes">?</a>
 
-<style>
-  /* Ambos botones flotantes */
-  #btnCalculadoraFlotante, #faqButton {
-    position: fixed;
-    right: 20px;
-    z-index: 1000;
-    cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-  }
-
-  #btnCalculadoraFlotante:hover, #faqButton:hover {
-    transform: scale(1.1);
-  }
-
-  /* Botón calculadora */
-  #btnCalculadoraFlotante {
-    bottom: 20px;
-    width: 60px;
-    height: 60px;
-    border: none;
-    background: none;
-    padding: 0;
-  }
-
-  /* Botón FAQ */
-  #faqButton {
-    bottom: 90px; /* justo encima del botón calculadora */
-    width: 50px;
-    height: 50px;
-    background-color: #0d4f8b;
-    color: #fff;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 50px;
-    border-radius: 50%;
-    text-decoration: none;
-  }
-
-  #faqButton:hover {
-    background-color: #22c55e;
-  }
-</style>
-
-<!-- Modal -->
-<!-- Botón flotante -->
-<button id="btnCalculadoraFlotante">Abrir calculadora</button>
-
-<!-- Modal -->
-<div id="modalCalculadora" style="display:none;">
+<!-- MODAL CALCULADORA -->
+<div id="modalCalculadora" class="modal">
   <div class="modal-content">
-    <span id="cerrarModal">&times;</span>
+    <span id="cerrarModal" class="close">&times;</span>
     <h2>Simulador de Hipoteca</h2>
 
-    <!-- Inputs con ejemplos -->
+    <!-- Inputs -->
     <div class="inputs">
       <label>Importe del préstamo (€):
         <input id="prestamo" type="number" placeholder="Ej: 150000" value="150000">
@@ -326,27 +278,27 @@
     </div>
 
     <!-- Resultados en tarjetas -->
-    <div id="resultados" style="display:flex; justify-content:space-between; margin-top:20px;">
-      <div class="tarjeta">
+    <div id="resultados" class="resultados-container">
+      <div class="resultado-card">
         <h3>Cuota mensual</h3>
         <p id="cuota">0 €</p>
       </div>
-      <div class="tarjeta">
+      <div class="resultado-card">
         <h3>Intereses totales</h3>
         <p id="interesesTotales">0 €</p>
       </div>
-      <div class="tarjeta">
+      <div class="resultado-card">
         <h3>Total pagado</h3>
         <p id="totalPagado">0 €</p>
       </div>
     </div>
 
     <!-- Botón para ver tabla de amortización -->
-    <button id="verTabla" style="margin-top:10px; display:none;">Ver cuadro de amortización</button>
+    <button id="verTabla" style="display:none;">Ver cuadro de amortización</button>
 
     <!-- Tabla de amortización -->
-    <div id="tablaContainer" style="display:none; margin-top:10px; max-height:300px; overflow:auto;">
-      <table id="tabla" border="1" cellpadding="5" cellspacing="0" style="width:100%; border-collapse:collapse;">
+    <div id="tablaContainer" style="display:none;">
+      <table id="tabla">
         <thead>
           <tr>
             <th>Mes</th>
