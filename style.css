@@ -530,3 +530,59 @@ footer {
 #faqButton:hover {
   background-color: #22c55e;
 }
+
+/* ==============================
+   CALCULADORA SIMPLIFICADA
+============================== */
+.inputs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.inputs label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.inputs input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Tarjetas de resultados alineadas */
+.resultados-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.resultado-card {
+  flex: 1 1 30%;
+  min-width: 120px;
+  background-color: #f7f9fc;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.resultado-card h3 {
+  margin-top: 6px;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .resultados-container {
+    flex-direction: column;
+  }
+  .resultado-card {
+    flex: 1 1 100%;
+  }
+}
