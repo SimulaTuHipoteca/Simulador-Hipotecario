@@ -10,14 +10,15 @@ html, body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow-x: hidden;
   box-sizing: border-box;
 }
 
 body > .container {
-  width: 100%;
   max-width: 1100px;
   margin: 30px auto;
-  padding: 20px 15px;
+  padding: 20px;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -67,7 +68,7 @@ h2 {
   box-shadow: 0 8px 25px rgba(0,0,0,0.06);
   transition: all 0.25s ease;
   cursor: pointer;
-  min-width: 0;
+  min-width: 0; /* importante para no romper grid */
 }
 
 .operacion-card:hover {
@@ -131,17 +132,14 @@ h2 {
 .operaciones-grid,
 .operaciones-grid.operaciones-grid-centro {
   display: grid;
-  gap: 25px;
-  max-width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  max-width: 100%;
   margin: 0 auto;
 }
 
-.operaciones-grid.operaciones-grid-centro {
-  justify-content: center;
-}
-
-/* Posiciones tipo ajedrez (opcional) */
+/* Posiciones tipo ajedrez */
 .operaciones-grid .operacion-card:nth-child(1) { grid-column: 1; }
 .operaciones-grid .operacion-card:nth-child(2) { grid-column: 2; }
 .operaciones-grid .operacion-card:nth-child(3) { grid-column: 3; }
@@ -173,12 +171,13 @@ h2 {
   flex-wrap: wrap;
 }
 .titular {
-  flex: 1;
-  min-width: 220px;
+  flex: 1 1 100%;
+  min-width: 0;
   background: #f9fafb;
   padding: 15px;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
+  box-sizing: border-box;
 }
 .titular label {
   font-weight: 600;
@@ -193,20 +192,24 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* RESULTADOS PERFIL */
+/* ==============================
+   RESULTADOS PERFIL
+============================== */
 #perfilResultados {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 15px;
+  justify-content: space-between;
 }
 #perfilResultados .card {
-  flex: 1 1 150px;
+  flex: 1 1 250px;
+  max-width: 300px;
   padding: 15px;
   text-align: center;
   border-radius: 12px;
   background: #f9fafb;
   border: 1px solid #e5e7eb;
+  box-sizing: border-box;
 }
 #perfilResultados .card h3 { font-size: 18px; margin-top: 5px; }
 
@@ -227,12 +230,12 @@ button, .btn {
 button:hover, .btn:hover { background: #09407a; }
 
 /* ==============================
-   BOTÓN FLOTANTE CALCULADORA Y FAQ
+   BOTONES FLOTANTES
 ============================== */
 #btnCalculadoraFlotante {
   position: fixed;
   bottom: 25px;
-  right: 15px;
+  right: 20px;
   width: 60px;
   height: 60px;
   background-color: #0d4f8b;
@@ -246,21 +249,23 @@ button:hover, .btn:hover { background: #09407a; }
   cursor: pointer;
   transition: transform 0.2s, background 0.2s;
 }
-#btnCalculadoraFlotante:hover { background-color: #09407a; transform: scale(1.1); }
-#btnCalculadoraFlotante svg { width: 28px; height: 28px; fill: white; }
+#btnCalculadoraFlotante:hover {
+  background-color: #09407a;
+  transform: scale(1.1);
+}
 
 #faqButton {
   position: fixed;
-  bottom: 95px; /* separado de la calculadora */
-  right: 15px;
+  bottom: 100px; /* separado del botón calculadora */
+  right: 20px;
   z-index: 1000;
   background-color: #0d4f8b;
   color: #fff;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   text-align: center;
-  line-height: 50px;
+  line-height: 40px;
   font-weight: bold;
   font-size: 20px;
   text-decoration: none;
@@ -281,20 +286,18 @@ button:hover, .btn:hover { background: #09407a; }
   background-color: rgba(0,0,0,0.6);
   padding-top: 50px;
 }
-
 .modal-content {
   background-color: #fff;
   margin: auto;
   padding: 25px;
   border-radius: 15px;
-  max-width: 550px;
   width: 90%;
-  box-sizing: border-box;
+  max-width: 550px;
   box-shadow: 0 12px 25px rgba(0,0,0,0.2);
   position: relative;
   font-family: 'Arial', sans-serif;
+  box-sizing: border-box;
 }
-
 .close {
   position: absolute;
   top: 15px; right: 20px;
@@ -302,7 +305,6 @@ button:hover, .btn:hover { background: #09407a; }
   cursor: pointer;
   color: #333;
 }
-
 .modal-content h2 {
   text-align: center;
   margin-bottom: 20px;
@@ -350,26 +352,10 @@ button:hover, .btn:hover { background: #09407a; }
 /* ==============================
    TABLA AMORTIZACIÓN
 ============================== */
-#tablaContainer {
-  margin-top: 15px;
-  max-height: 250px;
-  overflow-y: auto;
-}
-#tabla {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-}
-#tabla th, #tabla td {
-  border: 1px solid #ddd;
-  padding: 6px;
-  text-align: right;
-}
-#tabla th {
-  background-color: #0d4f8b;
-  color: white;
-  text-align: center;
-}
+#tablaContainer { margin-top: 15px; max-height: 250px; overflow-y: auto; }
+#tabla { width: 100%; border-collapse: collapse; font-size: 12px; }
+#tabla th, #tabla td { border: 1px solid #ddd; padding: 6px; text-align: right; }
+#tabla th { background-color: #0d4f8b; color: white; text-align: center; }
 #tabla tr:nth-child(even) { background-color: #f0f4f8; }
 
 /* ==============================
@@ -384,7 +370,7 @@ footer {
 .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
 .footer-logo { font-size: 18px; }
 .footer-links { display: flex; flex-direction: column; gap: 8px; }
-.footer-links a { color: #cbd5f5; font-size: 14px; text-decoration: none; }
+.footer-links a { color: #cbd5f5; font-size: 14px; }
 .footer-links a:hover { color: #fff; }
 .footer-social a { font-size: 20px; margin-right: 10px; }
 .footer-bottom { margin-top: 20px; text-align: center; font-size: 12px; color: #9ca3af; }
@@ -395,12 +381,20 @@ footer {
 @media (max-width: 768px) {
   .titulares-grid { flex-direction: column; }
   .cards .card { flex: 1 1 100%; }
-  .operaciones-grid, .operaciones-grid.operaciones-grid-centro { grid-template-columns: 1fr; justify-content: center; }
+  body > .container { margin: 20px; padding: 20px; }
+  .operaciones-grid,
+  .operaciones-grid.operaciones-grid-centro {
+    grid-template-columns: 1fr;
+    justify-content: center;
+  }
+  #perfilResultados {
+    flex-direction: column;
+    align-items: center;
+  }
+  #perfilResultados .card { width: 90%; max-width: 400px; }
 }
 
 @media (max-width: 600px) {
   .resultados-container { flex-direction: column; }
   .resultado-card { flex: 1 1 100%; }
-  #btnCalculadoraFlotante { bottom: 15px; right: 15px; }
-  #faqButton { bottom: 70px; right: 15px; }
 }
