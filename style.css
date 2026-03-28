@@ -77,9 +77,19 @@ GRID OPERACIONES
 }
 
 /* ==============================
-TARJETAS
+TARJETAS + ACORDEÓN
 ============================== */
+.operaciones-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start; /* evita que las tarjetas se estiren al abrir una */
+}
+
 .operacion-card {
+  flex: 0 1 calc(33.33% - 20px); /* ancho de cada tarjeta */
+  display: flex;
+  flex-direction: column; /* para que el contenido expandible solo afecte la tarjeta */
   background: #fff;
   border-radius: 12px;
   padding: 18px;
@@ -114,14 +124,22 @@ ACORDEÓN
 .card-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.4s ease, margin-top 0.4s ease;
 }
 
 .card-content.open {
-  max-height: 500px;
+  max-height: 500px; /* ajustable según contenido */
   margin-top: 10px;
 }
 
+/* ==============================
+RESPONSIVE TARJETAS
+============================== */
+@media (max-width: 768px) {
+  .operacion-card {
+    flex: 0 1 100%; /* tarjetas apiladas en móvil */
+  }
+}
 /* ==============================
 FORMULARIOS
 ============================== */
