@@ -1,431 +1,407 @@
-/* ==============================
-   ESTILOS GLOBALES
-============================== */
-html, body {
-  min-height: 100vh;
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: #f5f6fa;
-  color: #1f2937;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden; /* evitar scroll horizontal */
+/* ============================= */
+/* RESET Y ESTILOS BASE          */
+/* ============================= */
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
-body > .container {
-  width: 100%;
-  max-width: 1100px;
-  margin: 30px auto;
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
 }
 
-/* ==============================
-   BRAND
-============================== */
+/* ============================= */
+/* BRAND                          */
+/* ============================= */
 .brand-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #0d4f8b;
-  line-height: 1.2;
+  text-align: center;
   margin-bottom: 10px;
-  text-align: left;
 }
+
+.brand-main {
+  font-size: 32px;
+  font-weight: bold;
+  color: #0d4f8b;
+}
+
 .brand-sub {
+  font-size: 18px;
+  color: #6b7280;
   display: block;
-  font-size: 16px;
-  font-weight: 400;
-  color: #6b7280;
 }
 
-/* ==============================
-   H2 Y SECCIONES
-============================== */
+.euribor-badge {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #111827;
+}
+
+/* ============================= */
+/* SECCIONES Y TITULOS           */
+/* ============================= */
 h2 {
-  color: #1e40af;
-  font-size: 22px;
-  margin: 25px 0 15px 0;
-  border-bottom: 2px solid #e0e4f1;
-  padding-bottom: 5px;
-  text-align: center;
-}
-.operaciones-sub {
-  text-align: center;
-  color: #6b7280;
-  margin-bottom: 25px;
+  color: #0d4f8b;
+  margin-bottom: 10px;
 }
 
-/* ==============================
-   TARJETAS DE OPERACIONES
-============================== */
-.operacion-card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-  transition: all 0.25s ease;
-  cursor: pointer;
-  min-width: 0;
+.operaciones-sub {
+  font-size: 14px;
+  color: #6b7280;
 }
+
+/* ============================= */
+/* OPERACIONES GRID              */
+/* ============================= */
+.operaciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.operaciones-grid-centro {
+  justify-content: center;
+}
+
+.operacion-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
 .operacion-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.10);
-  border-color: #c7d2fe;
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .card-header {
   display: flex;
-  gap: 15px;
   align-items: center;
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 10px;
+  gap: 10px;
 }
+
 .card-header span {
-  font-size: 24px;
-  background: #eef2ff;
-  padding: 10px;
-  border-radius: 12px;
+  font-size: 28px;
 }
-.card-header strong {
-  display: block;
-  font-size: 15px;
-}
+
 .card-sub {
   font-size: 12px;
   color: #6b7280;
-  margin-top: 2px;
 }
+
 .card-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.3s ease;
+  display: none;
+  margin-top: 10px;
 }
+
 .card-content.open {
-  max-height: 800px;
-  padding-top: 10px;
+  display: block;
 }
+
 .card-content button {
-  margin-top: 15px;
-  width: 100%;
-  font-size: 14px;
+  margin-top: 10px;
   background-color: #0d4f8b;
   color: #fff;
-  border-radius: 8px;
-  padding: 10px;
   border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s;
 }
-.card-content button:hover { background-color: #09407a; }
 
-/* ==============================
-   GRID DE OPERACIONES
-============================== */
-.operaciones-grid,
-.operaciones-grid.operaciones-grid-centro {
+.card-content button:hover {
+  background-color: #083358;
+}
+
+/* ============================= */
+/* PERFIL FINANCIERO             */
+/* ============================= */
+.seccion {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+.titulares-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  max-width: 100%;
-  margin: 0 auto;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
 }
 
-/* Posiciones tipo ajedrez */
-.operaciones-grid .operacion-card:nth-child(1) { grid-column: 1; }
-.operaciones-grid .operacion-card:nth-child(2) { grid-column: 2; }
-.operaciones-grid .operacion-card:nth-child(3) { grid-column: 3; }
-.operaciones-grid .operacion-card:nth-child(4) { grid-column: 2; }
+.titular label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 500;
+}
 
-/* ==============================
-   EURIBOR BADGE
-============================== */
-.euribor-badge {
-  display: inline-block;
-  margin: 10px auto 25px auto;
-  padding: 8px 16px;
-  background: #eef2ff;
-  color: #1e40af;
-  border-radius: 999px;
+.titular input, .titular select {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 2px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
   font-size: 14px;
-  text-align: center;
 }
-
-/* ==============================
-   PERFIL FINANCIERO SIMPLIFICADO
-============================== */
-#perfil { margin-top: 30px; }
 
 #perfilResultados {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
-  justify-content: center;
   margin-top: 20px;
 }
 
 #perfilResultados .card {
-  flex: 1 1 250px; /* tres tarjetas desktop */
-  min-width: 200px;
-  max-width: 300px;
-  padding: 20px;
+  background-color: #f3f4f6;
+  padding: 12px;
+  border-radius: 10px;
   text-align: center;
-  border-radius: 12px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#perfilResultados .card h3 {
-  font-size: 18px;
-  margin-bottom: 6px;
-}
-#perfilResultados .card .sub-text {
-  font-size: 14px;
-  margin-top: 4px;
-  font-weight: 500;
 }
 
-/* Colores por resultado */
-.sub-green { color: #16a34a; }   /* verde */
-.sub-red   { color: #dc2626; }   /* rojo */
-.sub-orange{ color: #f97316; }   /* naranja */
-
-/* ==============================
-   TITULARES / FORMULARIO
-============================== */
-.titulares-grid {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.titular {
-  flex: 1;
-  min-width: 220px;
-  background: #f9fafb;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-}
-.titular label {
-  font-weight: 600;
-  margin-top: 8px;
-  display: block;
-}
-.titular input, .titular select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  margin-bottom: 10px;
+#perfilResultados h3 {
+  margin-top: 6px;
+  font-size: 16px;
 }
 
-/* ==============================
-   BOTONES
-============================== */
-button, .btn {
-  padding: 12px 18px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  background: #0d4f8b;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  transition: background 0.2s, transform 0.2s;
-}
-button:hover, .btn:hover { background: #09407a; }
-
-/* ==============================
-   BOTONES FLOTANTES
-============================== */
-#btnCalculadoraFlotante {
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  background-color: #0d4f8b;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  z-index: 1000;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-#btnCalculadoraFlotante:hover {
-  background-color: #09407a;
-  transform: scale(1.1);
-}
-#btnCalculadoraFlotante svg {
-  width: 28px;
-  height: 28px;
-  fill: white;
-}
-
-#faqButton {
-  position: fixed;
-  bottom: 100px; /* separado del botón calculadora */
-  right: 20px;
-  z-index: 1000;
-  background-color: #0d4f8b;
-  color: #fff;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 40px;
+/* Colores dinámicos para compatibilidad */
+#perfilCompatible {
   font-weight: bold;
-  font-size: 20px;
-  text-decoration: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
-#faqButton:hover { background-color: #22c55e; }
 
-/* ==============================
-   MODAL
-============================== */
+/* ============================= */
+/* MODAL CALCULADORA             */
+/* ============================= */
 .modal {
   display: none;
   position: fixed;
-  z-index: 999;
+  z-index: 1000;
   left: 0; top: 0;
   width: 100%; height: 100%;
-  overflow-y: auto;
-  background-color: rgba(0,0,0,0.6);
-  padding-top: 50px;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
 }
+
 .modal-content {
   background-color: #fff;
-  margin: auto;
-  padding: 25px;
-  border-radius: 15px;
-  max-width: 550px;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 12px;
   width: 90%;
-  box-sizing: border-box;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+  max-width: 500px;
   position: relative;
-  font-family: 'Arial', sans-serif;
 }
+
 .close {
   position: absolute;
-  top: 15px; right: 20px;
-  font-size: 28px;
+  right: 20px; top: 15px;
+  font-size: 24px;
   cursor: pointer;
-  color: #333;
-}
-.modal-content h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #0d4f8b;
 }
 
-/* ==============================
-   INPUTS CALCULADORA
-============================== */
-.inputs {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-  margin-bottom: 20px;
-}
 .inputs label {
-  display: flex;
-  flex-direction: column;
-}
-.inputs input {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+  display: block;
+  margin-top: 10px;
 }
 
-/* ==============================
-   RESULTADOS CALCULADORA
-============================== */
+.inputs input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  margin-top: 2px;
+}
+
 .resultados-container {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 15px;
-}
-.resultado-card {
-  flex: 1 1 30%;
-  min-width: 120px;
-  background-color: #f7f9fc;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.resultado-card h3 { margin-top: 6px; font-size: 16px; }
-
-/* ==============================
-   TABLA AMORTIZACIÓN
-============================== */
-#tablaContainer {
+  flex-wrap: wrap;
   margin-top: 15px;
-  max-height: 250px;
-  overflow-y: auto;
+  gap: 10px;
 }
+
+.resultado-card {
+  background-color: #f3f4f6;
+  padding: 10px;
+  border-radius: 10px;
+  flex: 1 1 30%;
+  text-align: center;
+}
+
+/* Tabla de amortización */
 #tabla {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  margin-top: 15px;
 }
+
 #tabla th, #tabla td {
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   padding: 6px;
   text-align: right;
 }
+
 #tabla th {
   background-color: #0d4f8b;
-  color: white;
-  text-align: center;
-}
-#tabla tr:nth-child(even) { background-color: #f0f4f8; }
-
-/* ==============================
-   FOOTER
-============================== */
-footer {
-  background: #111827;
   color: #fff;
-  padding: 30px 20px;
+}
+
+/* ============================= */
+/* BOTÓN FLOTANTE                */
+/* ============================= */
+#btnCalculadoraFlotante {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #0d4f8b;
+  border: none;
+  border-radius: 50%;
+  padding: 12px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#btnCalculadoraFlotante svg {
+  width: 50px;
+  height: 50px;
+}
+
+/* ============================= */
+/* BOTÓN FAQ                     */
+/* ============================= */
+#faqButton {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  background-color: #22c55e;
+  color: #fff;
+  font-size: 24px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+  z-index: 999;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* ============================= */
+/* BANNER DE COOKIES             */
+/* ============================= */
+#cookie-banner {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #111827;
+  color: #fff;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+#cookie-banner p {
+  margin: 0;
+  font-size: 14px;
+}
+
+#cookie-banner a {
+  color: #22c55e;
+  text-decoration: underline;
+}
+
+#cookie-banner button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#btnAceptarCookies {
+  background-color: #22c55e;
+  color: #fff;
+}
+
+#btnRechazarCookies {
+  background-color: #f97316;
+  color: #fff;
+}
+
+/* ============================= */
+/* FOOTER                        */
+/* ============================= */
+footer {
   margin-top: 40px;
+  background-color: #f3f4f6;
+  padding: 20px;
+  border-radius: 12px;
 }
-.footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
-.footer-logo { font-size: 18px; }
-.footer-links { display: flex; flex-direction: column; gap: 8px; }
-.footer-links a { color: #cbd5f5; font-size: 14px; }
-.footer-links a:hover { color: #fff; }
-.footer-social a { font-size: 20px; margin-right: 10px; }
-.footer-bottom { margin-top: 20px; text-align: center; font-size: 12px; color: #9ca3af; }
 
-/* ==============================
-   RESPONSIVE
-============================== */
-@media (max-width: 768px) {
-  .titulares-grid { flex-direction: column; }
-  .cards .card { flex: 1 1 100%; }
-  body > .container { margin: 20px; padding: 15px; }
-  .operaciones-grid, 
-  .operaciones-grid.operaciones-grid-centro {
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-logo .brand-main {
+  font-size: 20px;
+}
+
+.footer-logo .brand-sub {
+  font-size: 14px;
+}
+
+.footer-links a {
+  display: block;
+  margin-bottom: 6px;
+  color: #0d4f8b;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-social a {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* ============================= */
+/* RESPONSIVE                     */
+/* ============================= */
+@media(max-width:768px){
+  .operaciones-grid {
     grid-template-columns: 1fr;
-    justify-content: center;
   }
-  #perfilResultados .card { flex: 1 1 100%; max-width: 100%; }
-}
-
-@media (max-width: 600px) {
-  .resultados-container { flex-direction: column; }
-  .resultado-card { flex: 1 1 100%; }
+  .titulares-grid {
+    grid-template-columns: 1fr;
+  }
+  .resultados-container {
+    flex-direction: column;
+  }
+  #btnCalculadoraFlotante, #faqButton {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
 }
