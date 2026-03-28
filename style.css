@@ -364,18 +364,17 @@ footer {
     transform: none;
   }
 
-/* Grid fila inferior centrada */
+/* Fila inferior centrada: 2 tarjetas */
 .operaciones-grid.operaciones-grid-centro {
   display: grid;
-  grid-template-columns: repeat(2, 260px);
-  justify-content: center; /* centra las dos tarjetas */
+  grid-template-columns: repeat(2, 260px); /* ancho fijo de cada tarjeta */
+  justify-content: center; /* centra las tarjetas horizontalmente */
   gap: 25px;
-  margin: 0 auto 40px auto;
+  margin: 30px auto 40px auto;
 }
 
-/* Responsive: todas las tarjetas apilan en móvil */
+/* Responsive: en móviles apilan verticalmente */
 @media (max-width: 768px) {
-  .operaciones-grid,
   .operaciones-grid.operaciones-grid-centro {
     grid-template-columns: 1fr;
     justify-content: center;
