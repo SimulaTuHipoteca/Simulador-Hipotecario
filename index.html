@@ -302,37 +302,62 @@
   }
 </style>
 
-<!-- MODAL CALCULADORA -->
+<!-- Botón flotante -->
+<button id="btnCalculadoraFlotante" class="floating-btn">Calculadora</button>
+
+<!-- Modal -->
 <div id="modalCalculadora" class="modal">
   <div class="modal-content">
     <span id="cerrarModal" class="close">&times;</span>
-    <h2>Calculadora</h2>
-    <div class="form-vertical">
-      <label>Importe del préstamo (€)</label>
-      <input id="prestamo" type="number" placeholder="Ej: 150000">
-      <label>Tipo de interés (%)</label>
-      <input id="interes" type="number" step="0.01" placeholder="Ej: 3">
-      <label>Plazo (años)</label>
-      <input id="anos" type="number" placeholder="Ej: 30">
+    <h2>Calculadora Hipotecaria</h2>
+
+    <div class="inputs-container">
+      <div class="input-group">
+        <span class="icon">💶</span>
+        <input id="prestamo" type="number" placeholder="Capital (€)">
+      </div>
+      <div class="input-group">
+        <span class="icon">📈</span>
+        <input id="interes" type="number" placeholder="Interés anual (%)">
+      </div>
+      <div class="input-group">
+        <span class="icon">⏳</span>
+        <input id="anos" type="number" placeholder="Años">
+      </div>
     </div>
-    <div class="cards" id="resultados">
-      <div class="card"><p>Cuota mensual</p><h3 id="cuota"></h3></div>
-      <div class="card"><p>Intereses totales</p><h3 id="interesesTotales"></h3></div>
-      <div class="card"><p>Total a pagar</p><h3 id="totalPagado"></h3></div>
+
+    <div class="resultados-container" id="resultados" style="display:none;">
+      <div class="resultado-card">
+        <p>Cuota mensual</p>
+        <span id="cuota"></span>
+      </div>
+      <div class="resultado-card">
+        <p>Intereses Totales</p>
+        <span id="interesesTotales"></span>
+      </div>
+      <div class="resultado-card">
+        <p>Total Pagado</p>
+        <span id="totalPagado"></span>
+      </div>
+      <button id="verTabla">Ver cuadro de amortización</button>
     </div>
-    <div class="btn-container">
-      <button id="verTabla" style="display:none;">Ver cuadro de amortización</button>
-    </div>
+
     <div id="tablaContainer" style="display:none;">
-      <h2>Tabla de amortización</h2>
-      <table id="tabla" class="tabla-amortizacion">
-        <thead><tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Restante</th></tr></thead>
+      <table id="tabla">
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Cuota</th>
+            <th>Interés</th>
+            <th>Capital</th>
+            <th>Saldo</th>
+          </tr>
+        </thead>
         <tbody></tbody>
       </table>
     </div>
   </div>
 </div>
-
 <footer>
   <div class="footer-top">
     <div class="footer-logo">
