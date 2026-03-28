@@ -259,26 +259,30 @@
 <a href="faq.html" id="faqButton" title="Preguntas Frecuentes">?</a>
 
 <!-- MODAL CALCULADORA -->
+<!-- MODAL CALCULADORA -->
 <div id="modalCalculadora" class="modal">
   <div class="modal-content">
     <span id="cerrarModal" class="close">&times;</span>
     <h2>Simulador de Hipoteca</h2>
 
-    <!-- Inputs -->
-    <div class="inputs">
-      <label>Importe del préstamo (€):
+    <!-- Inputs en grid -->
+    <div class="inputs" style="display:grid; gap:15px; margin-top:20px;">
+      <label>
+        Importe del préstamo (€):
         <input id="prestamo" type="number" placeholder="Ej: 150000" value="150000">
       </label>
-      <label>Interés anual (%):
+      <label>
+        Interés anual (%):
         <input id="interes" type="number" placeholder="Ej: 3" value="3">
       </label>
-      <label>Plazo (años):
+      <label>
+        Plazo (años):
         <input id="anos" type="number" placeholder="Ej: 20" value="20">
       </label>
     </div>
 
-    <!-- Resultados en tarjetas -->
-    <div id="resultados" class="resultados-container">
+    <!-- Resultados -->
+    <div id="resultados" class="resultados-container" style="margin-top:25px;">
       <div class="resultado-card">
         <h3>Cuota mensual</h3>
         <p id="cuota">0 €</p>
@@ -294,10 +298,10 @@
     </div>
 
     <!-- Botón para ver tabla de amortización -->
-    <button id="verTabla" style="display:none;">Ver cuadro de amortización</button>
+    <button id="verTabla" style="display:none; margin-top:20px;">Ver cuadro de amortización</button>
 
     <!-- Tabla de amortización -->
-    <div id="tablaContainer" style="display:none;">
+    <div id="tablaContainer" style="display:none; margin-top:15px;">
       <table id="tabla">
         <thead>
           <tr>
@@ -313,6 +317,7 @@
     </div>
   </div>
 </div>
+  
 <footer>
   <div class="footer-top">
     <div class="footer-logo">
