@@ -9,16 +9,15 @@ html, body {
   color: #1f2937;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden; /* evita scroll horizontal */
+  overflow-x: hidden; /* evitar scroll horizontal */
   box-sizing: border-box;
 }
 
 body > .container {
-  max-width: 1100px;
   width: 100%;
+  max-width: 1100px;
   margin: 30px auto;
-  padding: 20px 15px;
-  box-sizing: border-box;
+  padding: 20px;
 }
 
 /* ==============================
@@ -59,14 +58,6 @@ h2 {
 /* ==============================
    TARJETAS DE OPERACIONES
 ============================== */
-.operaciones-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
 .operacion-card {
   background: #ffffff;
   border-radius: 18px;
@@ -77,7 +68,6 @@ h2 {
   cursor: pointer;
   min-width: 0;
 }
-
 .operacion-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 30px rgba(0,0,0,0.10);
@@ -92,36 +82,30 @@ h2 {
   font-size: 16px;
   margin-bottom: 10px;
 }
-
 .card-header span {
   font-size: 24px;
   background: #eef2ff;
   padding: 10px;
   border-radius: 12px;
 }
-
 .card-header strong {
   display: block;
   font-size: 15px;
 }
-
 .card-sub {
   font-size: 12px;
   color: #6b7280;
   margin-top: 2px;
 }
-
 .card-content {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease, padding 0.3s ease;
 }
-
 .card-content.open {
   max-height: 800px;
   padding-top: 10px;
 }
-
 .card-content button {
   margin-top: 15px;
   width: 100%;
@@ -134,6 +118,25 @@ h2 {
   cursor: pointer;
 }
 .card-content button:hover { background-color: #09407a; }
+
+/* ==============================
+   GRID DE OPERACIONES
+============================== */
+.operaciones-grid,
+.operaciones-grid.operaciones-grid-centro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  max-width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+/* Posiciones tipo ajedrez */
+.operaciones-grid .operacion-card:nth-child(1) { grid-column: 1; }
+.operaciones-grid .operacion-card:nth-child(2) { grid-column: 2; }
+.operaciones-grid .operacion-card:nth-child(3) { grid-column: 3; }
+.operaciones-grid .operacion-card:nth-child(4) { grid-column: 2; }
 
 /* ==============================
    EURIBOR BADGE
@@ -150,18 +153,56 @@ h2 {
 }
 
 /* ==============================
-   PERFIL FINANCIERO
+   PERFIL FINANCIERO SIMPLIFICADO
 ============================== */
-#perfil {
-  margin-top: 30px;
+#perfil { margin-top: 30px; }
+
+#perfilResultados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
+#perfilResultados .card {
+  flex: 1 1 250px; /* tres tarjetas desktop */
+  min-width: 200px;
+  max-width: 300px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#perfilResultados .card h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+#perfilResultados .card .sub-text {
+  font-size: 14px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Colores por resultado */
+.sub-green { color: #16a34a; }   /* verde */
+.sub-red   { color: #dc2626; }   /* rojo */
+.sub-orange{ color: #f97316; }   /* naranja */
+
+/* ==============================
+   TITULARES / FORMULARIO
+============================== */
 .titulares-grid {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
-
 .titular {
   flex: 1;
   min-width: 220px;
@@ -169,66 +210,22 @@ h2 {
   padding: 15px;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
-  box-sizing: border-box;
 }
-
-/* FORMULARIO PERFIL FINANCIERO */
 .titular label {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 12px;
   font-weight: 600;
+  margin-top: 8px;
+  display: block;
 }
-.titular input[type="text"],
-.titular input[type="email"],
-.titular select {
+.titular input, .titular select {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  margin-top: 5px;
-  box-sizing: border-box;
-}
-
-/* Checkbox LOPD */
-.titular .checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-.titular .checkbox-group input[type="checkbox"] {
-  width: auto;
-  margin: 0;
-}
-.titular .checkbox-group label {
-  font-weight: 400;
-  margin: 0;
+  margin-bottom: 10px;
 }
 
 /* ==============================
-   RESULTADOS PERFIL
-============================== */
-#perfilResultados {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-#perfilResultados .card {
-  flex: 1 1 150px;
-  padding: 15px;
-  text-align: center;
-  border-radius: 12px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-}
-
-#perfilResultados .card h3 { font-size: 18px; margin-top: 5px; }
-
-/* ==============================
-   BOTONES GENERALES
+   BOTONES
 ============================== */
 button, .btn {
   padding: 12px 18px;
@@ -244,11 +241,11 @@ button, .btn {
 button:hover, .btn:hover { background: #09407a; }
 
 /* ==============================
-   BOTÓN FLOTANTE CALCULADORA
+   BOTONES FLOTANTES
 ============================== */
 #btnCalculadoraFlotante {
   position: fixed;
-  bottom: 100px; /* separado del FAQ */
+  bottom: 30px;
   right: 20px;
   width: 60px;
   height: 60px;
@@ -273,10 +270,9 @@ button:hover, .btn:hover { background: #09407a; }
   fill: white;
 }
 
-/* BOTÓN FAQ */
 #faqButton {
   position: fixed;
-  bottom: 30px; /* separado del botón calculadora */
+  bottom: 100px; /* separado del botón calculadora */
   right: 20px;
   z-index: 1000;
   background-color: #0d4f8b;
@@ -306,20 +302,18 @@ button:hover, .btn:hover { background: #09407a; }
   background-color: rgba(0,0,0,0.6);
   padding-top: 50px;
 }
-
 .modal-content {
   background-color: #fff;
   margin: auto;
   padding: 25px;
   border-radius: 15px;
-  width: 90%;
   max-width: 550px;
+  width: 90%;
   box-sizing: border-box;
   box-shadow: 0 12px 25px rgba(0,0,0,0.2);
   position: relative;
   font-family: 'Arial', sans-serif;
 }
-
 .close {
   position: absolute;
   top: 15px; right: 20px;
@@ -327,12 +321,52 @@ button:hover, .btn:hover { background: #09407a; }
   cursor: pointer;
   color: #333;
 }
-
 .modal-content h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #0d4f8b;
 }
+
+/* ==============================
+   INPUTS CALCULADORA
+============================== */
+.inputs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.inputs label {
+  display: flex;
+  flex-direction: column;
+}
+.inputs input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* ==============================
+   RESULTADOS CALCULADORA
+============================== */
+.resultados-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.resultado-card {
+  flex: 1 1 30%;
+  min-width: 120px;
+  background-color: #f7f9fc;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.resultado-card h3 { margin-top: 6px; font-size: 16px; }
 
 /* ==============================
    TABLA AMORTIZACIÓN
@@ -342,7 +376,6 @@ button:hover, .btn:hover { background: #09407a; }
   max-height: 250px;
   overflow-y: auto;
 }
-
 #tabla {
   width: 100%;
   border-collapse: collapse;
@@ -369,28 +402,13 @@ footer {
   padding: 30px 20px;
   margin-top: 40px;
 }
-
-.footer-top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-}
-
+.footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
 .footer-logo { font-size: 18px; }
-
 .footer-links { display: flex; flex-direction: column; gap: 8px; }
 .footer-links a { color: #cbd5f5; font-size: 14px; }
 .footer-links a:hover { color: #fff; }
-
 .footer-social a { font-size: 20px; margin-right: 10px; }
-
-.footer-bottom {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 12px;
-  color: #9ca3af;
-}
+.footer-bottom { margin-top: 20px; text-align: center; font-size: 12px; color: #9ca3af; }
 
 /* ==============================
    RESPONSIVE
@@ -398,26 +416,16 @@ footer {
 @media (max-width: 768px) {
   .titulares-grid { flex-direction: column; }
   .cards .card { flex: 1 1 100%; }
+  body > .container { margin: 20px; padding: 15px; }
   .operaciones-grid, 
   .operaciones-grid.operaciones-grid-centro {
     grid-template-columns: 1fr;
     justify-content: center;
   }
+  #perfilResultados .card { flex: 1 1 100%; max-width: 100%; }
 }
 
 @media (max-width: 600px) {
-  .resultados-container, .titulares-grid {
-    flex-direction: column;
-  }
-  .resultado-card, .titular {
-    flex: 1 1 100%;
-  }
-  .titular .checkbox-group {
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 100%;
-  }
-  .titular .checkbox-group label {
-    flex: 1;
-  }
+  .resultados-container { flex-direction: column; }
+  .resultado-card { flex: 1 1 100%; }
 }
