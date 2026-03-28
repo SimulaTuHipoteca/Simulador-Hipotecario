@@ -75,9 +75,9 @@ th{background:#f1f3f6;}
 
 <main>
   <h2>Datos generales</h2>
-  <label>Capital (€)<input type="number" id="capital" value="150000"></label>
-  <label>Plazo total (años)<input type="number" id="plazo" value="20"></label>
-  <label>Euríbor actual (%)<input type="number" id="euribor" value="3.5" step="0.01"></label>
+<label>Capital (€)<input type="number" id="capital" placeholder="150000"></label>
+<label>Plazo total (años)<input type="number" id="plazo" placeholder="20"></label>
+<label>Euríbor actual (%)<input type="number" id="euribor" placeholder="2.4" step="0.01"></label>
 
   <hr style="margin:18px 0;">
   <h2>Ofertas bancarias</h2>
@@ -172,10 +172,12 @@ function generarAmortizacion(capital, tin, plazoMeses, tipo, amortSi){
 
 // ===== CALCULAR =====
 function calcular(){
-  const capital=parseFloat(document.getElementById("capital").value)||0;
-  const plazoAños=parseFloat(document.getElementById("plazo").value)||1;
-  const plazoMeses=Math.round(plazoAños*12);
-  const euribor=parseFloat(document.getElementById("euribor").value)||0;
+  const capital = parseFloat(document.getElementById("capital").value) || 150000; // si no ingresa nada, 150.000 €
+const plazoAños = parseFloat(document.getElementById("plazo").value) || 20;    // si no ingresa nada, 20 años
+const plazoMeses = Math.round(plazoAños * 12);
+
+const euriborInput = document.getElementById("euribor").value;
+const euribor = euriborInput === "" ? 2.4 : parseFloat(euriborInput); // usa 3.5% si deja vacío
   const tbody=document.querySelector("#tabla tbody");
   tbody.innerHTML="";
   const resultados=[];
