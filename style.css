@@ -440,3 +440,36 @@ footer {
   }
   .resultado-card { flex: 1 1 100%; }
 }
+
+/* Evitar overflow horizontal en móvil */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Hacer que grids de tarjetas sean 100% max-width */
+.operaciones-grid,
+.operaciones-grid.operaciones-grid-centro {
+  max-width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Ajustar tarjetas individuales */
+.operacion-card {
+  min-width: 0; /* importante para que no rompa el grid */
+}
+
+/* Ajuste para inputs y contenedores grandes */
+body > .container {
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Modal centrado */
+.modal-content {
+  width: 90%;
+  max-width: 550px;
+  box-sizing: border-box;
+}
