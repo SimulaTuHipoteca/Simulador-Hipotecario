@@ -188,34 +188,153 @@ button:hover, .btn:hover { background: #09407a; }
   height: 28px;
   fill: white;
 }
+/* Modal y fondo */
 .modal {
-  display: none; /* oculto por defecto */
-  position: fixed; /* flota sobre toda la página */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5); /* fondo semi-transparente */
-  z-index: 1500; /* encima del contenido pero debajo del FAQ si quieres */
-  justify-content: center;
-  align-items: center;
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0,0,0,0.6);
+  padding-top: 50px;
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 20px;
-  max-width: 500px;
-  width: 90%;
-  border-radius: 8px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 15px;
+  max-width: 550px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
   position: relative;
+  font-family: 'Arial', sans-serif;
 }
+
+/* Close */
 .close {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: 15px; right: 20px;
   font-size: 28px;
-  font-weight: bold;
   cursor: pointer;
+  color: #333;
+}
+
+/* Título */
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0d4f8b;
+}
+
+/* Inputs con icono */
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.input-group .icon {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 8px 0 0 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+}
+
+/* Botón flotante */
+.floating-btn {
+  position: fixed;
+  bottom: 25px; right: 25px;
+  background-color: #0d4f8b;
+  color: #fff;
+  border-radius: 50px;
+  padding: 15px 20px;
+  border: none;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+.floating-btn:hover {
+  background-color: #09407a;
+}
+
+/* Resultados */
+.resultados-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.resultado-card {
+  flex: 1 1 30%;
+  background-color: #f7f9fc;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.resultado-card p {
+  margin: 0 0 6px 0;
+  font-weight: bold;
+}
+
+/* Botones */
+.modal-content button {
+  background-color: #0d4f8b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.modal-content button:hover {
+  background-color: #09407a;
+}
+
+/* Tabla de amortización */
+#tablaContainer {
+  margin-top: 15px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+#tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+#tabla th, #tabla td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: right;
+}
+
+#tabla th {
+  background-color: #0d4f8b;
+  color: white;
+  text-align: center;
+}
+
+#tabla tr:nth-child(even) {
+  background-color: #f0f4f8;
 }
 /* ==============================
    FOOTER
