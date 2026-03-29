@@ -270,10 +270,10 @@ function calcular() {
     ahorroMensualElem.innerText = `Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes`;
     ahorroMensualElem.style.color = "#065f46";
     mostrarMensaje(`¡Buen resultado! Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes ✅`, "success");
-  } else if (ahorroMensualNum < 0) {
-    ahorroMensualElem.innerText = `Pagarás ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más`;
-    ahorroMensualElem.style.color = "#b91c1c";
-    mostrarMensaje(`Cuidado, podrías pagar ${Math.abs(ahorro
+else if (ahorroMensualNum < 0) {
+  ahorroMensualElem.innerText = `Pagarás ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más`;
+  ahorroMensualElem.style.color = "#b91c1c";
+  mostrarMensaje(`Cuidado, podrías pagar ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más ⚠️`, "warning");
 }
 
 // AHORRO TOTAL
@@ -287,7 +287,7 @@ if (ahorroTotalNum >= 0) {
 }
 
 document.getElementById("resultados").style.display = "block";
-
+}
 
 // Generar y enviar PDF
 function enviarPDF() {
