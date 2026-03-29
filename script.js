@@ -269,6 +269,13 @@ window.abrirOperacion = function(id){
 window.irAnalisis = function(event, tipoOperacion){
   event.stopPropagation();
 
+  // Redirigir a consolidacion.html si es Consolidación o Cambio de Hipoteca
+  if(tipoOperacion === 'consolidacion' || tipoOperacion === 'subrogacion') {
+    window.location.href = "consolidacion.html";
+    return; // salir de la función
+  }
+
+  // resto del código original para otras operaciones
   if (!perfilFields.operacionBadge || !perfilDiv) return;
 
   const mismoTipo = perfilFields.operacionBadge.innerText.includes(tipoOperacion);
@@ -289,10 +296,6 @@ window.irAnalisis = function(event, tipoOperacion){
         perfilFields.primeraSegunda.value = 'primera';
         perfilFields.viviendaCheck.checked = false;
         break;
-      case 'Cambio de Hipoteca':
-        perfilFields.primeraSegunda.value = 'segunda';
-        perfilFields.viviendaCheck.checked = true;
-        break;
       case 'Inversión':
         perfilFields.primeraSegunda.value = 'segunda';
         perfilFields.viviendaCheck.checked = false;
@@ -303,7 +306,7 @@ window.irAnalisis = function(event, tipoOperacion){
 
   calcularPerfil();
   perfilDiv.scrollIntoView({behavior:'smooth'});
-  };
+};
 
   // -----------------------------
   // ENVÍO DE LEADS Y PDF
