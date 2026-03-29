@@ -266,29 +266,41 @@ function calcular() {
   const ahorroMensualNum = cuotaAntes - cuotaDespues;
   const ahorroTotalNum = interesesAntes - interesesDespues;
 
-  // Mostrar cuotas con valores positivos y claros
-  document.getElementById("cuotaFijaInicial").innerText = cuotaFijaInicial ? cuotaFijaInicial.toFixed(2) + " €" : "-";
-  document.getElementById("cuotaVariable").innerText = cuotaVariable ? cuotaVariable.toFixed(2) + " €" : "-";
-  document.getElementById("cuotaDespues").innerText = cuotaDespues.toFixed(2) + " €";
+  // Mostrar cuotas y ahorro de forma clara con colores
+const ahorroMensualNum = cuotaAntes - cuotaDespues;
+const ahorroTotalNum = interesesAntes - interesesDespues;
 
-  // Mostrar ahorro mensual de forma clara
-  if (ahorroMensualNum > 0) {
-    document.getElementById("ahorroMensual").innerText = `Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes`;
-    mostrarMensaje(`¡Buen resultado! Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes ✅`, "success");
-  } else if (ahorroMensualNum < 0) {
-    document.getElementById("ahorroMensual").innerText = `Pagarás ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más`;
-    mostrarMensaje(`Cuidado, podrías pagar ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más ❌`, "error");
-  } else {
-    document.getElementById("ahorroMensual").innerText = "No hay ahorro significativo";
-    mostrarMensaje("No hay ahorro significativo ⚠️", "warning");
-  }
+document.getElementById("cuotaFijaInicial").innerText = cuotaFijaInicial ? cuotaFijaInicial.toFixed(2) + " €" : "-";
+document.getElementById("cuotaVariable").innerText = cuotaVariable ? cuotaVariable.toFixed(2) + " €" : "-";
+document.getElementById("cuotaDespues").innerText = cuotaDespues.toFixed(2) + " €";
 
-  // Mostrar ahorro total de forma clara
-  document.getElementById("ahorroTotal").innerText = ahorroTotalNum >= 0
-    ? `Ahorro total: ${ahorroTotalNum.toFixed(2)} €`
-    : `Costo adicional: ${Math.abs(ahorroTotalNum).toFixed(2)} €`;
+// AHORRO MENSUAL
+const ahorroMensualElem = document.getElementById("ahorroMensual");
+if (ahorroMensualNum > 0) {
+  ahorroMensualElem.innerText = `Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes`;
+  ahorroMensualElem.style.color = "#065f46"; // verde
+  mostrarMensaje(`¡Buen resultado! Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes ✅`, "success");
+} else if (ahorroMensualNum < 0) {
+  ahorroMensualElem.innerText = `Pagarás ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más`;
+  ahorroMensualElem.style.color = "#b91c1c"; // rojo
+  mostrarMensaje(`Cuidado, podrías pagar ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más ❌`, "error");
+} else {
+  ahorroMensualElem.innerText = "No hay ahorro significativo";
+  ahorroMensualElem.style.color = "#92400e"; // naranja
+  mostrarMensaje("No hay ahorro significativo ⚠️", "warning");
+}
 
-  document.getElementById("resultados").style.display = "block";
+// AHORRO TOTAL
+const ahorroTotalElem = document.getElementById("ahorroTotal");
+if (ahorroTotalNum >= 0) {
+  ahorroTotalElem.innerText = `Ahorro total: ${ahorroTotalNum.toFixed(2)} €`;
+  ahorroTotalElem.style.color = "#065f46"; // verde
+} else {
+  ahorroTotalElem.innerText = `Costo adicional: ${Math.abs(ahorroTotalNum).toFixed(2)} €`;
+  ahorroTotalElem.style.color = "#b91c1c"; // rojo
+}
+
+document.getElementById("resultados").style.display = "block";block";
 }
 
 
