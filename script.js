@@ -271,9 +271,9 @@ window.irAnalisis = function(event, tipoOperacion){
 
   // Redirigir a consolidacion.html si es Consolidación o Cambio de Hipoteca
   if(tipoOperacion === 'consolidacion' || tipoOperacion === 'subrogacion') {
-    window.location.href = "consolidacion.html";
-    return; // salir de la función
-  }
+    window.location.href = `consolidacion.html?tipo=${tipoOperacion}`;
+    return;
+}
 
   // resto del código original para otras operaciones
   if (!perfilFields.operacionBadge || !perfilDiv) return;
