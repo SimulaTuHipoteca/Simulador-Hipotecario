@@ -521,4 +521,29 @@ window.irAnalisis = function(event, tipoOperacion){
     });
   }
 
+  // -----------------------------
+// EURIBOR AUTOMÁTICO
+// -----------------------------
+async function actualizarEuribor() {
+  try {
+    // API de ejemplo (puedes cambiarla luego por otra)
+    const res = await fetch("https://api.api-ninjas.com/v1/interest_rate?name=euribor", {
+      headers: { 'X-Api-Key': 'TU_API_KEY' } // necesitarás clave gratuita
+    });
+
+    const data = await res.json();
+
+    if (data && data.length > 0) {
+      const valor = data[0].rate.toFixed(2);
+      document.getElementById("euribor-value").innerText = valor + "%";
+    }
+
+  } catch (error) {
+    console.error("Error Euríbor:", error);
+    document.getElementById("euribor-value").innerText = "2,86%"; // fallback
+  }
+}
+
+// Ejecutar al cargar
+actualizarEuribor();
 });
