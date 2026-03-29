@@ -257,6 +257,26 @@ TABLA
   text-align: center;
 }
 
+#tablaContainer {
+  max-height: 300px; /* altura máxima del contenedor */
+  overflow-y: auto;  /* scroll vertical si excede altura */
+  margin-top: 15px;
+}
+
+.resultados-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.resultado-card {
+  flex: 1 1 150px;
+  background: #f3f4f6;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+}
 /* ==============================
 BOTÓN FLOTANTE CALCULADORA
 ============================== */
