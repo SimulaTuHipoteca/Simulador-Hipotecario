@@ -304,7 +304,6 @@ BOTÓN FLOTANTE CALCULADORA
   box-shadow: 0 8px 18px rgba(0,0,0,0.3);
 }
 
-/* SVG dentro del botón */
 #btnCalculadoraFlotante svg {
   width: 36px;
   height: 36px;
@@ -315,8 +314,8 @@ MODAL CALCULADORA
 ============================== */
 #modalCalculadora {
   display: none; /* oculto por defecto */
-    position: fixed;
-  bottom: 100px; /* un poco más arriba del botón flotante */
+  position: fixed;
+  bottom: 100px; /* separado del botón flotante */
   right: 20px;
   z-index: 9999;
   background: #fff;
@@ -326,21 +325,16 @@ MODAL CALCULADORA
   max-width: 90%;
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
   transition: all 0.3s ease;
+}
 
-
-/* Mostrar modal */
 #modalCalculadora.open {
   display: block;
 }
 
-/* Cierre al hacer click fuera */
-#modalCalculadora::backdrop {
-  display: none;
-}
 #modalCalculadora table {
   width: 100%;
-  max-height: 250px; /* limita altura */
-  overflow-y: auto;  /* scroll vertical */
+  max-height: 250px;
+  overflow-y: auto;
   display: block;
   border-collapse: collapse;
 }
@@ -356,10 +350,12 @@ MODAL CALCULADORA
   background: #f3f4f6;
   text-align: center;
 }
+
 /* ==============================
 RESPONSIVE MÓVIL
 ============================== */
 @media (max-width: 768px) {
+
   #btnCalculadoraFlotante {
     bottom: 15px;
     right: 15px;
