@@ -277,7 +277,7 @@ CALCULADORA FLOTANTE (widget)
   justify-content: center;
 }
 
-#calculadoraModal {
+#modalCalculadora {
   display: none; /* se oculta por defecto */
   position: fixed;
   bottom: 70px;
@@ -292,12 +292,12 @@ CALCULADORA FLOTANTE (widget)
   transition: all 0.3s ease;
 }
 
-#calculadoraModal.open {
+#modalCalculadora.open {
   display: block;
 }
 
 /* Cierre al hacer click fuera */
-#calculadoraModal::backdrop {
+#modalCalculadora::backdrop {
   display: none;
 }
 /* ==============================
@@ -496,19 +496,21 @@ MENSAJE DE PERFIL / COMPATIBILIDAD
 RESPONSIVE
 ============================== */
 @media (max-width: 768px) {
+
   .perfil-form {
     grid-template-columns: 1fr;
     padding: 18px;
   }
+
   .perfil-cards {
     flex-direction: column;
     align-items: center;
   }
+
   .perfil-cards .card {
     width: 100%;
     max-width: 300px;
   }
-}
 
   .cards {
     flex-direction: row;
@@ -537,11 +539,12 @@ RESPONSIVE
     padding: 8px;
   }
 
+  /* BOTÓN FAQ */
   #faqButton {
     bottom: 80px;
   }
-  @media (max-width: 768px) {
 
+  /* BOTÓN CALCULADORA */
   #btnCalculadoraFlotante {
     bottom: 15px;
     right: 15px;
@@ -549,6 +552,7 @@ RESPONSIVE
     font-size: 16px;
   }
 
+  /* MODAL CALCULADORA */
   #modalCalculadora {
     bottom: 0;
     right: 0;
