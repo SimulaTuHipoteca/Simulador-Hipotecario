@@ -270,10 +270,13 @@ function calcular() {
     ahorroMensualElem.innerText = `Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes`;
     ahorroMensualElem.style.color = "#065f46";
     mostrarMensaje(`¡Buen resultado! Ahorrarás ${ahorroMensualNum.toFixed(2)} €/mes ✅`, "success");
-else if (ahorroMensualNum < 0) {
+} else if (ahorroMensualNum < 0) {
   ahorroMensualElem.innerText = `Pagarás ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más`;
   ahorroMensualElem.style.color = "#b91c1c";
   mostrarMensaje(`Cuidado, podrías pagar ${Math.abs(ahorroMensualNum).toFixed(2)} €/mes más ⚠️`, "warning");
+} else {
+  ahorroMensualElem.innerText = "Sin cambios";
+  ahorroMensualElem.style.color = "#333";
 }
 
 // AHORRO TOTAL
