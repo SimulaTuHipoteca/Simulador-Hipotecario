@@ -315,8 +315,8 @@ MODAL CALCULADORA
 ============================== */
 #modalCalculadora {
   display: none; /* oculto por defecto */
-  position: fixed;
-  bottom: 90px; /* separa del botón */
+    position: fixed;
+  bottom: 100px; /* un poco más arriba del botón flotante */
   right: 20px;
   z-index: 9999;
   background: #fff;
@@ -326,7 +326,7 @@ MODAL CALCULADORA
   max-width: 90%;
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
   transition: all 0.3s ease;
-}
+
 
 /* Mostrar modal */
 #modalCalculadora.open {
