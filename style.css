@@ -274,17 +274,47 @@ TABLA
   margin-top: 15px;
 }
 
+/* ==============================
+TARJETAS RESULTADOS - LÍNEA Y RESPONSIVE
+============================== */
 .cards, .resultados-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  justify-content: flex-start;
+  overflow-x: auto;
+  padding-bottom: 5px;
 }
 
 .card, .resultado-card {
-  flex: 1 1 140px; /* ancho mínimo de cada tarjeta */
-  max-width: 180px; /* evita que se estiren demasiado */
+  flex: 0 0 160px;
+  max-width: 160px;
   text-align: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover, .resultado-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 768px) {
+  .cards, .resultados-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-x: visible;
+  }
+
+  .card, .resultado-card {
+    flex: 1 1 45%;
+    max-width: 300px;
+    margin-bottom: 12px;
+  }
 }
 /* ==============================
 BOTÓN FLOTANTE CALCULADORA
