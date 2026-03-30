@@ -239,78 +239,76 @@ th{
 let count = 0;
 const { jsPDF } = window.jspdf;
 
-// Obtener parámetro URL
-function getQueryParam(param){
+// Función para obtener parámetro de URL
+function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
-// Añadir la primera deuda al cargar
 window.addEventListener("DOMContentLoaded", () => {
   const tipo = getQueryParam("tipo");
-  if(tipo){
+  if (tipo) {
     document.getElementById("tipoOperacion").value = tipo;
   }
   addDeuda();
   actualizarCampos();
+  // Listeners para cambios
+  document.getElementById("tipoOperacion").addEventListener("change", actualizarCampos);
+  const tipoHipotecaSelect = document.getElementById("tipoHipoteca");
+  if (tipoHipotecaSelect) {
+    tipoHipotecaSelect.addEventListener("change", actualizarCampos);
+  }
 });
 
-// Función para calcular cuota
-function cuota(c, i, p){
-  let r = i/100/12;
-  let m = p*12;
-  return (c*r*Math.pow(1+r, m))/(Math.pow(1+r, m)-1);
+function cuota(c, i, p) {
+  let r = i / 100 / 12;
+  let m = p * 12;
+  return (c * r * Math.pow(1 + r, m)) / (Math.pow(1 + r, m) - 1);
 }
 
-// ======== FUNCIONES PARA CAMPOS ========
-function actualizarCampos(){
+// Mostrar/ocultar campos según operación y tipo de hipoteca
+function actualizarCampos() {
   const op = document.getElementById("tipoOperacion").value;
-
-  // Mostrar campos según operación
   document.getElementById("camposDeudas").style.display = op === "consolidacion" ? "block" : "none";
   document.getElementById("camposSubrogacion").style.display = op === "subrogacion" ? "block" : "none";
   document.getElementById("camposTipoHipoteca").style.display = op === "subrogacion" ? "block" : "none";
 
-  // Hipoteca mixta
   const hip = document.getElementById("tipoHipoteca")?.value || "fija";
   document.getElementById("camposMixta").style.display = (op === "subrogacion" && hip === "mixta") ? "block" : "none";
 
   calcular();
 }
 
-// Listeners para selects
-document.getElementById("tipoOperacion").addEventListener("change", actualizarCampos);
-const tipoHipotecaSelect = document.getElementById("tipoHipoteca");
-if(tipoHipotecaSelect) tipoHipotecaSelect.addEventListener("change", actualizarCampos);
-
-// ======== FUNCIONES DE DEUDAS ========
-function addDeuda(){
+// Añadir una deuda al listado
+function addDeuda() {
   count++;
   const div = document.createElement("div");
   div.className = "deuda";
   div.id = "d" + count;
   div.innerHTML = `
-<label>Capital (€)<input type="number" id="capital${count}" placeholder="Ej:20000" min="0"></label>
-<label>TIN (%)<input type="number" id="interes${count}" placeholder="Ej:5" step="0.01" min="0"></label>
-<label>Plazo (años)<input type="number" id="plazo${count}" placeholder="Ej:3" min="1"></label>
-<button class="remove-deuda" onclick="removeDeuda(${count})">×</button>`;
+    <label>Capital (€)<input type="number" id="capital${count}" placeholder="Ej:20000" min="0"></label>
+    <label>TIN (%)<input type="number" id="interes${count}" placeholder="Ej:5" step="0.01" min="0"></label>
+    <label>Plazo (años)<input type="number" id="plazo${count}" placeholder="Ej:3" min="1"></label>
+    <button class="remove-deuda" onclick="removeDeuda(${count})">×</button>
+  `;
   document.getElementById("deudas").appendChild(div);
   div.querySelectorAll("input").forEach(inp => inp.addEventListener("input", calcular));
 }
 
-function removeDeuda(id){
-  document.getElementById("d"+id)?.remove();
+// Eliminar deuda
+function removeDeuda(id) {
+  document.getElementById("d" + id)?.remove();
   calcular();
 }
 
-// ======== VALIDACIÓN CAMPOS ========
-function validarCampos(){
+// Validación de campos antes de enviar
+function validarCampos() {
   let valid = true;
-  ["capitalPendiente","tinActual","plazoRestante","plazoNuevo","tinNuevo","email"].forEach(id=>{
+  ["capitalPendiente", "tinActual", "plazoRestante", "plazoNuevo", "tinNuevo", "email"].forEach(id => {
     const el = document.getElementById(id);
-    const error = document.getElementById("error"+id.charAt(0).toUpperCase()+id.slice(1));
-    if(!el) return;
-    if(el.value === "" || parseFloat(el.value) < 0){
+    const error = document.getElementById("error" + id.charAt(0).toUpperCase() + id.slice(1));
+    if (!el) return;
+    if (el.value === "" || parseFloat(el.value) < 0) {
       el.classList.add("error");
       error.innerText = "Campo obligatorio o inválido";
       valid = false;
@@ -322,21 +320,21 @@ function validarCampos(){
 
   const rgpd = document.getElementById("rgpd");
   const errorRgpd = document.getElementById("errorRgpd");
-  if(!rgpd.checked){
+  if (!rgpd.checked) {
     errorRgpd.innerText = "Debes aceptar la política";
     valid = false;
   } else {
     errorRgpd.innerText = "";
   }
 
-  // Validar deudas si consolidación
-  if(document.getElementById("tipoOperacion").value === "consolidacion"){
-    for(let i=1; i<=count; i++){
-      const cap = document.getElementById("capital"+i);
-      const tin = document.getElementById("interes"+i);
-      const plazo = document.getElementById("plazo"+i);
-      if(!cap) continue;
-      if(cap.value === "" || tin.value === "" || plazo.value === ""){
+  // Validar deudas si está consolidación
+  if (document.getElementById("tipoOperacion").value === "consolidacion") {
+    for (let i = 1; i <= count; i++) {
+      const cap = document.getElementById("capital" + i);
+      const tin = document.getElementById("interes" + i);
+      const plazo = document.getElementById("plazo" + i);
+      if (!cap) continue;
+      if (cap.value === "" || tin.value === "" || plazo.value === "") {
         alert("Completa todas las deudas correctamente");
         valid = false;
         break;
@@ -347,8 +345,8 @@ function validarCampos(){
   return valid;
 }
 
-// ======== FUNCION CALCULAR ========
-function calcular(){
+// Calcular cuotas, ahorro y mostrar resultados
+function calcular() {
   const op = document.getElementById("tipoOperacion").value;
   const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value) || 0;
   const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value) || 1;
@@ -357,12 +355,12 @@ function calcular(){
   let cuotaAntes = 0, interesesAntes = 0, cuotaDespues = 0, interesesDespues = 0, totalCapital = 0;
 
   // ===== CONSOLIDACIÓN =====
-  if(op === "consolidacion"){
-    for(let i=1; i<=count; i++){
-      const cap = document.getElementById("capital"+i);
-      const tin = document.getElementById("interes"+i);
-      const plazo = document.getElementById("plazo"+i);
-      if(!cap || !tin || !plazo) continue;
+  if (op === "consolidacion") {
+    for (let i = 1; i <= count; i++) {
+      const cap = document.getElementById("capital" + i);
+      const tin = document.getElementById("interes" + i);
+      const plazo = document.getElementById("plazo" + i);
+      if (!cap || !tin || !plazo) continue;
 
       const c = parseFloat(cap.value) || 0;
       const t = parseFloat(tin.value) || 0;
@@ -371,17 +369,18 @@ function calcular(){
       interesesAntes += cuota(c, t, p) * p * 12 - c;
       totalCapital += c;
     }
+
     cuotaDespues = cuota(totalCapital + comisiones, tinNuevo, plazoNuevo);
     interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
   }
 
   // ===== SUBROGACIÓN =====
-  else if(op === "subrogacion"){
+  else if (op === "subrogacion") {
     const capitalPend = parseFloat(document.getElementById("capitalPendiente")?.value) || 0;
     const tinActual = parseFloat(document.getElementById("tinActual")?.value) || 0;
     const plazoRest = parseInt(document.getElementById("plazoRestante")?.value) || 1;
 
-    if(!capitalPend || !tinActual || !plazoRest){
+    if (!capitalPend || !tinActual || !plazoRest) {
       document.getElementById("resultados").style.display = "none";
       return;
     }
@@ -390,34 +389,33 @@ function calcular(){
     interesesAntes = cuotaAntes * plazoRest * 12 - capitalPend;
 
     const hip = document.getElementById("tipoHipoteca")?.value || "fija";
-    if(hip === "mixta"){
+
+    if (hip === "mixta") {
       const plazoFijo = parseInt(document.getElementById("plazoFijo")?.value) || 0;
       const tinFijo = parseFloat(document.getElementById("tinFijo")?.value) || 0;
 
       const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
       const cuotaFija = cuota(capitalPend + comisiones, tinFijo, plazoFijo);
+
       const capitalRestante = cuotaFija * plazoFijo * 12 - (capitalPend + comisiones);
       const cuotaVar = plazoVar > 0 ? cuota(capitalRestante, tinNuevo, plazoVar) : 0;
 
-      cuotaDespues = (cuotaFija*plazoFijo*12 + cuotaVar*plazoVar*12)/(plazoNuevo*12);
-      interesesDespues = (cuotaFija*plazoFijo*12 + cuotaVar*plazoVar*12) - (capitalPend + comisiones);
+      cuotaDespues = (cuotaFija * plazoFijo * 12 + cuotaVar * plazoVar * 12) / (plazoNuevo * 12);
+      interesesDespues = (cuotaFija * plazoFijo * 12 + cuotaVar * plazoVar * 12) - (capitalPend + comisiones);
     } else {
       cuotaDespues = cuota(capitalPend + comisiones, tinNuevo, plazoNuevo);
       interesesDespues = cuotaDespues * plazoNuevo * 12 - capitalPend - comisiones;
     }
   }
 
-  // ===== RESULTADOS =====
+  // Resultados y tabla
   const ahorroMensual = cuotaAntes - cuotaDespues;
   const ahorroTotal = interesesAntes - interesesDespues;
 
   const box = document.getElementById("mensajeResultado");
-  if(ahorroMensual > 0 && ahorroTotal > 0)
-    box.innerHTML = `<div class="resultado-box ok">✔️ Podrías ahorrar ${ahorroMensual.toFixed(0)} €/mes<br>Ahorro total estimado: ${ahorroTotal.toFixed(0)} €</div>`;
-  else if(ahorroMensual > 0)
-    box.innerHTML = `<div class="resultado-box warn">⚠️ Bajarías la cuota mensual<br>Pero pagarías más a largo plazo</div>`;
-  else
-    box.innerHTML = `<div class="resultado-box bad">❌ No parece una operación recomendable</div>`;
+  if (ahorroMensual > 0 && ahorroTotal > 0) box.innerHTML = `<div class="resultado-box ok">✔️ Podrías ahorrar ${ahorroMensual.toFixed(0)} €/mes<br>Ahorro total estimado: ${ahorroTotal.toFixed(0)} €</div>`;
+  else if (ahorroMensual > 0) box.innerHTML = `<div class="resultado-box warn">⚠️ Bajarías la cuota mensual<br>Pero pagarías más a largo plazo</div>`;
+  else box.innerHTML = `<div class="resultado-box bad">❌ No parece una operación recomendable</div>`;
 
   const tbody = document.querySelector("#tablaResultados tbody");
   tbody.innerHTML = "";
@@ -428,9 +426,9 @@ function calcular(){
   document.getElementById("resultados").style.display = "block";
 }
 
-// ======== ENVIAR PDF ========
+// Función para generar y enviar PDF
 function enviarPDF() {
-  if(!validarCampos()) return;
+  if (!validarCampos()) return;
 
   const emailUsuario = document.getElementById("email").value.trim();
   const doc = new jsPDF({ format: 'a4', unit: 'pt' });
@@ -441,99 +439,105 @@ function enviarPDF() {
   doc.setFont("helvetica", "bold").setFontSize(20);
   doc.setTextColor(13, 79, 139);
   doc.text("KAOBA FINANCE", margenX, y);
+
   doc.setFont("helvetica", "normal").setFontSize(12);
   doc.setTextColor(80);
   doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 500, y, { align: "right" });
   y += 30;
 
-  // Datos usuario
-  doc.setFillColor(13,79,139);
+  // Datos del usuario
+  doc.setFillColor(13, 79, 139);
   doc.setTextColor(255);
-  doc.setFont("helvetica","bold").setFontSize(14);
-  doc.rect(margenX-5, y-15, 500, 25, 'F');
+  doc.setFont("helvetica", "bold").setFontSize(14);
+  doc.rect(margenX - 5, y - 15, 500, 25, 'F');
   doc.text("Datos del usuario", margenX, y);
   y += 30;
-  doc.setFont("helvetica","normal").setFontSize(11);
+
+  doc.setFont("helvetica", "normal").setFontSize(11);
   doc.setTextColor(0);
   doc.text(`Email: ${emailUsuario}`, margenX, y);
   y += 25;
 
-  // Tabla resultados con colores según ahorro
+  // Tabla de resultados
   const tbody = document.querySelector("#tablaResultados tbody");
   const data = [];
   tbody.querySelectorAll("tr").forEach(tr => {
     const concepto = tr.cells[0].innerText;
     const antes = tr.cells[1].innerText;
     const despues = tr.cells[2].innerText;
-    const ahorro = parseFloat(antes.replace("€","")) - parseFloat(despues.replace("€",""));
-    const color = ahorro > 0 ? [198,239,206] : (ahorro<0 ? [255,199,206] : [255,255,255]);
-    data.push({concepto, antes, despues, fillColor: color});
+
+    const ahorro = parseFloat(antes.replace("€", "")) - parseFloat(despues.replace("€", ""));
+    const color = ahorro > 0 ? [198, 239, 206] : (ahorro < 0 ? [255, 199, 206] : [255, 255, 255]);
+    data.push({ concepto, antes, despues, fillColor: color });
   });
 
   doc.autoTable({
     startY: y,
     head: [["Concepto", "Antes", "Después"]],
     body: data.map(r => [r.concepto, r.antes, r.despues]),
-    didParseCell: function(dataCell){
-      if(dataCell.section === 'body'){
+    didParseCell: function (dataCell) {
+      if (dataCell.section === 'body') {
         const rowIndex = dataCell.row.index;
         dataCell.cell.styles.fillColor = data[rowIndex].fillColor;
       }
     },
-    headStyles: { fillColor:[13,79,139], textColor:255 },
-    alternateRowStyles: { fillColor:[245,245,245] },
-    styles: { fontSize:10, cellPadding:4 },
-    theme:"grid"
+    headStyles: { fillColor: [13, 79, 139], textColor: 255 },
+    alternateRowStyles: { fillColor: [245, 245, 245] },
+    styles: { fontSize: 10, cellPadding: 4 },
+    theme: "grid"
   });
 
   y = doc.lastAutoTable.finalY + 20;
 
-  // Mensaje resultado destacado
+  // Resultado destacado
   const mensajeEl = document.getElementById("mensajeResultado");
   const mensaje = mensajeEl?.innerText || "";
-  let colorBox = [255,235,156]; // amarillo
-  if(mensaje.includes("✔️")) colorBox = [198,239,206];
-  else if(mensaje.includes("❌")) colorBox = [255,199,206];
+  let colorBox = [255, 235, 156];
+  if (mensaje.includes("✔️")) colorBox = [198, 239, 206];
+  else if (mensaje.includes("❌")) colorBox = [255, 199, 206];
 
   doc.setFillColor(...colorBox);
-  doc.rect(margenX-5, y-12, 500, 35, 'F');
-  doc.setFont("helvetica","bold").setFontSize(12);
+  doc.rect(margenX - 5, y - 12, 500, 35, 'F');
+  doc.setFont("helvetica", "bold").setFontSize(12);
   doc.setTextColor(0);
   doc.text("Resultado de la simulación", margenX, y);
-  doc.setFont("helvetica","normal").setFontSize(11);
-  doc.text(mensaje, margenX, y+18, { maxWidth:500 });
+  doc.setFont("helvetica", "normal").setFontSize(11);
+  doc.text(mensaje, margenX, y + 18, { maxWidth: 500 });
   y += 60;
 
   // Recomendaciones
-  doc.setFont("helvetica","bold").setFontSize(12);
-  doc.setTextColor(13,79,139);
+  doc.setFont("helvetica", "bold").setFontSize(12);
+  doc.setTextColor(13, 79, 139);
   doc.text("Recomendaciones", margenX, y);
   y += 18;
-  doc.setFont("helvetica","normal").setFontSize(10);
+  doc.setFont("helvetica", "normal").setFontSize(10);
   doc.setTextColor(0);
   [
     "- Verifica los tipos de interés antes de decidir",
     "- Revisa gastos y comisiones adicionales",
     "- Analiza la duración y riesgo de la operación",
     "- Consulta con un asesor financiero si es necesario"
-  ].forEach((rec,i) => doc.text(rec, margenX, y + i*14));
+  ].forEach((rec, i) => doc.text(rec, margenX, y + i * 14));
+
   y += 70;
 
   // Disclaimer
-  doc.setFont("helvetica","italic").setFontSize(9);
+  doc.setFont("helvetica", "italic").setFontSize(9);
   doc.setTextColor(120);
-  doc.text("* Este informe es orientativo y no constituye una oferta vinculante. La aprobación final depende de cada entidad financiera.", margenX, y, { maxWidth:500 });
+  doc.text("* Este informe es orientativo y no constituye una oferta vinculante. La aprobación final depende de cada entidad financiera.", margenX, y, { maxWidth: 500 });
 
   // Guardar y enviar
   doc.save("Informe_Subrogacion_Consolidacion_Kaoba.pdf");
-  let blob = doc.output("blob");
-  let formData = new FormData();
+
+  const blob = doc.output("blob");
+  const formData = new FormData();
   formData.append("pdf", blob, "Informe_Subrogacion_Consolidacion_Kaoba.pdf");
   formData.append("email", emailUsuario);
-  fetch("/enviar-pdf-correo", { method:"POST", body:formData })
-    .then(r=>r.json())
-    .then(d=>alert(d.message || "PDF enviado correctamente"))
-    .catch(()=>alert("Error enviando PDF"));
+
+  fetch("/enviar-pdf-correo", { method: "POST", body: formData })
+    .then(r => r.json())
+    .then(d => alert(d.message || "PDF enviado correctamente"))
+    .catch(() => alert("Error enviando PDF"));
 }
 </script>
     <style>
