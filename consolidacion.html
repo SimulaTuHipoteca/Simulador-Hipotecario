@@ -312,67 +312,110 @@ function validarCampos(){
 }
 
 function calcular(){
-  const op=document.getElementById("tipoOperacion").value;
-  const tinNuevo=parseFloat(document.getElementById("tinNuevo")?.value)||0;
-  const plazoNuevo=parseInt(document.getElementById("plazoNuevo")?.value)||1;
-  const comisiones=parseFloat(document.getElementById("comisionesNuevo")?.value)||0;
+// ===== Listeners para cambios en selects =====
+document.getElementById("tipoOperacion").addEventListener("change", actualizarCampos);
+const tipoHipotecaSelect = document.getElementById("tipoHipoteca");
+if(tipoHipotecaSelect) tipoHipotecaSelect.addEventListener("change", actualizarCampos);
 
-  let cuotaAntes=0,interesesAntes=0,cuotaDespues=0,interesesDespues=0,totalCapital=0;
+// ===== Función para mostrar/ocultar campos según tipo =====
+function actualizarCampos(){
+  const op = document.getElementById("tipoOperacion").value;
 
-  // Consolidación
-  if(op==="consolidacion"){
-    for(let i=1;i<=count;i++){
-      const cap=document.getElementById("capital"+i); if(!cap) continue;
-      const c=parseFloat(cap.value)||0;
-      const tin=parseFloat(document.getElementById("interes"+i)?.value)||0;
-      const p=parseInt(document.getElementById("plazo"+i)?.value)||1;
-      cuotaAntes+=cuota(c,tin,p);
-      interesesAntes+=cuota(c,tin,p)*p*12-c;
-      totalCapital+=c;
+  // Mostrar campos según operación
+  document.getElementById("camposDeudas").style.display = op === "consolidacion" ? "block" : "none";
+  document.getElementById("camposSubrogacion").style.display = op === "subrogacion" ? "block" : "none";
+  document.getElementById("camposTipoHipoteca").style.display = op === "subrogacion" ? "block" : "none";
+
+  // Hipoteca mixta
+  const hip = tipoHipotecaSelect?.value || "fija";
+  document.getElementById("camposMixta").style.display = (op === "subrogacion" && hip === "mixta") ? "block" : "none";
+
+  // Recalcular resultados
+  calcular();
+}
+
+// ===== Función para calcular cuotas y ahorros =====
+function calcular(){
+  const op = document.getElementById("tipoOperacion").value;
+  const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value) || 0;
+  const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value) || 1;
+  const comisiones = parseFloat(document.getElementById("comisionesNuevo")?.value) || 0;
+
+  let cuotaAntes = 0, interesesAntes = 0, cuotaDespues = 0, interesesDespues = 0, totalCapital = 0;
+
+  // ===== CONSOLIDACIÓN =====
+  if(op === "consolidacion"){
+    for(let i=1; i<=count; i++){
+      const cap = document.getElementById("capital"+i);
+      const tin = document.getElementById("interes"+i);
+      const plazo = document.getElementById("plazo"+i);
+      if(!cap || !tin || !plazo) continue;
+
+      const c = parseFloat(cap.value) || 0;
+      const t = parseFloat(tin.value) || 0;
+      const p = parseInt(plazo.value) || 1;
+      cuotaAntes += cuota(c,t,p);
+      interesesAntes += cuota(c,t,p)*p*12 - c;
+      totalCapital += c;
     }
-    cuotaDespues=cuota(totalCapital+comisiones,tinNuevo,plazoNuevo);
-    interesesDespues=cuotaDespues*plazoNuevo*12-totalCapital-comisiones;
+
+    cuotaDespues = cuota(totalCapital + comisiones, tinNuevo, plazoNuevo);
+    interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
   }
-  // Subrogación
-  else{
-    const capitalPend=parseFloat(document.getElementById("capitalPendiente")?.value)||0;
-    const tinActual=parseFloat(document.getElementById("tinActual")?.value)||0;
-    const plazoRest=parseInt(document.getElementById("plazoRestante")?.value)||1;
 
-    cuotaAntes=cuota(capitalPend,tinActual,plazoRest);
-    interesesAntes=cuotaAntes*plazoRest*12-capitalPend;
+  // ===== SUBROGACIÓN =====
+  else if(op === "subrogacion"){
+    const capitalPend = parseFloat(document.getElementById("capitalPendiente")?.value) || 0;
+    const tinActual = parseFloat(document.getElementById("tinActual")?.value) || 0;
+    const plazoRest = parseInt(document.getElementById("plazoRestante")?.value) || 1;
 
-    const hip=document.getElementById("tipoHipoteca")?.value||"fija";
-    if(hip==="mixta"){
-      const plazoFijo=parseInt(document.getElementById("plazoFijo")?.value)||0;
-      const tinFijo=parseFloat(document.getElementById("tinFijo")?.value)||0;
-      const plazoVar=plazoNuevo-plazoFijo;
-      const cuotaFija=cuota(capitalPend+comisiones,tinFijo,plazoFijo);
-      const capitalRestante=cuotaFija*plazoFijo*12-(capitalPend+comisiones);
-      const cuotaVar=plazoVar>0?cuota(capitalRestante,tinNuevo,plazoVar):0;
-      cuotaDespues=(cuotaFija*plazoFijo*12+cuotaVar*plazoVar*12)/(plazoNuevo*12);
-      interesesDespues=(cuotaFija*plazoFijo*12+cuotaVar*plazoVar*12)-(capitalPend+comisiones);
-    } else{
-      cuotaDespues=cuota(capitalPend+comisiones,tinNuevo,plazoNuevo);
-      interesesDespues=cuotaDespues*plazoNuevo*12-capitalPend-comisiones;
+    // Validar campos
+    if(!capitalPend || !tinActual || !plazoRest) {
+      document.getElementById("resultados").style.display = "none";
+      return;
+    }
+
+    cuotaAntes = cuota(capitalPend, tinActual, plazoRest);
+    interesesAntes = cuotaAntes * plazoRest * 12 - capitalPend;
+
+    const hip = document.getElementById("tipoHipoteca")?.value || "fija";
+
+    if(hip === "mixta"){
+      const plazoFijo = parseInt(document.getElementById("plazoFijo")?.value) || 0;
+      const tinFijo = parseFloat(document.getElementById("tinFijo")?.value) || 0;
+
+      const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
+      const cuotaFija = cuota(capitalPend + comisiones, tinFijo, plazoFijo);
+
+      const capitalRestante = cuotaFija * plazoFijo * 12 - (capitalPend + comisiones);
+      const cuotaVar = plazoVar > 0 ? cuota(capitalRestante, tinNuevo, plazoVar) : 0;
+
+      cuotaDespues = (cuotaFija*plazoFijo*12 + cuotaVar*plazoVar*12)/(plazoNuevo*12);
+      interesesDespues = (cuotaFija*plazoFijo*12 + cuotaVar*plazoVar*12) - (capitalPend + comisiones);
+    }
+    else{
+      cuotaDespues = cuota(capitalPend + comisiones, tinNuevo, plazoNuevo);
+      interesesDespues = cuotaDespues * plazoNuevo * 12 - capitalPend - comisiones;
     }
   }
 
-  const ahorroMensual=cuotaAntes-cuotaDespues;
-  const ahorroTotal=interesesAntes-interesesDespues;
+  // ===== Resultados =====
+  const ahorroMensual = cuotaAntes - cuotaDespues;
+  const ahorroTotal = interesesAntes - interesesDespues;
 
-  const box=document.getElementById("mensajeResultado");
-  if(ahorroMensual>0 && ahorroTotal>0) box.innerHTML=`<div class="resultado-box ok">✔️ Podrías ahorrar ${ahorroMensual.toFixed(0)} €/mes<br>Ahorro total estimado: ${ahorroTotal.toFixed(0)} €</div>`;
-  else if(ahorroMensual>0) box.innerHTML=`<div class="resultado-box warn">⚠️ Bajarías la cuota mensual<br>Pero pagarías más a largo plazo</div>`;
-  else box.innerHTML=`<div class="resultado-box bad">❌ No parece una operación recomendable</div>`;
+  const box = document.getElementById("mensajeResultado");
+  if(ahorroMensual > 0 && ahorroTotal > 0) box.innerHTML = `<div class="resultado-box ok">✔️ Podrías ahorrar ${ahorroMensual.toFixed(0)} €/mes<br>Ahorro total estimado: ${ahorroTotal.toFixed(0)} €</div>`;
+  else if(ahorroMensual > 0) box.innerHTML = `<div class="resultado-box warn">⚠️ Bajarías la cuota mensual<br>Pero pagarías más a largo plazo</div>`;
+  else box.innerHTML = `<div class="resultado-box bad">❌ No parece una operación recomendable</div>`;
 
-  const tbody=document.querySelector("#tablaResultados tbody");
-  tbody.innerHTML="";
-  tbody.innerHTML+=`<tr><td>Cuota mensual</td><td>${cuotaAntes.toFixed(2)} €</td><td>${cuotaDespues.toFixed(2)} €</td></tr>`;
-  tbody.innerHTML+=`<tr><td>Ahorro mensual</td><td>-</td><td>${ahorroMensual.toFixed(2)} €</td></tr>`;
-  tbody.innerHTML+=`<tr><td>Ahorro total</td><td>-</td><td>${ahorroTotal.toFixed(2)} €</td></tr>`;
+  // Tabla de resultados
+  const tbody = document.querySelector("#tablaResultados tbody");
+  tbody.innerHTML = "";
+  tbody.innerHTML += `<tr><td>Cuota mensual</td><td>${cuotaAntes.toFixed(2)} €</td><td>${cuotaDespues.toFixed(2)} €</td></tr>`;
+  tbody.innerHTML += `<tr><td>Ahorro mensual</td><td>-</td><td>${ahorroMensual.toFixed(2)} €</td></tr>`;
+  tbody.innerHTML += `<tr><td>Ahorro total</td><td>-</td><td>${ahorroTotal.toFixed(2)} €</td></tr>`;
 
-  document.getElementById("resultados").style.display="block";
+  document.getElementById("resultados").style.display = "block";
 }
 
 function enviarPDF() {
