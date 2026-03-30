@@ -121,17 +121,21 @@ th{
   border-radius:6px;
   position:relative;
 }
-.remove-deuda{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:#dc2626;
-  color:#fff;
-  border:none;
-  border-radius:50%;
-  width:22px;
-  height:22px;
-  cursor:pointer;
+.remove-deuda {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent; /* quitamos el círculo rojo */
+  color: #dc2626;           /* rojo para destacar */
+  font-size: 18px;           /* más grande */
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.remove-deuda:hover {
+  color: #a71d2a;           /* rojo más oscuro al pasar el mouse */
+  transform: scale(1.2);    /* un pequeño efecto visual */
 }
 @media(max-width:600px){
   .container{padding:20px;margin:20px;}
