@@ -375,34 +375,124 @@ function calcular(){
   document.getElementById("resultados").style.display="block";
 }
 
-function enviarPDF(){
+function enviarPDF() {
   if(!validarCampos()) return;
-  let email=document.getElementById("email").value.trim();
-  let doc=new jsPDF();
-  doc.setFontSize(16);
-  doc.text("Simulación Hipoteca - Kaoba Finance",20,20);
-  doc.autoTable({startY:30, html:"#tablaResultados"});
 
-  // Descarga local
-  doc.save("Simulacion_Hipoteca.pdf");
+  const emailUsuario = document.getElementById("email").value.trim();
 
-  // Enviar al servidor
-  let blob=doc.output("blob");
-  let formData=new FormData();
-  formData.append("pdf",blob,"Simulacion_Hipoteca.pdf");
-  formData.append("email",email);
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ format: 'a4', unit: 'pt' });
 
-  fetch("/enviar-pdf-correo",{method:"POST",body:formData})
-    .then(r=>r.json())
-    .then(d=>alert(d.message||"PDF enviado correctamente"))
-    .catch(()=>alert("Error enviando PDF"));
+  const margenX = 40;
+  let y = 40;
+
+  // Encabezado
+  doc.setFont("helvetica", "bold").setFontSize(20);
+  doc.setTextColor(13, 79, 139);
+  doc.text("KAOBA FINANCE", margenX, y);
+
+  doc.setFont("helvetica", "normal").setFontSize(12);
+  doc.setTextColor(80);
+  doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 500, y, { align: "right" });
+  y += 30;
+
+  // Datos del usuario
+  doc.setFillColor(13, 79, 139);
+  doc.setTextColor(255);
+  doc.setFont("helvetica", "bold").setFontSize(14);
+  doc.rect(margenX-5, y-15, 500, 25, 'F'); // fondo azul
+  doc.text("Datos del usuario", margenX, y);
+  y += 30;
+
+  doc.setFont("helvetica", "normal").setFontSize(11);
+  doc.setTextColor(0);
+  doc.text(`Email: ${emailUsuario}`, margenX, y);
+  y += 25;
+
+  // Tabla de resultados con colores según ahorro
+  const tbody = document.querySelector("#tablaResultados tbody");
+  const data = [];
+  tbody.querySelectorAll("tr").forEach(tr => {
+    const concepto = tr.cells[0].innerText;
+    const antes = tr.cells[1].innerText;
+    const despues = tr.cells[2].innerText;
+
+    // Calcular color: verde si ahorro positivo, rojo si negativo
+    const ahorro = parseFloat(antes.replace("€","")) - parseFloat(despues.replace("€",""));
+    const color = ahorro > 0 ? [198, 239, 206] : (ahorro < 0 ? [255, 199, 206] : [255, 255, 255]);
+    
+    data.push({ concepto, antes, despues, fillColor: color });
+  });
+
+  doc.autoTable({
+    startY: y,
+    head: [["Concepto", "Antes", "Después"]],
+    body: data.map(r => [r.concepto, r.antes, r.despues]),
+    didParseCell: function (dataCell) {
+      if (dataCell.section === 'body') {
+        const rowIndex = dataCell.row.index;
+        const fill = data[rowIndex].fillColor;
+        dataCell.cell.styles.fillColor = fill;
+      }
+    },
+    headStyles: { fillColor: [13, 79, 139], textColor: 255 },
+    alternateRowStyles: { fillColor: [245, 245, 245] },
+    styles: { fontSize: 10, cellPadding: 4 },
+    theme: "grid"
+  });
+
+  y = doc.lastAutoTable.finalY + 20;
+
+  // Mensaje de resultado destacado con fondo según ahorro
+  const mensajeEl = document.getElementById("mensajeResultado");
+  const mensaje = mensajeEl?.innerText || "";
+  let colorBox = [255, 235, 156]; // amarillo por defecto
+  if(mensaje.includes("✔️")) colorBox = [198, 239, 206]; // verde
+  else if(mensaje.includes("❌")) colorBox = [255, 199, 206]; // rojo
+
+  doc.setFillColor(...colorBox);
+  doc.rect(margenX-5, y-12, 500, 35, 'F');
+  doc.setFont("helvetica", "bold").setFontSize(12);
+  doc.setTextColor(0);
+  doc.text("Resultado de la simulación", margenX, y);
+  doc.setFont("helvetica", "normal").setFontSize(11);
+  doc.text(mensaje, margenX, y+18, { maxWidth: 500 });
+  y += 60;
+
+  // Recomendaciones
+  doc.setFont("helvetica", "bold").setFontSize(12);
+  doc.setTextColor(13, 79, 139);
+  doc.text("Recomendaciones", margenX, y);
+  y += 18;
+  doc.setFont("helvetica", "normal").setFontSize(10);
+  doc.setTextColor(0);
+  [
+    "- Verifica los tipos de interés antes de decidir",
+    "- Revisa gastos y comisiones adicionales",
+    "- Analiza la duración y riesgo de la operación",
+    "- Consulta con un asesor financiero si es necesario"
+  ].forEach((rec, i) => doc.text(rec, margenX, y + i * 14));
+
+  y += 70;
+
+  // Disclaimer
+  doc.setFont("helvetica", "italic").setFontSize(9);
+  doc.setTextColor(120);
+  doc.text("* Este informe es orientativo y no constituye una oferta vinculante. La aprobación final depende de cada entidad financiera.", margenX, y, { maxWidth: 500 });
+
+  // Guardar y enviar
+  doc.save("Informe_Subrogacion_Consolidacion_Kaoba.pdf");
+
+  let blob = doc.output("blob");
+  let formData = new FormData();
+  formData.append("pdf", blob, "Informe_Subrogacion_Consolidacion_Kaoba.pdf");
+  formData.append("email", emailUsuario);
+
+  fetch("/enviar-pdf-correo", { method: "POST", body: formData })
+    .then(r => r.json())
+    .then(d => alert(d.message || "PDF enviado correctamente"))
+    .catch(() => alert("Error enviando PDF"));
 }
-
-// Eventos
-document.querySelectorAll("input,select").forEach(el=>el.addEventListener("input",calcular));
-document.getElementById("tipoOperacion").addEventListener("change",actualizarCampos);
-document.getElementById("tipoHipoteca")?.addEventListener("change",actualizarCampos);
-
 </script>
     <style>
 .volver {
