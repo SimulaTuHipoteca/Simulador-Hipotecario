@@ -140,6 +140,8 @@ th{
 </head>
 
 <body>
+  <a href="index.html" class="volver" style="display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:2px solid #0d4f8b; border-radius:6px; background:transparent; color:#0d4f8b; font-weight:600; text-decoration:none; transition:all 0.2s; margin:20px;">← Volver al inicio</a>
+
 <div class="container">
 
 <h1>Simula tu hipoteca</h1>
@@ -398,5 +400,26 @@ document.getElementById("tipoOperacion").addEventListener("change",actualizarCam
 document.getElementById("tipoHipoteca")?.addEventListener("change",actualizarCampos);
 
 </script>
+    <style>
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 2px solid #0d4f8b;
+  border-radius: 6px;
+  background: transparent;
+  color: #0d4f8b;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-bottom: 20px;
+}
+.volver:hover {
+  background: #0d4f8b;
+  color: #fff;
+  transform: translateY(-2px);
+}
+</style>
 </body>
 </html>
