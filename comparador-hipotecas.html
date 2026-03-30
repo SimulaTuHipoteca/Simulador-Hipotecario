@@ -143,6 +143,37 @@ function generarAmortizacion(capital, tin, plazoMeses, amortSi){
   return amortRows;
 }
 
+// ===== Validar y calcular =====
+function validarYCalcular(){
+  let valid=true;
+
+  // Solo validar campos generales: capital, plazo, euribor
+  [["capital","Capital"],["plazo","Plazo"],["euribor","Euribor"]].forEach(([id,label])=>{
+    const el=document.getElementById(id);
+    const error=document.getElementById("error"+label);
+    if(!el.value || parseFloat(el.value)<0){ el.classList.add("error"); error.innerText="Campo obligatorio o inválido"; valid=false;}
+    else {el.classList.remove("error"); error.innerText="";}
+  });
+
+  // Validar campos de los bancos
+  for(let i=1;i<=contador;i++){
+    const div=document.getElementById("banco-"+i); if(!div) continue;
+    const tipo=document.getElementById("tipo-"+i).value;
+    let tipoValido=true;
+    if(tipo==="fija") tipoValido=parseFloat(document.getElementById("tinFijo-"+i).value)>=0;
+    if(tipo==="mixta"){
+      tipoValido=parseFloat(document.getElementById("tinMixtoFijo-"+i).value)>=0 &&
+                 parseInt(document.getElementById("mesesFijo-"+i).value)>=0 &&
+                 parseFloat(document.getElementById("diferencial-"+i).value)>=0;
+    }
+    if(tipo==="variable") tipoValido=parseFloat(document.getElementById("difVar-"+i).value)>=0;
+
+    if(!tipoValido) { valid=false; alert("Corrige los datos de los bancos"); return; }
+  }
+
+  if(valid) calcular();
+}
+
 // ===== Calcular resultados =====
 function calcular(){
   const capital=parseFloat(document.getElementById("capital").value)||150000;
@@ -241,8 +272,7 @@ function descargarPDF(){
 
   // Tabla comparativa
   const tbody=document.querySelector("#tabla tbody");
-  const data=[];
-  let mejorBanco=""; let mejorTotal=Infinity;
+  const data=[]; let mejorBanco=""; let mejorTotal=Infinity;
 
   for(let row of tbody.rows){
     let banco=row.cells[0].innerText;
@@ -253,8 +283,8 @@ function descargarPDF(){
       cuota=`Inicial: ${partes[0].trim()} / Variable: ${partes[1].replace("~","").trim()}`;
     }
     const intereses=row.cells[3].innerText;
-    const total=row.cells[4].innerText;
-    const ahorro=row.cells[5].innerText||"-";
+    const total = row.cells[4].innerText;
+        const ahorro=row.cells[5].innerText||"-";
     const totalNum=parseFloat(total.replace("€","").replace(",","."));    
     if(totalNum<mejorTotal){mejorTotal=totalNum; mejorBanco=banco;}
     data.push([banco,tipo,cuota,intereses,total,ahorro]);
@@ -302,4 +332,7 @@ function descargarPDF(){
 
   doc.save("Informe_Comparativa_Kaoba.pdf");
 }
-</script>              
+</script>
+
+</body>
+</html>
