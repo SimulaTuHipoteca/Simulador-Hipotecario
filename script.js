@@ -315,7 +315,8 @@ if (perfilFields.viviendaCheck && perfilFields.viviendaInfo) {
     }
 
     // Actualizar visibilidad vivienda según checkbox
-    perfilFields.viviendaInfo.style.display = perfilFields.viviendaCheck.checked ? "block" : "none";
+    // Reemplaza la línea anterior dentro de irAnalisis por:
+actualizarViviendaInfo();
 
     calcularPerfil();
     perfilDiv.scrollIntoView({behavior:'smooth'});
