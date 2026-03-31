@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // AUXILIARES
   // -----------------------------
   const formatMoney = n => new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(n);
-
+const perfilDiv = document.getElementById("perfil");
   // -----------------------------
   // MODAL CALCULADORA
   // -----------------------------
