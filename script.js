@@ -391,7 +391,7 @@ if (enviarBtn && statusSpan) {
     let doc = null;
     try {
       if(window.jspdf){
-        const { jsPDF } = window.jspdf.jsPDF ? window.jspdf : window.jspdf;
+        const { jsPDF } = window.jspdf;
         doc = new jsPDF();
 
         doc.setFont("helvetica", "bold");
