@@ -155,18 +155,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const tipoRef = 0.028 / 12;
     const plazo = parseInt(perfilFields.plazo.value) || plazoMax;
     const n = plazo * 12;
-    const cuotaMax = ingresosAnuales * 0.35 / 12 - deudas;
+    const cuotaMax = ingresosAnuales * 0.35 / 12 - // -----------------------------
 
-    let capitalPosible = cuotaMax * (Math.pow(1 + tipoRef, n) - 1) / (tipoRef * Math.pow(1 + tipoRef, n));
-    const precio = parseFloat(perfilFields.precio.value) || 0;
-    const impuestos = perfilFields.tipoVivienda.value === "obraNueva" ? precio * 0.10 : precio * parseFloat(perfilFields.comunidad.value || 0);
-    const gastos = impuestos + 2500;
-    const ahorros = parseFloat(perfilFields.ahorros.value) || 0;
-    const entrada = perfilFields.primeraSegunda.value === "segunda" ? precio * 0.30 : precio * 0.20;
-    const faltanteEntrada = Math.max(entrada - ahorros, 0);
+      // 1. CAPACIDAD POR INGRESOS
+// -----------------------------
+let capacidadPorIngresos = cuotaMax * (Math.pow(1 + tipoRef, n) - 1) / (tipoRef * Math.pow(1 + tipoRef, n));
 
-    if (perfilFields.viviendaCheck.checked) capitalPosible = precio + gastos;
+// -----------------------------
+// 2. DATOS VIVIENDA
+// -----------------------------
+const precio = parseFloat(perfilFields.precio.value) || 0;
+const ahorros = parseFloat(perfilFields.ahorros.value) || 0;
 
+const impuestos = perfilFields.tipoVivienda.value === "obraNueva"
+  ? precio * 0.10
+  : precio * parseFloat(perfilFields.comunidad.value || 0);
+
+const gastos = impuestos + 2500;
+
+// -----------------------------
+// 3. LÓGICA BANCARIA REAL
+// -----------------------------
+const esSegunda = perfilFields.primeraSegunda.value === "segunda";
+const maxFinanciacion = esSegunda ? 0.7 : 0.8;
+
+const maxPrestamoBanco = precio * maxFinanciacion;
+
+// Lo que realmente necesita el cliente
+const prestamoNecesario = precio - ahorros;
+
+// -----------------------------
+// 4. PRÉSTAMO FINAL REAL
+// -----------------------------
+let capitalPosible = Math.min(
+  capacidadPorIngresos,
+  maxPrestamoBanco,
+  prestamoNecesario
+);
+
+// Evitar negativos
+if (capitalPosible < 0) capitalPosible = 0;
+
+// -----------------------------
+// 5. BONUS → VALIDACIÓN DE AHORRO REAL
+// -----------------------------
+const dineroNecesario = gastos + (precio - maxPrestamoBanco);
+const faltanteEntrada = Math.max(dineroNecesario - ahorros, 0);
     const cuota = capitalPosible * (tipoRef * Math.pow(1 + tipoRef, n)) / (Math.pow(1 + tipoRef, n) - 1);
     const ltv = precio > 0 ? (capitalPosible / precio) * 100 : 0;
     const lti = ingresosAnuales > 0 ? ((cuota + deudas) * 12) / ingresosAnuales : 0;
@@ -209,6 +243,14 @@ if (mensajePerfil) {
       perfilFields.avisoSegunda.innerHTML = `<strong>¡Atención! Segunda residencia con alta financiación:</strong>
         <p>Necesario aportar ${formatMoney(faltanteEntrada)}, más gastos aproximados ${formatMoney(gastos)}</p>`;
     } else if (perfilFields.avisoSegunda) perfilFields.avisoSegunda.style.display = "none";
+    if (ahorros < dineroNecesario && precio > 0) {
+  perfilFields.avisoSegunda.style.display = "block";
+  perfilFields.avisoSegunda.innerHTML = `
+    <strong>Ahorro insuficiente:</strong>
+    <p>Necesitarías aproximadamente ${formatMoney(dineroNecesario)}</p>
+    <p>Te faltan ${formatMoney(faltanteEntrada)}</p>
+  `;
+}
 
     // Resultados en tarjetas
     perfilFields.capitalOut && (perfilFields.capitalOut.innerText = formatMoney(capitalPosible));
