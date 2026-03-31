@@ -128,8 +128,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Mostrar / ocultar info de vivienda al marcar checkbox
-  const actualizarViviendaInfo = () => {
-  perfilFields.viviendaInfo.style.display = perfilFields.viviendaCheck.checked ? "block" : "none";
+ const actualizarViviendaInfo = () => {
+  if (!perfilFields.viviendaCheck || !perfilFields.viviendaInfo) return;
+
+  perfilFields.viviendaInfo.style.display =
+    perfilFields.viviendaCheck.checked ? "block" : "none";
+
   calcularPerfil();
 };
 
