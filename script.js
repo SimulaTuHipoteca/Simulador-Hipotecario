@@ -174,14 +174,69 @@ function calcularPerfil() {
     : 0;
   const gastos = impuestos + (agregarVivienda ? 2500 : 0);
 
-  // -----------------------------
-  // 3. LÓGICA BANCARIA
-  // -----------------------------
-  const esSegunda = perfilFields.primeraSegunda.value === "segunda";
-  const maxFinanciacion = esSegunda ? 0.7 : 0.8;
-  const maxPrestamoBanco = agregarVivienda ? precio * maxFinanciacion : 0;
-  const prestamoNecesario = agregarVivienda ? precio - ahorros : 0;
+// -----------------------------
+// 3. LÓGICA BANCARIA (DINÁMICA)
+// -----------------------------
 
+const esSegunda = perfilFields.primeraSegunda.value === "segunda";
+
+// LTI estimado previo (para evitar bucle)
+const cuotaMax = ingresosAnuales * 0.35 / 12 - deudas;
+const ltiEstimado = ingresosAnuales > 0 ? (cuotaMax * 12) / ingresosAnuales : 0;
+
+// Función de financiación dinámica
+function calcularMaxFinanciacion({ 
+  esSegunda, 
+  edad1, 
+  edad2, 
+  ingresosAnuales, 
+  lti 
+}) {
+
+  // Segunda vivienda → regla fija
+  if (esSegunda) {
+    return { porcentaje: 0.7, motivo: "Segunda residencia" };
+  }
+
+  const edadMin = Math.min(edad1 || 99, edad2 || 99);
+
+  // 🟢 Menores de 35 años → hasta 100%
+  if (edadMin > 0 && edadMin < 35) {
+    return { porcentaje: 1.0, motivo: "Menor de 35 años" };
+  }
+
+  // 🟡 Ingresos < 50k → hasta 90%
+  if (ingresosAnuales > 0 && ingresosAnuales < 50000) {
+    return { porcentaje: 0.9, motivo: "Ingresos < 50.000€" };
+  }
+
+  // 🔵 Ingresos ≥ 50k o ratio bajo → hasta 100%
+  if (ingresosAnuales >= 50000 || lti <= 0.30) {
+    return { porcentaje: 1.0, motivo: "Perfil solvente" };
+  }
+
+  // ⚪ Caso estándar
+  return { porcentaje: 0.8, motivo: "Financiación estándar" };
+}
+
+// Obtener resultado
+const resultadoFinanciacion = calcularMaxFinanciacion({
+  esSegunda,
+  edad1,
+  edad2,
+  ingresosAnuales,
+  lti: ltiEstimado
+});
+
+const maxFinanciacion = resultadoFinanciacion.porcentaje;
+
+// Cálculos finales
+const maxPrestamoBanco = agregarVivienda ? precio * maxFinanciacion : 0;
+const prestamoNecesario = agregarVivienda ? precio - ahorros : 0;
+if (perfilFields.operacionBadge && resultadoFinanciacion.motivo) {
+  perfilFields.operacionBadge.innerText += ` | ${resultadoFinanciacion.motivo}`;
+}
+  
   // -----------------------------
   // 4. PRÉSTAMO FINAL
   // -----------------------------
