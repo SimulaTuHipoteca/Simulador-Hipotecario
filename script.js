@@ -155,9 +155,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const tipoRef = 0.028 / 12;
     const plazo = parseInt(perfilFields.plazo.value) || plazoMax;
     const n = plazo * 12;
-    const cuotaMax = ingresosAnuales * 0.35 / 12 - // -----------------------------
+const cuotaMax = ingresosAnuales * 0.35 / 12 - deudas;
 
-      // 1. CAPACIDAD POR INGRESOS
+// -----------------------------
+// 1. CAPACIDAD POR INGRESOS
 // -----------------------------
 let capacidadPorIngresos = cuotaMax * (Math.pow(1 + tipoRef, n) - 1) / (tipoRef * Math.pow(1 + tipoRef, n));
 
