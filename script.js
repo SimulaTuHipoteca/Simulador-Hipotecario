@@ -319,12 +319,21 @@ window.abrirOperacion = function(id){
 // -----------------------------
 window.irAnalisis = function(event, tipoOperacion){
   event.stopPropagation();
-  
-  let idMap = {
+
+  // Redirección para operaciones que tienen página propia
+  if(tipoOperacion === 'Cambio de Hipoteca'){
+    window.location.href = 'cambio.html';
+    return;
+  }
+  if(tipoOperacion === 'Consolidación'){
+    window.location.href = 'consolidacion.html';
+    return;
+  }
+
+  // Para Primera Vivienda o Inversión, abrir la tarjeta y mostrar perfil
+  const idMap = {
     'Compra Primera Vivienda': 'compra',
-    'Cambio de Hipoteca': 'cambio',
-    'Inversión': 'inversion',
-    'Consolidación': 'consolidacion'
+    'Inversión': 'inversion'
   };
   const id = idMap[tipoOperacion];
   if(id) abrirOperacion(id);
@@ -350,7 +359,6 @@ window.irAnalisis = function(event, tipoOperacion){
   calcularPerfil();
   perfilDiv.scrollIntoView({behavior:'smooth'});
 };
-
   // -----------------------------
   // ENVÍO DE LEADS Y PDF
   // -----------------------------
