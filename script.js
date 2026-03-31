@@ -127,12 +127,16 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Mostrar / ocultar info de vivienda al marcar checkbox
-  if (perfilFields.viviendaCheck && perfilFields.viviendaInfo) {
-    perfilFields.viviendaCheck.addEventListener("change", () => {
-      perfilFields.viviendaInfo.style.display = perfilFields.viviendaCheck.checked ? "block" : "none";
-      calcularPerfil();
-    });
-  }
+  const actualizarViviendaInfo = () => {
+  perfilFields.viviendaInfo.style.display = perfilFields.viviendaCheck.checked ? "block" : "none";
+  calcularPerfil();
+};
+
+if (perfilFields.viviendaCheck && perfilFields.viviendaInfo) {
+  perfilFields.viviendaCheck.addEventListener("change", actualizarViviendaInfo);
+  // Ejecutar una vez al inicio para sincronizar el estado
+  actualizarViviendaInfo();
+}
 
   const calcularPerfil = () => {
     const nTitulares = parseInt(perfilFields.titulares.value) || 1;
