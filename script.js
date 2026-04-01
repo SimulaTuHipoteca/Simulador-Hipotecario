@@ -224,7 +224,15 @@ function calcularPerfil() {
   const maxFinanciacion = resultadoFinanciacion.porcentaje;
 
   const maxPrestamoBanco = agregarVivienda ? precio * maxFinanciacion : 0;
-  const prestamoNecesario = agregarVivienda ? precio - ahorros : 0;
+const importeTotalOperacion = agregarVivienda ? (precio + gastos) : 0;
+const prestamoNecesario = agregarVivienda 
+  ? Math.max(importeTotalOperacion - ahorros, 0) 
+  : 0;
+
+  if (prestamoNecesario === 0 && agregarVivienda) {
+  mensajePerfil.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
+  mensajePerfil.classList.add("mensaje-ok");
+}
 
   if (perfilFields.operacionBadge && resultadoFinanciacion.motivo) {
     perfilFields.operacionBadge.innerText += ` | ${resultadoFinanciacion.motivo}`;
@@ -243,30 +251,33 @@ function calcularPerfil() {
   // MENSAJE Y RESULTADOS
   // -----------------------------
   const mensajePerfil = document.getElementById("mensajePerfil");
-  if (mensajePerfil) {
-    mensajePerfil.className = "mensaje-perfil";
-    if (ingresos <= 0 || plazo <= 0 || cuota <= 0) {
-      mensajePerfil.style.display = "none";
-    } else {
-      let viable = false;
-      if (lti <= 0.35) viable = true;
-      else if (lti <= 0.40 && ltv <= 90) viable = true;
-      else if (lti <= 0.45 && ltv <= 95) viable = true;
+if (mensajePerfil) {
+  mensajePerfil.className = "mensaje-perfil";
 
-      mensajePerfil.style.display = "block";
-      if (viable) {
-        mensajePerfil.innerText = "¡Buen perfil financiero! Puedes optar a condiciones favorables.";
-        mensajePerfil.classList.add("mensaje-ok");
-      } else if (lti <= 0.40) {
-        mensajePerfil.innerText = "Perfil aceptable. Podrías obtener financiación con algunas condiciones.";
-        mensajePerfil.classList.add("mensaje-warning");
-      } else {
-        mensajePerfil.innerText = "Perfil con limitaciones financieras.";
-        mensajePerfil.classList.add("mensaje-warning");
-      }
+  if (ingresos <= 0 || plazo <= 0 || cuota <= 0) {
+    mensajePerfil.style.display = "none";
+  } else {
+    mensajePerfil.style.display = "block";
+
+    if (lti <= 0.35) {
+      mensajePerfil.innerText = "¡Excelente perfil financiero! Alta probabilidad de aprobación.";
+      mensajePerfil.classList.add("mensaje-ok");
+    } 
+    else if (lti <= 0.40 && ltv <= 90) {
+      mensajePerfil.innerText = "Buen perfil. Posible aprobación con buenas condiciones.";
+      mensajePerfil.classList.add("mensaje-ok");
+    } 
+    else if (lti <= 0.45 && ltv <= 95) {
+      mensajePerfil.innerText = "Perfil aceptable. Algunas condiciones podrían endurecerse.";
+      mensajePerfil.classList.add("mensaje-warning");
+    } 
+    else {
+      mensajePerfil.innerText = "Perfil con riesgo elevado. Difícil aprobación sin mejoras.";
+      mensajePerfil.classList.add("mensaje-warning");
     }
   }
-
+}
+  
   perfilFields.capitalOut && (perfilFields.capitalOut.innerText = formatMoney(capitalPosible));
   perfilFields.cuotaOut && (perfilFields.cuotaOut.innerText = formatMoney(cuota));
   perfilFields.ltvOut && (perfilFields.ltvOut.innerText = ltv > 0 ? ltv.toFixed(1) + "%" : "-");
