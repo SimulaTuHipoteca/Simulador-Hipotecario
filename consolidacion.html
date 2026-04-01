@@ -243,19 +243,38 @@ function validarCampos(){
 // Calcular cuotas
 function calcular(){
   const op = document.getElementById("tipoOperacion").value;
-  const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value) || 0;
-  const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value) || 1;
-  const comisiones = parseFloat(document.getElementById("comisionesNuevo")?.value) || 0;
+
+  const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value);
+  const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value);
+
+  // 🚫 BLOQUEAR SI FALTAN DATOS DEL NUEVO PRÉSTAMO
+  if (!tinNuevo || !plazoNuevo) {
+    document.getElementById("resultados").style.display = "none";
+    return;
+  }
 
   let cuotaAntes = 0, interesesAntes = 0, cuotaDespues = 0, interesesDespues = 0, totalCapital = 0;
 
+  // 🚫 BLOQUEAR SI NO HAY DEUDAS COMPLETAS
   if(op === "consolidacion"){
+    let hayDatosDeudas = false;
+
     for(let i=1; i<=count; i++){
       const cap = document.getElementById("capital"+i);
       const tin = document.getElementById("interes"+i);
       const plazo = document.getElementById("plazo"+i);
-      if(!cap || !tin || !plazo) continue;
-      if(cap.value === "" || tin.value === "" || plazo.value === "") continue;
+
+      if(cap && tin && plazo && cap.value && tin.value && plazo.value){
+        hayDatosDeudas = true;
+        break;
+      }
+    }
+
+    if(!hayDatosDeudas){
+      document.getElementById("resultados").style.display = "none";
+      return;
+    }
+  }
       
       const c = parseFloat(cap.value);
       const t = parseFloat(tin.value);
@@ -271,10 +290,17 @@ function calcular(){
       interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
     }
   }
-  else if(op === "subrogacion"){
-    const capitalPend = parseFloat(document.getElementById("capitalPendiente")?.value) || 0;
-    const tinActual = parseFloat(document.getElementById("tinActual")?.value) || 0;
-    const plazoRest = parseInt(document.getElementById("plazoRestante")?.value) || 1;
+   // 🚫 BLOQUEAR SI FALTAN DATOS DE HIPOTECA ACTUAL
+  if(op === "subrogacion"){
+    const capitalPend = parseFloat(document.getElementById("capitalPendiente")?.value);
+    const tinActual = parseFloat(document.getElementById("tinActual")?.value);
+    const plazoRest = parseInt(document.getElementById("plazoRestante")?.value);
+
+    if(!capitalPend || !tinActual || !plazoRest){
+      document.getElementById("resultados").style.display = "none";
+      return;
+    }
+  }
 
     if(capitalPend > 0 && tinActual > 0 && plazoRest > 0){
       cuotaAntes = cuota(capitalPend, tinActual, plazoRest);
