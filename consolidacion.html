@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kaoba Finance | Simulador Pro</title>
+<title>Kaoba Finance | Simulador Interactivo PRO</title>
 
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -11,102 +11,105 @@
 
 <style>
 body {
-  background:#f5f7fb;
-  font-family:Arial,sans-serif;
-  color:#333;
+  background: #f5f7fb;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 .container {
-  max-width:900px;
-  margin:40px auto;
-  background:#fff;
-  padding:30px;
-  border-radius:10px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 h1 {
-  text-align:center;
-  color:#0d4f8b;
-  margin-bottom:5px;
+  text-align: center;
+  color: #0d4f8b;
+  margin-bottom: 5px;
 }
 .subtitle {
-  text-align:center;
-  color:#666;
-  margin-bottom:30px;
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
 }
 .section-title {
-  font-size:1.2rem;
-  font-weight:600;
-  margin-bottom:15px;
-  color:#0d4f8b;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #0d4f8b;
 }
 label {
-  font-weight:600;
-  margin-top:10px;
-  display:block;
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
 }
 input, select {
-  width:100%;
-  padding:10px;
-  margin-top:5px;
-  border-radius:6px;
-  border:1px solid #ccc;
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 input:focus, select:focus {
-  border-color:#0d4f8b;
-  outline:none;
+  border-color: #0d4f8b;
+  outline: none;
 }
 button {
-  background:#0d4f8b;
-  color:#fff;
-  padding:12px;
-  border:none;
-  border-radius:6px;
-  margin-top:15px;
-  cursor:pointer;
-  font-weight:600;
-  transition:0.2s;
+  background: #0d4f8b;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
 }
 button:hover {
-  background:#09407a;
+  background: #09407a;
 }
 .resultado-box {
-  margin-top:20px;
-  padding:20px;
-  border-radius:8px;
-  text-align:center;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
 }
-.ok {background:#e6f4ea;color:#1e7e34;}
-.warn {background:#fff3cd;color:#856404;}
-.bad {background:#f8d7da;color:#721c24;}
+.ok { background: #e6f4ea; color: #1e7e34; }
+.warn { background: #fff3cd; color: #856404; }
+.bad { background: #f8d7da; color: #721c24; }
 .small-tip {
-  color:#6b7280;
-  font-size:0.85rem;
-  margin-top:3px;
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-top: 3px;
 }
 .error-msg {
-  color:#dc2626;
-  font-size:0.85rem;
-  margin-top:3px;
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 3px;
 }
 table {
-  width:100%;
-  border-collapse:collapse;
-  margin-top:15px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
 }
 th, td {
-  padding:10px;
-  border-bottom:1px solid #e5e7eb;
-  text-align:center;
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
 }
 th {
-  background:#f1f3f6;
+  background: #f1f3f6;
 }
 .deuda {
-  border:1px solid #e3e8ef;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:6px;
-  position:relative;
+  border: 1px solid #e3e8ef;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  position: relative;
 }
 .remove-deuda {
   position: absolute;
@@ -143,43 +146,43 @@ th {
   transform: translateY(-2px);
 }
 @media(max-width:600px){
-  .container {padding:20px;margin:20px;}
-  .remove-deuda {top:5px; right:5px;}
+  .container{padding:20px;margin:20px;}
 }
-.error {border-color:#dc2626;}
 </style>
 </head>
-<body>
 
+<body>
 <a href="index.html" class="volver">← Volver al inicio</a>
 
 <div class="container">
-<h1>Simula tu hipoteca PRO</h1>
+<h1>Simula tu hipoteca</h1>
 <p class="subtitle">Analiza si puedes consolidar tus deudas o mejorar tu hipoteca</p>
 
 <div class="section">
-<label>Selecciona la operación:</label>
-<select id="tipoOperacion">
-  <option value="consolidacion">Consolidar deudas</option>
-  <option value="subrogacion">Subrogar hipoteca</option>
-</select>
+  <label>Selecciona la operación:</label>
+  <select id="tipoOperacion">
+    <option value="consolidacion">Consolidar deudas</option>
+    <option value="subrogacion">Subrogar hipoteca</option>
+  </select>
 </div>
 
+<!-- Campos tipo hipoteca -->
 <div id="camposTipoHipoteca" class="section" style="display:none">
-<label>Tipo de hipoteca:</label>
-<select id="tipoHipoteca">
-  <option value="fija">Fija</option>
-  <option value="mixta">Mixta</option>
-</select>
+  <label>Tipo de hipoteca:</label>
+  <select id="tipoHipoteca">
+    <option value="fija">Fija</option>
+    <option value="mixta">Mixta</option>
+  </select>
 </div>
 
+<!-- Campos consolidación -->
 <div id="camposDeudas" class="section">
 <h2 class="section-title">Tus deudas actuales</h2>
 <div id="deudas"></div>
 <button type="button" onclick="addDeuda()">+ Añadir deuda</button>
 <small class="small-tip">Completa todas tus deudas para calcular la cuota única tras consolidación.</small>
 </div>
-
+<!-- Campos subrogación -->
 <div id="camposSubrogacion" class="section" style="display:none">
 <h2 class="section-title">Hipoteca actual</h2>
 <label>Capital pendiente (€)<input type="number" id="capitalPendiente" placeholder="Ej: 150000" min="0"></label>
@@ -192,6 +195,7 @@ th {
 <div id="errorPlazoRestante" class="error-msg"></div>
 </div>
 
+<!-- Campos hipoteca mixta -->
 <div id="camposMixta" style="display:none" class="section">
 <h2 class="section-title">Plazo fijo inicial (solo mixta)</h2>
 <label>Años a tipo fijo<input type="number" id="plazoFijo" placeholder="Ej: 5" min="0"></label>
@@ -199,6 +203,7 @@ th {
 <small class="small-tip">Introduce la duración y el TIN del periodo fijo.</small>
 </div>
 
+<!-- Campos nuevo préstamo -->
 <div class="section">
 <h2 class="section-title">Nuevo préstamo</h2>
 <label>Plazo total (años)<input type="number" id="plazoNuevo" placeholder="Ej: 20" min="1"></label>
@@ -210,8 +215,11 @@ th {
 <label>Gastos / comisiones (€)<input type="number" id="comisionesNuevo" placeholder="Ej: 1000" min="0"></label>
 </div>
 
+<!-- RESULTADOS -->
 <div id="resultados" class="section" style="display:none">
+
 <div id="mensajeResultado" class="resultado-box"></div>
+
 <div class="section">
 <table id="tablaResultados">
 <thead><tr><th>Concepto</th><th>Antes</th><th>Después</th></tr></thead>
@@ -230,27 +238,44 @@ th {
 <button onclick="enviarPDF()">📩 Quiero que reviséis mi caso</button>
 <small class="small-tip">Un asesor analizará tu situación sin compromiso.</small>
 </div>
-</div>
-</div>
+</div> <!-- FIN RESULTADOS -->
 
-<script>
+</div> <!-- FIN CONTAINER -->
+
+  <script>
 let count = 0;
 const { jsPDF } = window.jspdf;
 
-window.addEventListener("DOMContentLoaded", () => {
-  addDeuda();
-  actualizarCampos();
-  document.getElementById("tipoOperacion").addEventListener("change", actualizarCampos);
-  const tipoHipotecaSelect = document.getElementById("tipoHipoteca");
-  if (tipoHipotecaSelect) tipoHipotecaSelect.addEventListener("change", actualizarCampos);
-});
-
-function cuota(c, i, p) {
-  const r = i / 100 / 12;
-  const m = p * 12;
-  return c * r * Math.pow(1 + r, m) / (Math.pow(1 + r, m) - 1);
+// Función para obtener parámetro de URL
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
 }
 
+window.addEventListener("DOMContentLoaded", () => {
+  const tipo = getQueryParam("tipo");
+  if (tipo) {
+    document.getElementById("tipoOperacion").value = tipo;
+  }
+  addDeuda();
+  actualizarCampos();
+
+  // Listeners para cambios
+  document.getElementById("tipoOperacion").addEventListener("change", actualizarCampos);
+  const tipoHipotecaSelect = document.getElementById("tipoHipoteca");
+  if (tipoHipotecaSelect) {
+    tipoHipotecaSelect.addEventListener("change", actualizarCampos);
+  }
+});
+
+// Función para calcular cuota mensual
+function cuota(c, i, p) {
+  let r = i / 100 / 12;
+  let m = p * 12;
+  return (c * r * Math.pow(1 + r, m)) / (Math.pow(1 + r, m) - 1);
+}
+
+// Mostrar/ocultar campos según operación y tipo de hipoteca
 function actualizarCampos() {
   const op = document.getElementById("tipoOperacion").value;
   document.getElementById("camposDeudas").style.display = op === "consolidacion" ? "block" : "none";
@@ -263,6 +288,7 @@ function actualizarCampos() {
   calcular();
 }
 
+// Añadir una deuda al listado
 function addDeuda() {
   count++;
   const div = document.createElement("div");
@@ -278,113 +304,138 @@ function addDeuda() {
   div.querySelectorAll("input").forEach(inp => inp.addEventListener("input", calcular));
 }
 
+// Eliminar deuda
 function removeDeuda(id) {
   document.getElementById("d" + id)?.remove();
   calcular();
 }
 
-// Validación mejorada
+// Validación de campos antes de enviar
 function validarCampos() {
   let valid = true;
-
-  // Email válido
-  const email = document.getElementById("email");
-  const errorEmail = document.getElementById("errorEmail");
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email.value || !emailPattern.test(email.value)) {
-    errorEmail.innerText = "Email inválido";
-    valid = false;
-  } else errorEmail.innerText = "";
-
-  // RGPD
-  const rgpd = document.getElementById("rgpd");
-  const errorRgpd = document.getElementById("errorRgpd");
-  if (!rgpd.checked) { errorRgpd.innerText = "Debes aceptar la política"; valid = false; } else errorRgpd.innerText="";
-
-  // Campos principales
-  const campos = ["plazoNuevo","tinNuevo"];
-  if (document.getElementById("tipoOperacion").value === "subrogacion") campos.push("capitalPendiente","tinActual","plazoRestante");
-  campos.forEach(id => {
+  ["capitalPendiente", "tinActual", "plazoRestante", "plazoNuevo", "tinNuevo", "email"].forEach(id => {
     const el = document.getElementById(id);
     const error = document.getElementById("error" + id.charAt(0).toUpperCase() + id.slice(1));
-    if (!el || el.value === "" || parseFloat(el.value)<0) { error.innerText="Campo obligatorio o inválido"; valid=false; } 
-    else { error.innerText=""; }
+    if (!el) return;
+    if (el.value === "" || parseFloat(el.value) < 0) {
+      el.classList.add("error");
+      error.innerText = "Campo obligatorio o inválido";
+      valid = false;
+    } else {
+      el.classList.remove("error");
+      error.innerText = "";
+    }
   });
 
-  // Deudas
-  if (document.getElementById("tipoOperacion").value==="consolidacion") {
-    for (let i=1;i<=count;i++) {
-      const cap=document.getElementById("capital"+i), tin=document.getElementById("interes"+i), plazo=document.getElementById("plazo"+i);
-      if(!cap) continue;
-      if(!cap.value||!tin.value||!plazo.value) { alert("Completa todas las deudas correctamente"); valid=false; break; }
+  const rgpd = document.getElementById("rgpd");
+  const errorRgpd = document.getElementById("errorRgpd");
+  if (!rgpd.checked) {
+    errorRgpd.innerText = "Debes aceptar la política";
+    valid = false;
+  } else {
+    errorRgpd.innerText = "";
+  }
+
+  // Validar deudas si está consolidación
+  if (document.getElementById("tipoOperacion").value === "consolidacion") {
+    for (let i = 1; i <= count; i++) {
+      const cap = document.getElementById("capital" + i);
+      const tin = document.getElementById("interes" + i);
+      const plazo = document.getElementById("plazo" + i);
+      if (!cap) continue;
+      if (cap.value === "" || tin.value === "" || plazo.value === "") {
+        alert("Completa todas las deudas correctamente");
+        valid = false;
+        break;
+      }
     }
   }
+
   return valid;
 }
 
-// Cálculo con hipoteca mixta correcta
+// Calcular cuotas, ahorro y mostrar resultados
 function calcular() {
-  const op=document.getElementById("tipoOperacion").value;
-  const tinNuevo=parseFloat(document.getElementById("tinNuevo")?.value)||0;
-  const plazoNuevo=parseInt(document.getElementById("plazoNuevo")?.value)||1;
-  const comisiones=parseFloat(document.getElementById("comisionesNuevo")?.value)||0;
+  const op = document.getElementById("tipoOperacion").value;
+  const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value) || 0;
+  const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value) || 1;
+  const comisiones = parseFloat(document.getElementById("comisionesNuevo")?.value) || 0;
 
-  let cuotaAntes=0, interesesAntes=0, cuotaDespues=0, interesesDespues=0, totalCapital=0;
+  let cuotaAntes = 0, interesesAntes = 0, cuotaDespues = 0, interesesDespues = 0, totalCapital = 0;
 
-  if(op==="consolidacion") {
-    for(let i=1;i<=count;i++){
-      const cap=parseFloat(document.getElementById("capital"+i)?.value)||0;
-      const t=parseFloat(document.getElementById("interes"+i)?.value)||0;
-      const p=parseInt(document.getElementById("plazo"+i)?.value)||1;
-      cuotaAntes+=cuota(cap,t,p);
-      interesesAntes+=cuota(cap,t,p)*p*12-cap;
-      totalCapital+=cap;
+  // ===== CONSOLIDACIÓN =====
+  if (op === "consolidacion") {
+    for (let i = 1; i <= count; i++) {
+      const cap = document.getElementById("capital" + i);
+      const tin = document.getElementById("interes" + i);
+      const plazo = document.getElementById("plazo" + i);
+      if (!cap || !tin || !plazo) continue;
+
+      const c = parseFloat(cap.value) || 0;
+      const t = parseFloat(tin.value) || 0;
+      const p = parseInt(plazo.value) || 1;
+      cuotaAntes += cuota(c, t, p);
+      interesesAntes += cuota(c, t, p) * p * 12 - c;
+      totalCapital += c;
     }
-    cuotaDespues=cuota(totalCapital+comisiones,tinNuevo,plazoNuevo);
-    interesesDespues=cuotaDespues*plazoNuevo*12-totalCapital-comisiones;
+
+    cuotaDespues = cuota(totalCapital + comisiones, tinNuevo, plazoNuevo);
+    interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
   }
-  else if(op==="subrogacion") {
-    const capitalPend=parseFloat(document.getElementById("capitalPendiente")?.value)||0;
-    const tinActual=parseFloat(document.getElementById("tinActual")?.value)||0;
-    const plazoRest=parseInt(document.getElementById("plazoRestante")?.value)||1;
-    if(!capitalPend||!tinActual||!plazoRest){document.getElementById("resultados").style.display="none";return;}
-    cuotaAntes=cuota(capitalPend,tinActual,plazoRest);
-    interesesAntes=cuotaAntes*plazoRest*12-capitalPend;
-    const hip=document.getElementById("tipoHipoteca")?.value||"fija";
-    if(hip==="mixta"){
-      const plazoFijo=parseInt(document.getElementById("plazoFijo")?.value)||0;
-      const tinFijo=parseFloat(document.getElementById("tinFijo")?.value)||0;
-      // Capital restante después del período fijo
-      const mF=plazoFijo*12;
-      const cuotaF=cuota(capitalPend+comisiones,tinFijo,plazoFijo);
-      const capitalRestante=(capitalPend+comisiones)*Math.pow(1+tinFijo/100/12,mF)-cuotaF*((Math.pow(1+tinFijo/100/12,mF)-1)/(tinFijo/100/12));
-      const plazoVar=Math.max(plazoNuevo-plazoFijo,0);
-      const cuotaVar=plazoVar>0?cuota(capitalRestante,tinNuevo,plazoVar):0;
-      cuotaDespues=(cuotaF*plazoFijo*12+cuotaVar*plazoVar*12)/(plazoNuevo*12);
-      interesesDespues=(cuotaF*plazoFijo*12+cuotaVar*plazoVar*12)-(capitalPend+comisiones);
+
+  // ===== SUBROGACIÓN =====
+  else if (op === "subrogacion") {
+    const capitalPend = parseFloat(document.getElementById("capitalPendiente")?.value) || 0;
+    const tinActual = parseFloat(document.getElementById("tinActual")?.value) || 0;
+    const plazoRest = parseInt(document.getElementById("plazoRestante")?.value) || 1;
+
+    if (!capitalPend || !tinActual || !plazoRest) {
+      document.getElementById("resultados").style.display = "none";
+      return;
+    }
+
+    cuotaAntes = cuota(capitalPend, tinActual, plazoRest);
+    interesesAntes = cuotaAntes * plazoRest * 12 - capitalPend;
+
+    const hip = document.getElementById("tipoHipoteca")?.value || "fija";
+
+    if (hip === "mixta") {
+      const plazoFijo = parseInt(document.getElementById("plazoFijo")?.value) || 0;
+      const tinFijo = parseFloat(document.getElementById("tinFijo")?.value) || 0;
+
+      const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
+      const cuotaFija = cuota(capitalPend + comisiones, tinFijo, plazoFijo);
+
+      const capitalRestante = cuotaFija * plazoFijo * 12 - (capitalPend + comisiones);
+      const cuotaVar = plazoVar > 0 ? cuota(capitalRestante, tinNuevo, plazoVar) : 0;
+
+      cuotaDespues = (cuotaFija * plazoFijo * 12 + cuotaVar * plazoVar * 12) / (plazoNuevo * 12);
+      interesesDespues = (cuotaFija * plazoFijo * 12 + cuotaVar * plazoVar * 12) - (capitalPend + comisiones);
     } else {
-      cuotaDespues=cuota(capitalPend+comisiones,tinNuevo,plazoNuevo);
-      interesesDespues=cuotaDespues*plazoNuevo*12-capitalPend-comisiones;
+      cuotaDespues = cuota(capitalPend + comisiones, tinNuevo, plazoNuevo);
+      interesesDespues = cuotaDespues * plazoNuevo * 12 - capitalPend - comisiones;
     }
   }
 
-  const ahorroMensual=cuotaAntes-cuotaDespues;
-  const ahorroTotal=interesesAntes-interesesDespues;
-  const box=document.getElementById("mensajeResultado");
-  if(ahorroMensual>0 && ahorroTotal>0) box.innerHTML=`<div class="resultado-box ok">✔️ Podrías ahorrar ${ahorroMensual.toFixed(0)} €/mes<br>Ahorro total estimado: ${ahorroTotal.toFixed(0)} €</div>`;
-  else if(ahorroMensual>0) box.innerHTML=`<div class="resultado-box warn">⚠️ Bajarías la cuota mensual<br>Pero pagarías más a largo plazo</div>`;
-  else box.innerHTML=`<div class="resultado-box bad">❌ No parece una operación recomendable</div>`;
+  // Resultados y tabla
+  const ahorroMensual = cuotaAntes - cuotaDespues;
+  const ahorroTotal = interesesAntes - interesesDespues;
 
-  const tbody=document.querySelector("#tablaResultados tbody");
-  tbody.innerHTML="";
-  tbody.innerHTML+=`<tr><td>Cuota mensual</td><td>${cuotaAntes.toFixed(2)} €</td><td>${cuotaDespues.toFixed(2)} €</td></tr>`;
-  tbody.innerHTML+=`<tr><td>Ahorro mensual</td><td>-</td><td>${ahorroMensual.toFixed(2)} €</td></tr>`;
-  tbody.innerHTML+=`<tr><td>Ahorro total</td><td>-</td><td>${ahorroTotal.toFixed(2)} €</td></tr>`;
+  const box = document.getElementById("mensajeResultado");
+  if (ahorroMensual > 0 && ahorroTotal > 0) box.innerHTML = `<div class="resultado-box ok">✔️ Podrías ahorrar ${ahorroMensual.toFixed(0)} €/mes<br>Ahorro total estimado: ${ahorroTotal.toFixed(0)} €</div>`;
+  else if (ahorroMensual > 0) box.innerHTML = `<div class="resultado-box warn">⚠️ Bajarías la cuota mensual<br>Pero pagarías más a largo plazo</div>`;
+  else box.innerHTML = `<div class="resultado-box bad">❌ No parece una operación recomendable</div>`;
 
-  document.getElementById("resultados").style.display="block";
+  const tbody = document.querySelector("#tablaResultados tbody");
+  tbody.innerHTML = "";
+  tbody.innerHTML += `<tr><td>Cuota mensual</td><td>${cuotaAntes.toFixed(2)} €</td><td>${cuotaDespues.toFixed(2)} €</td></tr>`;
+  tbody.innerHTML += `<tr><td>Ahorro mensual</td><td>-</td><td>${ahorroMensual.toFixed(2)} €</td></tr>`;
+  tbody.innerHTML += `<tr><td>Ahorro total</td><td>-</td><td>${ahorroTotal.toFixed(2)} €</td></tr>`;
+
+  document.getElementById("resultados").style.display = "block";
 }
 
-// Envío PDF
+// Función para generar y enviar PDF
 function enviarPDF() {
   if (!validarCampos()) return;
 
@@ -424,9 +475,7 @@ function enviarPDF() {
     const antes = tr.cells[1].innerText;
     const despues = tr.cells[2].innerText;
 
-    const antesNum = parseFloat(antes.replace("€","")) || 0;
-    const despuesNum = parseFloat(despues.replace("€","")) || 0;
-    const ahorro = antesNum - despuesNum;
+    const ahorro = parseFloat(antes.replace("€", "")) - parseFloat(despues.replace("€", ""));
     const color = ahorro > 0 ? [198, 239, 206] : (ahorro < 0 ? [255, 199, 206] : [255, 255, 255]);
     data.push({ concepto, antes, despues, fillColor: color });
   });
@@ -478,6 +527,7 @@ function enviarPDF() {
     "- Analiza la duración y riesgo de la operación",
     "- Consulta con un asesor financiero si es necesario"
   ].forEach((rec, i) => doc.text(rec, margenX, y + i * 14));
+
   y += 70;
 
   // Disclaimer
@@ -499,5 +549,3 @@ function enviarPDF() {
     .catch(() => alert("Error enviando PDF"));
 }
 </script>
-</body>
-</html>
