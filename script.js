@@ -334,7 +334,7 @@ window.abrirOperacion = function(id){
 // -----------------------------
 window.irAnalisis = function(event, tipoOperacion){
   event.stopPropagation();
-  if(tipoOperacion === 'Cambio de Hipoteca'){ window.location.href = 'cambio.html'; return; }
+  if(tipoOperacion === 'Cambio de Hipoteca'){ window.location.href = 'consolidacion.html'; return }
   if(tipoOperacion === 'Consolidación'){ window.location.href = 'consolidacion.html'; return; }
 
   const idMap = { 'Compra Primera Vivienda': 'compra', 'Inversión': 'inversion' };
