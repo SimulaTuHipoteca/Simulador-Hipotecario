@@ -177,6 +177,11 @@ window.addEventListener("DOMContentLoaded",()=>{
   }
   document.getElementById("euribor")?.addEventListener("input",calcular);
   document.getElementById("diferencial")?.addEventListener("input",calcular);
+
+  // 🔥 Escuchar cambios del nuevo préstamo
+  document.getElementById("tinNuevo")?.addEventListener("input", calcular);
+  document.getElementById("plazoNuevo")?.addEventListener("input", calcular);
+  document.getElementById("comisionesNuevo")?.addEventListener("input", calcular);
 });
 
 // Mostrar/ocultar campos
@@ -247,10 +252,6 @@ function calcular(){
   const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value);
   const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value);
   
-  // 🔥 NUEVO PRÉSTAMO (esto te falta)
-document.getElementById("tinNuevo")?.addEventListener("input", calcular);
-document.getElementById("plazoNuevo")?.addEventListener("input", calcular);
-document.getElementById("comisionesNuevo")?.addEventListener("input", calcular);
 
   // 🚫 BLOQUEAR SI FALTAN DATOS DEL NUEVO PRÉSTAMO
   if (!tinNuevo || !plazoNuevo) {
