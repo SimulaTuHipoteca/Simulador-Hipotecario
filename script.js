@@ -229,10 +229,7 @@ const prestamoNecesario = agregarVivienda
   ? Math.max(importeTotalOperacion - ahorros, 0) 
   : 0;
 
-  if (prestamoNecesario === 0 && agregarVivienda) {
-  mensajePerfil.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
-  mensajePerfil.classList.add("mensaje-ok");
-}
+
 
   if (perfilFields.operacionBadge && resultadoFinanciacion.motivo) {
     perfilFields.operacionBadge.innerText += ` | ${resultadoFinanciacion.motivo}`;
@@ -248,9 +245,23 @@ const prestamoNecesario = agregarVivienda
   const lti = ingresosAnuales > 0 ? ((cuota + deudas) * 12) / ingresosAnuales : 0;
 
   // -----------------------------
+// MÉTRICAS AVANZADAS
+// -----------------------------
+
+const precioMaximo = maxFinanciacion > 0 
+  ? capitalPosible / maxFinanciacion 
+  : 0;
+
+const entradaMinima = agregarVivienda
+  ? (precio - maxPrestamoBanco) + gastos
+  : 0;
+
+const faltaAhorro = Math.max(entradaMinima - ahorros, 0);
+  // -----------------------------
   // MENSAJE Y RESULTADOS
   // -----------------------------
   const mensajePerfil = document.getElementById("mensajePerfil");
+
 if (mensajePerfil) {
   mensajePerfil.className = "mensaje-perfil";
 
@@ -259,7 +270,22 @@ if (mensajePerfil) {
   } else {
     mensajePerfil.style.display = "block";
 
-    if (lti <= 0.35) {
+    const faltaDinero = prestamoNecesario - capitalPosible;
+
+    // 🟢 CASO 1: NO NECESITA HIPOTECA
+    if (prestamoNecesario === 0 && agregarVivienda) {
+      mensajePerfil.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
+      mensajePerfil.classList.add("mensaje-ok");
+    }
+
+    // 🔴 CASO 2: LE FALTA DINERO
+    else if (faltaDinero > 0) {
+      mensajePerfil.innerText = `Te faltan ${formatMoney(faltaDinero)} para completar la operación.`;
+      mensajePerfil.classList.add("mensaje-warning");
+    }
+
+    // 🟢🟡🔴 PERFIL FINANCIERO
+    else if (lti <= 0.35) {
       mensajePerfil.innerText = "¡Excelente perfil financiero! Alta probabilidad de aprobación.";
       mensajePerfil.classList.add("mensaje-ok");
     } 
