@@ -487,7 +487,8 @@ function enviarPDF() {
 const color = ahorro > 0 ? [198, 239, 206] 
             : (ahorro < 0 ? [255, 199, 206] : [255, 255, 255]);
 data.push({ concepto, antes, despues, fillColor: color });
-    
+    });
+  
   doc.autoTable({
     startY: y,
     head: [["Concepto", "Antes", "Después"]],
