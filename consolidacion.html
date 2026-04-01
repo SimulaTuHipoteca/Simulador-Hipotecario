@@ -409,8 +409,9 @@ function calcular() {
       // Capital pendiente tras periodo fijo
       const rFijo = tinFijo / 100 / 12;
       const nFijo = plazoFijo * 12;
-      const capitalRestante = (capitalPend + comisiones) * Math.pow(1 + rFijo, nFijo) - 
-                              (cuotaFija / rFijo) * (Math.pow(1 + rFijo, nFijo) - 1);
+      const capitalRestante = rFijo > 0
+  ? (capitalPend + comisiones) * Math.pow(1 + rFijo, nFijo) - (cuotaFija / rFijo) * (Math.pow(1 + rFijo, nFijo) - 1)
+  : (capitalPend + comisiones) - cuotaFija * nFijo;
 
       // Plazo variable restante
       const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
