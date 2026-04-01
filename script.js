@@ -613,5 +613,4 @@ if (enviarBtn && statusSpan) {
     banner.style.display = 'none';
     borrarCookiesInnecesarias();
   });
-}
 }); // cierra document.addEventListener("DOMContentLoaded")
