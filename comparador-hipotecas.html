@@ -430,13 +430,27 @@ function descargarPDF(){
   const { jsPDF }=window.jspdf;
   const doc=new jsPDF();
 
-  doc.setFont("helvetica","bold").setFontSize(18).text("KAOBA FINANCE",20,20);
-  doc.setFontSize(10);
-doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "Comparativa simple"}`,20,35);
-  doc.setFontSize(12).text("Informe comparativo de hipotecas",20,28);
-  doc.setLineWidth(0.5);
-  doc.line(20,32,190,32);
-  doc.setFont("helvetica","normal").setFontSize(9).text(`Fecha: ${new Date().toLocaleDateString()}`,150,20);
+// ===== CABECERA =====
+doc.setFont("helvetica","bold").setFontSize(16);
+doc.text("KAOBA FINANCE", 20, 20);
+
+doc.setFont("helvetica","normal").setFontSize(11);
+doc.text("Informe de comparativa hipotecaria", 20, 28);
+
+doc.setFontSize(10);
+doc.text(
+  `Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "Comparativa simple"}`,
+  20,
+  35
+);
+
+// línea separadora
+doc.setLineWidth(0.5);
+doc.line(20, 38, 190, 38);
+
+// fecha
+doc.setFont("helvetica","normal").setFontSize(9);
+doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 150, 20);
 
   // Datos del cliente
   doc.setFont("helvetica","bold").setFontSize(12).text("Datos del cliente",20,45);
@@ -444,6 +458,20 @@ doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "
   doc.text(`Nombre: ${nombreUsuario}`,20,53);
   doc.text(`Email: ${emailUsuario}`,20,59);
 
+// ===== DATOS DEL PRÉSTAMO =====
+const capital = document.getElementById("capital").value;
+const capitalFormateado = parseFloat(capital).toLocaleString("es-ES");
+const plazo = document.getElementById("plazo").value;
+const euribor = document.getElementById("euribor").value;
+
+doc.setFont("helvetica","bold").setFontSize(12);
+doc.text("Datos del préstamo", 20, 70);
+
+doc.setFont("helvetica","normal").setFontSize(10);
+doc.text(`Capital solicitado: ${capitalFormateado} €`, 20, 78);
+doc.text(`Plazo: ${plazo} años`, 20, 84);
+doc.text(`Euríbor utilizado: ${euribor} %`, 20, 90);
+  
   // Tabla comparativa
   const tbody=document.querySelector("#tabla tbody");
   const data=[]; let mejorBanco=""; let mejorTotal=Infinity;
@@ -468,16 +496,20 @@ if(cuota.includes("luego")){
 const totalNum=parseFloat(total.replace("€","").replace(",","."));
 if(totalNum<mejorTotal){mejorTotal=totalNum; mejorBanco=banco;}
 
-data.push([banco,tipo,tae,cuota,intereses,total,ahorro]);
+    const diferencialTexto = tipo.toLowerCase().includes("variable") || tipo.toLowerCase().includes("mixta")
+  ? "Incluido"
+  : "-";
+    
+data.push([banco,tipo,tae,cuota,intereses,total,diferencialTexto,ahorro]);
     }
 
   doc.autoTable({
-    head:[["Banco","Tipo","TAE","Cuota","Intereses","Total","Ahorro"]],
+    head:[["Banco","Tipo","TAE","Cuota","Intereses","Total","Dif.","Ahorro"]],
     body:data,
-    startY:70,
-    headStyles:{fillColor:[13,79,139], textColor:255},
-    alternateRowStyles:{fillColor:[245,245,245]},
-    styles:{fontSize:10}
+    startY:100,
+   headStyles:{fillColor:[20,40,80], textColor:255},
+styles:{fontSize:10, textColor:[40,40,40]},
+alternateRowStyles:{fillColor:[245,247,250]},
   });
 
   let finalY=doc.lastAutoTable.finalY+10;
@@ -518,14 +550,16 @@ let siguienteY2 = siguienteY + 8 + (textoMejorDividido.length * 6) + 6;
   : "El análisis se basa en una comparativa simplificada para facilitar la toma de decisión entre ofertas.";
 
 // ===== ANÁLISIS =====
-let analisisY = siguienteY + 25;
+let analisisY = siguienteY2;
 
 doc.setFont("helvetica","bold").setFontSize(12);
 doc.text("Análisis financiero",20,analisisY);
 
 doc.setFont("helvetica","normal").setFontSize(10);
-doc.text(textoAnalisis,20,analisisY+8,{maxWidth:170});
+const analisisDividido = doc.splitTextToSize(textoAnalisis, 170);
+doc.text(analisisDividido, 20, analisisY + 8);
 
+let recomendacionesY = analisisY + 8 + (analisisDividido.length * 6) + 6;
 
 // ===== RECOMENDACIONES =====
 let recomendacionesY = analisisY + 25;
@@ -563,7 +597,7 @@ doc.setFont("helvetica","normal").setFontSize(10);
     mejorTAE = [...conTAE].sort((a,b)=>a.tae-b.tae)[0];
   }
 
- let texto = `✔ Mejor opción: ${mejorCoste.nombre} (${mejorCoste.tipo}) con un coste total de ${mejorCoste.total.toFixed(2)} €.`;
+ let texto = `Mejor opción: ${mejorCoste.nombre} (${mejorCoste.tipo}) con un coste total de ${mejorCoste.total.toFixed(2)} €.`;
     if(mejorCoste.tipo==="fija"){
   texto += " Ofrece estabilidad total sin cambios en la cuota.";
 }
