@@ -87,10 +87,18 @@ th{background:#f1f3f6;}
   <div class="table-container">
     <table id="tabla">
       <thead>
-        <tr><th>Banco</th><th>Tipo</th><th>Cuota media</th><th>Intereses</th><th>Total</th><th>Ahorro vs mejor</th><th>Amortización</th></tr>
+        <tr><th>Banco</th><th>Tipo</th><th>TAE</th><th>Cuota media</th><th>Intereses</th><th>Total</th><th>Ahorro vs mejor</th><th>Amortización</th></tr>
       </thead>
       <tbody></tbody>
     </table>
+    <div id="recomendacion" style="
+  margin-top:20px;
+  padding:15px;
+  background:#eef6ff;
+  border-left:4px solid #0d4f8b;
+  border-radius:8px;
+  font-size:14px;
+"></div>
   </div>
 </main>
 
@@ -104,6 +112,21 @@ function addBanco(){
   div.className="banco-card";
   div.id="banco-"+contador;
   div.innerHTML=`
+  <button class="remove-btn" onclick="removeBanco(${contador})">×</button>
+
+<div style="display:flex; gap:10px;">
+  <div style="flex:2;">
+    <label>Nombre
+      <input type="text" id="nombre-${contador}" placeholder="Banco ${contador}">
+    </label>
+  </div>
+
+  <div style="flex:1;">
+    <label>TAE (%) <small>(opcional)</small>
+      <input type="number" id="tae-${contador}" step="0.01" placeholder="2.85">
+    </label>
+  </div>
+</div>
     <button class="remove-btn" onclick="removeBanco(${contador})">×</button>
     <label>Nombre<input type="text" id="nombre-${contador}" placeholder="Banco ${contador}"></label>
     <label>Tipo<select id="tipo-${contador}" onchange="toggleTipo(${contador});">
@@ -123,7 +146,7 @@ function addBanco(){
     <p id="aviso-mixta-${contador}" style="display:none; font-size:12px; color:#b45309; margin-top:6px;">
       * En la fase variable se utiliza el Euríbor actual como estimación. Este valor puede variar en el futuro.
     </p>
-
+`;
   document.getElementById("bancos").appendChild(div);
 }
 
@@ -133,6 +156,7 @@ function removeBanco(id){document.getElementById("banco-"+id)?.remove();}
 // ===== Mostrar bloques según tipo =====
 function toggleTipo(id){
   const tipo=document.getElementById("tipo-"+id).value;
+  const tae = parseFloat(document.getElementById("tae-"+i)?.value);
   document.getElementById("bloque-fija-"+id).style.display=tipo==="fija"?"block":"none";
   document.getElementById("bloque-mixta-"+id).style.display=tipo==="mixta"?"block":"none";
   document.getElementById("bloque-variable-"+id).style.display=tipo==="variable"?"block":"none";
@@ -282,6 +306,7 @@ function calcular(){
       resultados.push({
         nombre,
         tipo,
+        tae,
         cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
         intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
         total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
@@ -296,6 +321,7 @@ function calcular(){
     resultados.push({
       nombre,
       tipo,
+      tae,
       cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
       intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
       total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
@@ -316,6 +342,7 @@ function calcular(){
     row.innerHTML=`
       <td>${r.nombre} ${mejorIndicador}</td>
       <td>${r.tipo}</td>
+      <td>${r.tae ? r.tae.toFixed(2)+" %" : "-"}</td>
       <td>${
         r.tipo==="mixta"?
         `${parseFloat(r.amortRows[0].cuota).toFixed(2)} €<br>
@@ -333,6 +360,8 @@ function calcular(){
 
     tbody.appendChild(row);
 
+  document.getElementById("recomendacion").innerText = generarRecomendacion(resultados);
+    
     const amortDiv=document.getElementById("amort-"+index);
     let html="<table class='amort-table'><tr><th>Mes</th><th>Cuota</th><th>Amort</th><th>Pendiente</th></tr>";
     r.amortRows.forEach(m=>{
@@ -438,6 +467,35 @@ function descargarPDF(){
 
   doc.save("Informe_Comparativa_Kaoba.pdf");
 }
+
+  function generarRecomendacion(resultados){
+  if(!resultados.length) return "";
+
+  const mejorCoste = resultados[0];
+  const conTAE = resultados.filter(r => r.tae);
+
+  let mejorTAE = null;
+  if(conTAE.length){
+    mejorTAE = [...conTAE].sort((a,b)=>a.tae-b.tae)[0];
+  }
+
+  let texto = `La mejor opción por coste total es ${mejorCoste.nombre}, con un total de ${mejorCoste.total.toFixed(2)} €.`;
+
+  if(mejorTAE && mejorTAE.nombre !== mejorCoste.nombre){
+    texto += ` Sin embargo, ${mejorTAE.nombre} tiene una TAE más baja (${mejorTAE.tae.toFixed(2)}%).`;
+  }
+
+  if(mejorCoste.tipo==="variable"){
+    texto += " Es variable y puede cambiar con el Euríbor.";
+  }
+
+  if(mejorCoste.tipo==="mixta"){
+    texto += " Tiene un tramo fijo inicial y luego variable.";
+  }
+
+  return texto;
+}
+  
 </script>
 
 </body>
