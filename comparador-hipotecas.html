@@ -241,7 +241,7 @@ const amortSi = modo === "simulador"
       let capPend = capital;
 
       // --- TRAMO FIJO ---
-      const cuotaFija = calcularCuota(capital, tinFijo, plazoMeses);
+     const cuotaFija = calcularCuota(capital, tinFijo, mesesFijo);
 
       for(let m=1; m<=mesesFijo; m++){
         const iMensual = tinFijo/100/12;
@@ -263,8 +263,8 @@ const amortSi = modo === "simulador"
       const mesesRestantes = plazoMeses - mesesFijo;
       const tinVariable = euribor + dif;
 if(mesesRestantes <= 0){
-  console.warn("Meses fijos inválidos en banco " + nombre);
-  continue;
+  alert("Los meses fijos no pueden ser mayores o iguales al plazo total");
+  return;
 }
      const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
 
