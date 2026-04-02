@@ -181,38 +181,14 @@ function validarYCalcular(){
 }
 
 // ===== Calcular resultados =====
-function calcular(){
-  const capital=parseFloat(document.getElementById("capital").value)||150000;
-  const plazoAños=parseFloat(document.getElementById("plazo").value)||20;
-  const plazoMeses=Math.round(plazoAños*12);
-  const euribor=parseFloat(document.getElementById("euribor").value)||2.82;
-  const tbody=document.querySelector("#tabla tbody"); tbody.innerHTML="";
-  const resultados=[];
-
-  for(let i=1;i<=contador;i++){
-    const div=document.getElementById("banco-"+i); if(!div) continue;
-    const nombre=document.getElementById("nombre-"+i).value||("Banco "+i);
-    const tipo=document.getElementById("tipo-"+i).value;
-    const amortSi=document.getElementById("amortSi-"+i).checked;
-    let amortRows=[];
-
-    if(tipo==="fija"){ 
-      const tin=parseFloat(document.getElementById("tinFijo-"+i).value)||0;
-      amortRows=generarAmortizacion(capital,tin,plazoMeses,amortSi); 
-    }
-    else if(tipo==="variable"){ 
-      const dif=parseFloat(document.getElementById("difVar-"+i).value)||0; 
-      amortRows=generarAmortizacion(capital,euribor+dif,plazoMeses,amortSi);
-    }
 else { // mixta
   const mesesFijo = parseInt(document.getElementById("mesesFijo-"+i).value)||0;
   const tinFijo = parseFloat(document.getElementById("tinMixtoFijo-"+i).value)||0;
   const dif = parseFloat(document.getElementById("diferencial-"+i).value)||0;
 
   let capPend = capital;
-  let amortRows = [];
 
-  // TRAMO FIJO
+  // ===== TRAMO FIJO =====
   const cuotaFija = calcularCuota(capital, tinFijo, plazoMeses);
 
   for(let m=1; m<=mesesFijo; m++){
@@ -230,40 +206,6 @@ else { // mixta
       pendiente: capPend.toFixed(2)
     });
   }
-
-  // TRAMO VARIABLE
-  const mesesRestantes = plazoMeses - mesesFijo;
-  const tinVariable = euribor + dif;
-  const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
-
-  for(let m=1; m<=mesesRestantes; m++){
-    const iMensual = tinVariable/100/12;
-    const intereses = capPend * iMensual;
-    const amort = cuotaVariable - intereses;
-
-    capPend -= amort;
-    if(capPend < 0) capPend = 0;
-
-    amortRows.push({
-      mes: mesesFijo + m,
-      cuota: cuotaVariable.toFixed(2),
-      amort: amort.toFixed(2),
-      pendiente: capPend.toFixed(2)
-    });
-  }
-
-  resultados.push({
-    nombre,
-    tipo,
-    cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
-    intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
-    total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
-    amortRows,
-    mesesFijo
-  });
-
-  continue; // evita que siga ejecutando el resto del bucle
-}
 
   // ===== TRAMO VARIABLE =====
   const mesesRestantes = plazoMeses - mesesFijo;
@@ -285,8 +227,21 @@ else { // mixta
       pendiente: capPend.toFixed(2)
     });
   }
-}
 
+  // 🔥 CLAVE
+  resultados.push({
+    nombre,
+    tipo,
+    cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
+    intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
+    total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
+    amortRows,
+    mesesFijo
+  });
+
+  continue;
+}
+  
   resultados.sort((a,b)=>a.total-b.total);
   const mejorTotal=resultados[0]?.total||0;
 
