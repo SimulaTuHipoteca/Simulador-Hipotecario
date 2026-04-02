@@ -460,18 +460,15 @@ doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 150, 20);
 
 // ===== DATOS DEL PRÉSTAMO =====
 const capital = parseFloat(document.getElementById("capital").value) || 0;
-const capitalFormateado = capital.toLocaleString("es-ES", {
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0
-});
-const euribor = document.getElementById("euribor").value;
-  const plazo = document.getElementById("plazo").value;
+const euribor = document.getElementById("euribor").value || "0";
+const plazo = document.getElementById("plazo").value || "-";
 
 doc.setFont("helvetica","bold").setFontSize(12);
 doc.text("Datos del préstamo", 20, 70);
 
 doc.setFont("helvetica","normal").setFontSize(10);
-doc.text(`Capital solicitado: ${capitalFormateado} €`, 20, 78);
+const capitalFormateadoFinal = capital.toLocaleString("es-ES") + " €";
+doc.text(`Capital solicitado: ${capitalFormateadoFinal}`, 20, 78);
 doc.text(`Plazo: ${plazo} años`, 20, 84);
 doc.text(`Euríbor utilizado: ${euribor} %`, 20, 90);
   
@@ -559,6 +556,8 @@ let siguienteY2 = siguienteY + 8 + (textoMejorDividido.length * 6) + 6;
 // ===== ANÁLISIS =====
 let analisisY = siguienteY2;
 
+  doc.setDrawColor(220);
+doc.line(20, analisisY - 4, 190, analisisY - 4);
 doc.setFont("helvetica","bold").setFontSize(12);
 doc.text("Análisis financiero",20,analisisY);
 
