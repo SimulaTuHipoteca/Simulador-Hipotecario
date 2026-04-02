@@ -405,7 +405,7 @@ function toggleAmort(index){
 
 // Inicial banco
 addBanco();
-
+  
 // ===== Descargar PDF =====
 function descargarPDF(){
   const modo = document.querySelector('input[name="modo"]:checked')?.value || "comparador";
@@ -465,7 +465,8 @@ let banco = row.cells[0].innerText
   .replace("✔ Mejor", "")
   .replace(/[^\x20-\x7EáéíóúÁÉÍÓÚñÑüÜ€.,()%\- ]/g, "")
   .trim();
-mejorBanco = mejorBanco.charAt(0).toUpperCase() + mejorBanco.slice(1).toLowerCase();
+
+banco = banco.charAt(0).toUpperCase() + banco.slice(1).toLowerCase();
     
 const tipo = row.cells[1].innerText;
 const tae = row.cells[2].innerText;
