@@ -251,95 +251,85 @@ const modo = document.querySelector('input[name="modo"]:checked')?.value || "com
 
     let amortRows=[];
 
-    // ===== FIJA =====
-    if(tipo==="fija"){ 
-      const tin=parseFloat(document.getElementById("tinFijo-"+i).value)||0;
-      amortRows=generarAmortizacion(capital,tin,plazoMeses); 
-    }
-
-    // ===== VARIABLE =====
-    else if(tipo==="variable"){ 
-      const dif=parseFloat(document.getElementById("difVar-"+i).value)||0; 
-      amortRows=generarAmortizacion(capital,euribor+dif,plazoMeses);
-    }
-
-    // ===== MIXTA =====
-else if(tipo==="mixta"){ 
-    const mesesFijo = parseInt(document.getElementById("mesesFijo-"+i).value)||0;
-    const tinFijo = parseFloat(document.getElementById("tinMixtoFijo-"+i).value)||0;
-    const dif = parseFloat(document.getElementById("diferencial-"+i).value)||0;
-
-    if(mesesFijo >= plazoMeses){
-        alert(`El banco ${nombre}: los meses fijos no pueden ser mayores o iguales al plazo total.`);
-        continue;
-    }
-
-    let capPend = capital;
-    amortRows = [];
-
-    // --- TRAMO FIJO ---
-    const cuotaFija = calcularCuota(capital, tinFijo, mesesFijo);
-    for(let m=1; m<=mesesFijo; m++){
-        const iMensual = tinFijo/100/12;
-        const intereses = capPend * iMensual;
-        const amort = cuotaFija - intereses;
-        capPend -= amort;
-        if(capPend < 0) capPend = 0;
-
-        amortRows.push({
-            mes: m,
-            cuota: cuotaFija.toFixed(2),
-            amort: amort.toFixed(2),
-            pendiente: capPend.toFixed(2)
-        });
-    }
-
-    // --- TRAMO VARIABLE ---
-    const mesesRestantes = plazoMeses - mesesFijo;
-    const tinVariable = euribor + dif;
-    const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
-
-    for(let m=1; m<=mesesRestantes; m++){
-        const iMensual = tinVariable/100/12;
-        const intereses = capPend * iMensual;
-        const amort = cuotaVariable - intereses;
-        capPend -= amort;
-        if(capPend < 0) capPend = 0;
-
-        amortRows.push({
-            mes: mesesFijo + m,
-            cuota: cuotaVariable.toFixed(2),
-            amort: amort.toFixed(2),
-            pendiente: capPend.toFixed(2)
-        });
-    }
-
-    resultados.push({
-        nombre,
-        tipo,
-        tae,
-        cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
-        intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
-        total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
-        amortRows,
-        mesesFijo
-    });
+   // ===== FIJA =====
+if(tipo==="fija"){ 
+  const tin=parseFloat(document.getElementById("tinFijo-"+i).value)||0;
+  amortRows=generarAmortizacion(capital,tin,plazoMeses); 
 }
 
-      continue;
-    }
+// ===== VARIABLE =====
+else if(tipo==="variable"){ 
+  const dif=parseFloat(document.getElementById("difVar-"+i).value)||0; 
+  amortRows=generarAmortizacion(capital,euribor+dif,plazoMeses);
+}
 
-    // ===== PUSH FIJA Y VARIABLE =====
-    resultados.push({
-      nombre,
-      tipo,
-      tae,
-      cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
-      intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
-      total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
-      amortRows
+// ===== MIXTA =====
+else if(tipo==="mixta"){ 
+  const mesesFijo = parseInt(document.getElementById("mesesFijo-"+i).value)||0;
+  const tinFijo = parseFloat(document.getElementById("tinMixtoFijo-"+i).value)||0;
+  const dif = parseFloat(document.getElementById("diferencial-"+i).value)||0;
+
+  if(mesesFijo >= plazoMeses){
+    alert(`El banco ${nombre}: los meses fijos no pueden ser mayores o iguales al plazo total.`);
+    continue;
+  }
+
+  let capPend = capital;
+  amortRows = [];
+
+  // --- TRAMO FIJO ---
+  const cuotaFija = calcularCuota(capital, tinFijo, mesesFijo);
+
+  for(let m=1; m<=mesesFijo; m++){
+    const iMensual = tinFijo/100/12;
+    const intereses = capPend * iMensual;
+    const amort = cuotaFija - intereses;
+    capPend -= amort;
+    if(capPend < 0) capPend = 0;
+
+    amortRows.push({
+      mes: m,
+      cuota: cuotaFija.toFixed(2),
+      amort: amort.toFixed(2),
+      pendiente: capPend.toFixed(2)
     });
   }
+
+  // --- TRAMO VARIABLE ---
+  const mesesRestantes = plazoMeses - mesesFijo;
+  const tinVariable = euribor + dif;
+  const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
+
+  for(let m=1; m<=mesesRestantes; m++){
+    const iMensual = tinVariable/100/12;
+    const intereses = capPend * iMensual;
+    const amort = cuotaVariable - intereses;
+    capPend -= amort;
+    if(capPend < 0) capPend = 0;
+
+    amortRows.push({
+      mes: mesesFijo + m,
+      cuota: cuotaVariable.toFixed(2),
+      amort: amort.toFixed(2),
+      pendiente: capPend.toFixed(2)
+    });
+  }
+}
+
+// ✅ CALCULAR UNA SOLA VEZ
+const totalPagado = amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0);
+
+// ✅ UN SOLO PUSH
+resultados.push({
+  nombre,
+  tipo,
+  tae,
+  cuotaMedia: totalPagado / plazoMeses,
+  intereses: totalPagado - capital,
+  total: totalPagado,
+  amortRows,
+  mesesFijo: tipo==="mixta" ? mesesFijo : null
+});
 
   // ===== ORDENAR =====
   resultados.sort((a,b)=>a.total-b.total);
