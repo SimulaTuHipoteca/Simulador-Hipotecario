@@ -430,7 +430,7 @@ function descargarPDF(){
  if (!document.querySelector("#tabla tbody").rows.length) {
     alert("Primero debes calcular resultados");
     return;
-  
+  }
   const { jsPDF }=window.jspdf;
   const doc=new jsPDF();
 
