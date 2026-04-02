@@ -419,14 +419,19 @@ doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "
   const data=[]; let mejorBanco=""; let mejorTotal=Infinity;
 
   for(let row of tbody.rows){
-    const tae = row.cells[2].innerText;
-    let banco=row.cells[0].innerText;
-    const tipo=row.cells[1].innerText;
-    let cuota=row.cells[2].innerText;
+   let banco = row.cells[0].innerText;
+const tipo = row.cells[1].innerText;
+const tae = row.cells[2].innerText;
+let cuota = row.cells[3].innerText;
+const intereses = row.cells[4].innerText;
+const total = row.cells[5].innerText;
+const ahorro = row.cells[6].innerText || "-";
+   cuota = cuota.replace(/\n/g," ").replace(/<br>/g," ");
+
     if(cuota.includes("luego")){
-      const partes=cuota.split("luego");
-      cuota=`Inicial: ${partes[0].trim()} / Variable: ${partes[1].replace("~","").trim()}`;
-    }
+  const partes = cuota.split("luego");
+  cuota = `Inicial: ${partes[0].trim()} / Variable: ${partes[1].replace("~","").trim()}`;
+}
     const intereses=row.cells[3].innerText;
     const total = row.cells[4].innerText;
         const ahorro=row.cells[5].innerText||"-";
@@ -471,7 +476,6 @@ doc.text(
 );
 
   // Análisis financiero
-  doc.setFont("helvetica","bold").setFontSize(12).text("Análisis financiero",20,finalY+25);
   doc.setFont("helvetica","normal").setFontSize(10);
  const textoAnalisis = modo === "simulador"
   ? "El análisis incluye una simulación detallada con amortización del préstamo, mostrando la evolución real del capital pendiente."
