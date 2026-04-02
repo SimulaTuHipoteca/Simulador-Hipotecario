@@ -607,13 +607,13 @@ doc.text(disclaimerDividido, 20, disclaimerY);
     mejorTAE = [...conTAE].sort((a,b)=>a.tae-b.tae)[0];
   }
 
- let texto = `Mejor opción: ${mejorCoste.nombre} (${mejorCoste.tipo}) con un coste total de ${mejorCoste.total.toLocaleString("es-ES", {minimumFractionDigits:2})} €
+let texto = `La mejor opción es ${mejorCoste.nombre} (${mejorCoste.tipo}), con un coste total de ${mejorCoste.total.toLocaleString("es-ES", {minimumFractionDigits:2})} €.`;
     if(mejorCoste.tipo==="fija"){
   texto += " Ofrece estabilidad total sin cambios en la cuota.";
 }
 
   if(mejorTAE && mejorTAE.nombre !== mejorCoste.nombre){
-    texto += ` Sin embargo, ${mejorTAE.nombre} tiene una TAE más baja (${mejorTAE.tae.toFixed(2)}%).`;
+    texto += ` Sin embargo, ${mejorTAE.nombre} tiene una TAE más baja (${mejorTAE.tae.toLocaleString("es-ES", {minimumFractionDigits:2}).`;
   }
 
   if(mejorCoste.tipo==="variable"){
