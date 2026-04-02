@@ -200,7 +200,6 @@ function validarYCalcular(){
   for(let i=1;i<=contador;i++){
     const div=document.getElementById("banco-"+i); if(!div) continue;
     const tipo=document.getElementById("tipo-"+i).value;
-    const tae = parseFloat(document.getElementById("tae-"+i)?.value);
     let tipoValido=true;
     if(tipo==="fija") tipoValido=parseFloat(document.getElementById("tinFijo-"+i).value)>=0;
     if(tipo==="mixta"){
@@ -233,6 +232,7 @@ function calcular(){
 
     const nombre=document.getElementById("nombre-"+i).value||("Banco "+i);
     const tipo=document.getElementById("tipo-"+i).value;
+    const tae = parseFloat(document.getElementById("tae-"+i)?.value) || null;
     const modo = document.querySelector('input[name="modo"]:checked')?.value || "comparador";
 
 
