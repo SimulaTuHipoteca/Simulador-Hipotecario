@@ -465,6 +465,8 @@ let banco = row.cells[0].innerText
   .replace("✔ Mejor", "")
   .replace(/[^\x20-\x7EáéíóúÁÉÍÓÚñÑüÜ€.,()%\- ]/g, "")
   .trim();
+mejorBanco = mejorBanco.charAt(0).toUpperCase() + mejorBanco.slice(1).toLowerCase();
+    
 const tipo = row.cells[1].innerText;
 const tae = row.cells[2].innerText;
 let cuota = row.cells[3].innerText;
