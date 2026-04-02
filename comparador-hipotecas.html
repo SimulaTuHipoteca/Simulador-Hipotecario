@@ -444,12 +444,10 @@ doc.text(
   35
 );
 
-// línea separadora
 doc.setLineWidth(0.5);
 doc.line(20, 38, 190, 38);
 
-// fecha
-doc.setFont("helvetica","normal").setFontSize(9);
+doc.setFontSize(9);
 doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 150, 20);
 
   // Datos del cliente
