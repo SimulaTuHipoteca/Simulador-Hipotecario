@@ -460,9 +460,12 @@ doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 150, 20);
 
 // ===== DATOS DEL PRÉSTAMO =====
 const capital = parseFloat(document.getElementById("capital").value) || 0;
-const capitalFormateado = capital.toLocaleString("es-ES");
-const plazo = document.getElementById("plazo").value;
+const capitalFormateado = capital.toLocaleString("es-ES", {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0
+});
 const euribor = document.getElementById("euribor").value;
+  const plazo = document.getElementById("plazo").value;
 
 doc.setFont("helvetica","bold").setFontSize(12);
 doc.text("Datos del préstamo", 20, 70);
@@ -493,7 +496,9 @@ if(cuota.includes("luego")){
   cuota = `Inicial: ${partes[0].trim()} / Variable: ${partes[1].replace("~","").trim()}`;
 }
 
-const totalNum=parseFloat(total.replace("€","").replace(",","."));
+const totalNum = parseFloat(
+  total.replace("€","").replace(/\./g,"").replace(",",".")
+);
 if(totalNum<mejorTotal){mejorTotal=totalNum; mejorBanco=banco;}
 
     const diferencialTexto = tipo.toLowerCase().includes("variable") || tipo.toLowerCase().includes("mixta")
