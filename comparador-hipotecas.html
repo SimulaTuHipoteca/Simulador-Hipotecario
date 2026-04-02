@@ -419,6 +419,7 @@ doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "
   const data=[]; let mejorBanco=""; let mejorTotal=Infinity;
 
   for(let row of tbody.rows){
+    const tae = row.cells[2].innerText;
     let banco=row.cells[0].innerText;
     const tipo=row.cells[1].innerText;
     let cuota=row.cells[2].innerText;
@@ -431,11 +432,11 @@ doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "
         const ahorro=row.cells[5].innerText||"-";
     const totalNum=parseFloat(total.replace("€","").replace(",","."));    
     if(totalNum<mejorTotal){mejorTotal=totalNum; mejorBanco=banco;}
-    data.push([banco,tipo,cuota,intereses,total,ahorro]);
-  }
+   data.push([banco,tipo,tae,cuota,intereses,total,ahorro]);
+    }
 
   doc.autoTable({
-    head:[["Banco","Tipo","Cuota","Intereses","Total","Ahorro"]],
+    head:[["Banco","Tipo","TAE","Cuota","Intereses","Total","Ahorro"]],
     body:data,
     startY:70,
     headStyles:{fillColor:[13,79,139], textColor:255},
@@ -446,18 +447,28 @@ doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "
   let finalY=doc.lastAutoTable.finalY+10;
 const recomendacion = document.getElementById("recomendacion").innerText;
 
+// ===== RECOMENDACIÓN =====
 doc.setFont("helvetica","bold").setFontSize(12);
 doc.text("Recomendación del simulador",20,finalY);
 
 doc.setFont("helvetica","normal").setFontSize(10);
 doc.text(recomendacion,20,finalY+8,{maxWidth:170});
-  
 
-  // Mejor opción
-  doc.setFont("helvetica","bold").setFontSize(12);
-  doc.text("Mejor opción recomendada",20,finalY);
-  doc.setFont("helvetica","normal").setFontSize(10);
-  doc.text(`Según el análisis, la opción más favorable es: ${mejorBanco}, al presentar el menor coste total.`,20,finalY+8,{maxWidth:170, align:"left"});
+// 👉 calculamos siguiente posición
+let siguienteY = finalY + 25;
+
+
+// ===== MEJOR OPCIÓN =====
+doc.setFont("helvetica","bold").setFontSize(12);
+doc.text("Mejor opción recomendada",20,siguienteY);
+
+doc.setFont("helvetica","normal").setFontSize(10);
+doc.text(
+  `Según el análisis, la opción más favorable es: ${mejorBanco}, al presentar el menor coste total.`,
+  20,
+  siguienteY+8,
+  {maxWidth:170}
+);
 
   // Análisis financiero
   doc.setFont("helvetica","bold").setFontSize(12).text("Análisis financiero",20,finalY+25);
@@ -466,17 +477,29 @@ doc.text(recomendacion,20,finalY+8,{maxWidth:170});
   ? "El análisis incluye una simulación detallada con amortización del préstamo, mostrando la evolución real del capital pendiente."
   : "El análisis se basa en una comparativa simplificada para facilitar la toma de decisión entre ofertas.";
 
-doc.text(textoAnalisis,20,finalY+33,{maxWidth:170});
+// ===== ANÁLISIS =====
+let analisisY = siguienteY + 25;
 
-  // Recomendaciones
-  doc.setFont("helvetica","bold").setFontSize(12).text("Recomendaciones",20,finalY+55);
-  doc.setFont("helvetica","normal").setFontSize(10);
-  [
-    "- Comparar TIN y TAE antes de decidir",
-    "- Revisar comisiones de amortización anticipada",
-    "- Analizar estabilidad del Euríbor en hipotecas variables",
-    "- Negociar condiciones con varias entidades"
-  ].forEach((rec,i)=>doc.text(rec,20,finalY+63+(i*6)));
+doc.setFont("helvetica","bold").setFontSize(12);
+doc.text("Análisis financiero",20,analisisY);
+
+doc.setFont("helvetica","normal").setFontSize(10);
+doc.text(textoAnalisis,20,analisisY+8,{maxWidth:170});
+
+
+// ===== RECOMENDACIONES =====
+let recomendacionesY = analisisY + 25;
+
+doc.setFont("helvetica","bold").setFontSize(12);
+doc.text("Recomendaciones",20,recomendacionesY);
+
+doc.setFont("helvetica","normal").setFontSize(10);
+[
+  "- Comparar TIN y TAE antes de decidir",
+  "- Revisar comisiones de amortización anticipada",
+  "- Analizar estabilidad del Euríbor en hipotecas variables",
+  "- Negociar condiciones con varias entidades"
+].forEach((rec,i)=>doc.text(rec,20,recomendacionesY+8+(i*6)));
 
   // Aviso hipotecas mixtas
   doc.setFont("helvetica","italic").setFontSize(9);
