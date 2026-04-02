@@ -144,8 +144,10 @@ function generarAmortizacion(capital, tin, plazoMeses, amortSi){
   return amortRows;
 }
 
-  function calcularCuota(capital, tin, plazoMeses){
+function calcularCuota(capital, tin, plazoMeses){
+  if(plazoMeses <= 0) return 0;
   const i = tin/100/12;
+  if(i === 0) return capital / plazoMeses;
   return (capital*i)/(1-Math.pow(1+i,-plazoMeses));
 }
 
@@ -243,7 +245,11 @@ function calcular(){
       // --- TRAMO VARIABLE ---
       const mesesRestantes = plazoMeses - mesesFijo;
       const tinVariable = euribor + dif;
-      const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
+if(mesesRestantes <= 0){
+  console.warn("Meses fijos inválidos en banco " + nombre);
+  continue;
+}
+     const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
 
       for(let m=1; m<=mesesRestantes; m++){
         const iMensual = tinVariable/100/12;
