@@ -532,7 +532,9 @@ doc.text(textoRecomendacion, 20, finalY + 8);
 // 👉 altura dinámica real
 let siguienteY = finalY + 8 + (textoRecomendacion.length * 6) + 6;
 
-
+doc.setDrawColor(200);
+doc.line(20, siguienteY - 4, 190, siguienteY - 4);
+  
 // ===== MEJOR OPCIÓN =====
 doc.setFont("helvetica","bold").setFontSize(12);
 doc.text("Mejor opción recomendada", 20, siguienteY);
