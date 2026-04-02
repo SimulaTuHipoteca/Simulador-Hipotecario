@@ -331,6 +331,11 @@ function calcular(){
 
   // ===== ORDENAR =====
   resultados.sort((a,b)=>a.total-b.total);
+  
+  if(resultados.length === 0){
+  alert("No hay resultados. Revisa los datos de los bancos.");
+  return;
+}
   const mejorTotal=resultados[0]?.total||0;
 
   // ===== PINTAR TABLA =====
