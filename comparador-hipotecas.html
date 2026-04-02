@@ -212,7 +212,7 @@ else { // mixta
   let capPend = capital;
   let amortRows = [];
 
-  // ===== TRAMO FIJO =====
+  // TRAMO FIJO
   const cuotaFija = calcularCuota(capital, tinFijo, plazoMeses);
 
   for(let m=1; m<=mesesFijo; m++){
@@ -230,6 +230,40 @@ else { // mixta
       pendiente: capPend.toFixed(2)
     });
   }
+
+  // TRAMO VARIABLE
+  const mesesRestantes = plazoMeses - mesesFijo;
+  const tinVariable = euribor + dif;
+  const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
+
+  for(let m=1; m<=mesesRestantes; m++){
+    const iMensual = tinVariable/100/12;
+    const intereses = capPend * iMensual;
+    const amort = cuotaVariable - intereses;
+
+    capPend -= amort;
+    if(capPend < 0) capPend = 0;
+
+    amortRows.push({
+      mes: mesesFijo + m,
+      cuota: cuotaVariable.toFixed(2),
+      amort: amort.toFixed(2),
+      pendiente: capPend.toFixed(2)
+    });
+  }
+
+  resultados.push({
+    nombre,
+    tipo,
+    cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
+    intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
+    total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
+    amortRows,
+    mesesFijo
+  });
+
+  continue; // evita que siga ejecutando el resto del bucle
+}
 
   // ===== TRAMO VARIABLE =====
   const mesesRestantes = plazoMeses - mesesFijo;
