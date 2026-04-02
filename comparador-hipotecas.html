@@ -392,6 +392,7 @@ addBanco();
 
 // ===== Descargar PDF =====
 function descargarPDF(){
+  const modo = document.querySelector('input[name="modo"]:checked')?.value || "comparador";
   const nombreUsuario=document.getElementById("nombreUsuario").value.trim();
   const emailUsuario=document.getElementById("emailUsuario").value.trim();
   if(!nombreUsuario||!emailUsuario){ alert("Completa nombre y correo"); return; }
@@ -400,6 +401,8 @@ function descargarPDF(){
   const doc=new jsPDF();
 
   doc.setFont("helvetica","bold").setFontSize(18).text("KAOBA FINANCE",20,20);
+  doc.setFontSize(10);
+doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "Comparativa simple"}`,20,35);
   doc.setFontSize(12).text("Informe comparativo de hipotecas",20,28);
   doc.setLineWidth(0.5);
   doc.line(20,32,190,32);
@@ -441,6 +444,14 @@ function descargarPDF(){
   });
 
   let finalY=doc.lastAutoTable.finalY+10;
+const recomendacion = document.getElementById("recomendacion").innerText;
+
+doc.setFont("helvetica","bold").setFontSize(12);
+doc.text("Recomendación del simulador",20,finalY);
+
+doc.setFont("helvetica","normal").setFontSize(10);
+doc.text(recomendacion,20,finalY+8,{maxWidth:170});
+  
 
   // Mejor opción
   doc.setFont("helvetica","bold").setFontSize(12);
@@ -451,7 +462,11 @@ function descargarPDF(){
   // Análisis financiero
   doc.setFont("helvetica","bold").setFontSize(12).text("Análisis financiero",20,finalY+25);
   doc.setFont("helvetica","normal").setFontSize(10);
-  doc.text("Las diferencias entre ofertas se deben principalmente al tipo de interés aplicado y la estructura (fija, variable o mixta). Es importante valorar no solo la cuota mensual sino el coste total del préstamo.",20,finalY+33,{maxWidth:170});
+ const textoAnalisis = modo === "simulador"
+  ? "El análisis incluye una simulación detallada con amortización del préstamo, mostrando la evolución real del capital pendiente."
+  : "El análisis se basa en una comparativa simplificada para facilitar la toma de decisión entre ofertas.";
+
+doc.text(textoAnalisis,20,finalY+33,{maxWidth:170});
 
   // Recomendaciones
   doc.setFont("helvetica","bold").setFontSize(12).text("Recomendaciones",20,finalY+55);
