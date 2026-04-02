@@ -357,13 +357,18 @@ const mejorIndicador = index === 0
     <td>${r.tae ? r.tae.toFixed(2)+" %" : "-"}</td>
     <td>${
       r.tipo==="mixta"
-        ? `${parseFloat(r.amortRows[0].cuota).toFixed(2)} €<br>
-           <span style="font-size:12px;color:#666;">
-           luego ~${parseFloat(
-             r.amortRows[r.mesesFijo]?.cuota || 
-             r.amortRows[r.mesesFijo-1]?.cuota
-           ).toFixed(2)} €
-           </span>`
+  ? (() => {
+      const cuotaInicial = parseFloat(r.amortRows[0]?.cuota || 0);
+
+      const cuotaVariable = r.amortRows.find(m => m.mes === r.mesesFijo + 1);
+
+      return `
+        ${cuotaInicial.toFixed(2)} €<br>
+        <span style="font-size:12px;color:#666;">
+        luego ~${cuotaVariable ? parseFloat(cuotaVariable.cuota).toFixed(2) : '—'} €
+        </span>
+      `;
+    })()
         : `${r.cuotaMedia.toFixed(2)} €`
     }</td>
     <td>${r.intereses.toFixed(2)} €</td>
