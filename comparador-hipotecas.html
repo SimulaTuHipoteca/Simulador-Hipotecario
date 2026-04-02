@@ -419,25 +419,26 @@ doc.text(`Modo de cálculo: ${modo === "simulador" ? "Simulación detallada" : "
   const data=[]; let mejorBanco=""; let mejorTotal=Infinity;
 
   for(let row of tbody.rows){
-   let banco = row.cells[0].innerText;
+let banco = row.cells[0].innerText;
 const tipo = row.cells[1].innerText;
 const tae = row.cells[2].innerText;
 let cuota = row.cells[3].innerText;
 const intereses = row.cells[4].innerText;
 const total = row.cells[5].innerText;
 const ahorro = row.cells[6].innerText || "-";
-   cuota = cuota.replace(/\n/g," ").replace(/<br>/g," ");
 
-    if(cuota.includes("luego")){
+// limpiar formato
+cuota = cuota.replace(/\n/g," ").replace(/<br>/g," ");
+
+if(cuota.includes("luego")){
   const partes = cuota.split("luego");
   cuota = `Inicial: ${partes[0].trim()} / Variable: ${partes[1].replace("~","").trim()}`;
 }
-    const intereses=row.cells[3].innerText;
-    const total = row.cells[4].innerText;
-        const ahorro=row.cells[5].innerText||"-";
-    const totalNum=parseFloat(total.replace("€","").replace(",","."));    
-    if(totalNum<mejorTotal){mejorTotal=totalNum; mejorBanco=banco;}
-   data.push([banco,tipo,tae,cuota,intereses,total,ahorro]);
+
+const totalNum=parseFloat(total.replace("€","").replace(",","."));
+if(totalNum<mejorTotal){mejorTotal=totalNum; mejorBanco=banco;}
+
+data.push([banco,tipo,tae,cuota,intereses,total,ahorro]);
     }
 
   doc.autoTable({
