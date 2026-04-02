@@ -180,96 +180,155 @@ function validarYCalcular(){
   if(valid) calcular();
 }
 
-// ===== Calcular resultados =====
-else { // mixta
-  const mesesFijo = parseInt(document.getElementById("mesesFijo-"+i).value)||0;
-  const tinFijo = parseFloat(document.getElementById("tinMixtoFijo-"+i).value)||0;
-  const dif = parseFloat(document.getElementById("diferencial-"+i).value)||0;
+function calcular(){
+  const capital=parseFloat(document.getElementById("capital").value)||150000;
+  const plazoAños=parseFloat(document.getElementById("plazo").value)||20;
+  const plazoMeses=Math.round(plazoAños*12);
+  const euribor=parseFloat(document.getElementById("euribor").value)||2.82;
 
-  let capPend = capital;
+  const tbody=document.querySelector("#tabla tbody");
+  tbody.innerHTML="";
 
-  // ===== TRAMO FIJO =====
-  const cuotaFija = calcularCuota(capital, tinFijo, plazoMeses);
+  const resultados=[];
 
-  for(let m=1; m<=mesesFijo; m++){
-    const iMensual = tinFijo/100/12;
-    const intereses = capPend * iMensual;
-    const amort = cuotaFija - intereses;
+  for(let i=1;i<=contador;i++){
+    const div=document.getElementById("banco-"+i); 
+    if(!div) continue;
 
-    capPend -= amort;
-    if(capPend < 0) capPend = 0;
+    const nombre=document.getElementById("nombre-"+i).value||("Banco "+i);
+    const tipo=document.getElementById("tipo-"+i).value;
+    const amortSi=document.getElementById("amortSi-"+i).checked;
 
-    amortRows.push({
-      mes: m,
-      cuota: cuotaFija.toFixed(2),
-      amort: amort.toFixed(2),
-      pendiente: capPend.toFixed(2)
+    let amortRows=[];
+
+    // ===== FIJA =====
+    if(tipo==="fija"){ 
+      const tin=parseFloat(document.getElementById("tinFijo-"+i).value)||0;
+      amortRows=generarAmortizacion(capital,tin,plazoMeses,amortSi); 
+    }
+
+    // ===== VARIABLE =====
+    else if(tipo==="variable"){ 
+      const dif=parseFloat(document.getElementById("difVar-"+i).value)||0; 
+      amortRows=generarAmortizacion(capital,euribor+dif,plazoMeses,amortSi);
+    }
+
+    // ===== MIXTA =====
+    else { 
+      const mesesFijo = parseInt(document.getElementById("mesesFijo-"+i).value)||0;
+      const tinFijo = parseFloat(document.getElementById("tinMixtoFijo-"+i).value)||0;
+      const dif = parseFloat(document.getElementById("diferencial-"+i).value)||0;
+
+      let capPend = capital;
+
+      // --- TRAMO FIJO ---
+      const cuotaFija = calcularCuota(capital, tinFijo, plazoMeses);
+
+      for(let m=1; m<=mesesFijo; m++){
+        const iMensual = tinFijo/100/12;
+        const intereses = capPend * iMensual;
+        const amort = cuotaFija - intereses;
+
+        capPend -= amort;
+        if(capPend < 0) capPend = 0;
+
+        amortRows.push({
+          mes: m,
+          cuota: cuotaFija.toFixed(2),
+          amort: amort.toFixed(2),
+          pendiente: capPend.toFixed(2)
+        });
+      }
+
+      // --- TRAMO VARIABLE ---
+      const mesesRestantes = plazoMeses - mesesFijo;
+      const tinVariable = euribor + dif;
+      const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
+
+      for(let m=1; m<=mesesRestantes; m++){
+        const iMensual = tinVariable/100/12;
+        const intereses = capPend * iMensual;
+        const amort = cuotaVariable - intereses;
+
+        capPend -= amort;
+        if(capPend < 0) capPend = 0;
+
+        amortRows.push({
+          mes: mesesFijo + m,
+          cuota: cuotaVariable.toFixed(2),
+          amort: amort.toFixed(2),
+          pendiente: capPend.toFixed(2)
+        });
+      }
+
+      resultados.push({
+        nombre,
+        tipo,
+        cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
+        intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
+        total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
+        amortRows,
+        mesesFijo
+      });
+
+      continue;
+    }
+
+    // ===== PUSH FIJA Y VARIABLE =====
+    resultados.push({
+      nombre,
+      tipo,
+      cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
+      intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
+      total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
+      amortRows
     });
   }
 
-  // ===== TRAMO VARIABLE =====
-  const mesesRestantes = plazoMeses - mesesFijo;
-  const tinVariable = euribor + dif;
-  const cuotaVariable = calcularCuota(capPend, tinVariable, mesesRestantes);
-
-  for(let m=1; m<=mesesRestantes; m++){
-    const iMensual = tinVariable/100/12;
-    const intereses = capPend * iMensual;
-    const amort = cuotaVariable - intereses;
-
-    capPend -= amort;
-    if(capPend < 0) capPend = 0;
-
-    amortRows.push({
-      mes: mesesFijo + m,
-      cuota: cuotaVariable.toFixed(2),
-      amort: amort.toFixed(2),
-      pendiente: capPend.toFixed(2)
-    });
-  }
-
-  // 🔥 CLAVE
-  resultados.push({
-    nombre,
-    tipo,
-    cuotaMedia: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)/plazoMeses,
-    intereses: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0)-capital,
-    total: amortRows.reduce((a,b)=>a+parseFloat(b.cuota),0),
-    amortRows,
-    mesesFijo
-  });
-
-  continue;
-}
-  
+  // ===== ORDENAR =====
   resultados.sort((a,b)=>a.total-b.total);
   const mejorTotal=resultados[0]?.total||0;
 
+  // ===== PINTAR TABLA =====
   resultados.forEach((r,index)=>{
     const row=document.createElement("tr");
     const ahorro=(r.total-mejorTotal).toFixed(2);
     const mejorIndicador=index===0?'<span style="color:#198754;font-weight:600;">★ Mejor</span>':'';
+
     row.innerHTML=`
       <td>${r.nombre} ${mejorIndicador}</td>
       <td>${r.tipo}</td>
       <td>${
         r.tipo==="mixta"?
-        `${parseFloat(r.amortRows[0].cuota).toFixed(2)} €<br><span style="font-size:12px;color:#666;">luego ~${parseFloat(r.amortRows[r.mesesFijo]?.cuota||r.amortRows[r.mesesFijo-1]?.cuota).toFixed(2)} €</span>`
+        `${parseFloat(r.amortRows[0].cuota).toFixed(2)} €<br>
+        <span style="font-size:12px;color:#666;">
+        luego ~${parseFloat(r.amortRows[r.mesesFijo]?.cuota || r.amortRows[r.mesesFijo-1]?.cuota).toFixed(2)} €
+        </span>`
         :`${r.cuotaMedia.toFixed(2)} €`
       }</td>
       <td>${r.intereses.toFixed(2)} €</td>
       <td>${r.total.toFixed(2)} €</td>
       <td class="ahorro">${ahorro>0?ahorro+' €':''}</td>
-      <td><span class="amort-toggle" onclick="toggleAmort(${index})">Ver</span><div id="amort-${index}" style="display:none;"></div></td>
+      <td><span class="amort-toggle" onclick="toggleAmort(${index})">Ver</span>
+      <div id="amort-${index}" style="display:none;"></div></td>
     `;
+
     tbody.appendChild(row);
+
     const amortDiv=document.getElementById("amort-"+index);
     let html="<table class='amort-table'><tr><th>Mes</th><th>Cuota</th><th>Amort</th><th>Pendiente</th></tr>";
-    r.amortRows.forEach(m=>html+=`<tr><td>${m.mes}</td><td>${m.cuota} €</td><td>${m.amort} €</td><td>${m.pendiente} €</td></tr>`);
+    r.amortRows.forEach(m=>{
+      html+=`<tr>
+        <td>${m.mes}</td>
+        <td>${m.cuota} €</td>
+        <td>${m.amort} €</td>
+        <td>${m.pendiente} €</td>
+      </tr>`;
+    });
+
     amortDiv.innerHTML=html+"</table>";
   });
 }
-
 function toggleAmort(index){
   const div=document.getElementById("amort-"+index);
   div.style.display=div.style.display==="none"?"block":"none";
