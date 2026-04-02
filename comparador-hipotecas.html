@@ -467,8 +467,8 @@ doc.setFont("helvetica","bold").setFontSize(12);
 doc.text("Datos del préstamo", 20, 70);
 
 doc.setFont("helvetica","normal").setFontSize(10);
-const capitalFormateadoFinal = capital.toLocaleString("es-ES") + " €";
-doc.text(`Capital solicitado: ${capitalFormateadoFinal}`, 20, 78);
+const capitalFormateado = capital.toLocaleString("es-ES") + " €";
+doc.text(`Capital solicitado: ${capitalFormateado}`, 20, 78);
 doc.text(`Plazo: ${plazo} años`, 20, 84);
 doc.text(`Euríbor utilizado: ${euribor} %`, 20, 90);
   
