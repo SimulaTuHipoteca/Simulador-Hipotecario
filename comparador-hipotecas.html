@@ -36,6 +36,26 @@ th{background:#f1f3f6;}
 .amort-table{margin-top:12px;width:100%;border-collapse:collapse;}
 .amort-table th,.amort-table td{border:1px solid #ddd;padding:6px;font-size:13px;text-align:center;}
 .amort-toggle{color:#0d4f8b;cursor:pointer;font-weight:600;text-decoration:underline;}
+  #bancos {
+  display: grid;
+  grid-template-columns: 1fr; /* móvil */
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  #bancos {
+    grid-template-columns: 1fr 1fr; /* 2 columnas */
+  }
+}
+
+@media (min-width: 1100px) {
+  #bancos {
+    grid-template-columns: 1fr 1fr 1fr; /* 3 columnas */
+  }
+}
+  .banco-card {
+  height: 100%;
+}
 </style>
 </head>
 
