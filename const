@@ -422,7 +422,7 @@ addBanco();
 
 // ===== Descargar PDF =====
 function descargarPDF(){
-  const modo = document.querySelector('input[name="modo"]:checked')?.value || "comparador";
+  const modo = "comparador";
   const nombreUsuario=document.getElementById("nombreUsuario").value.trim();
   const emailUsuario=document.getElementById("emailUsuario").value.trim();
   if(!nombreUsuario||!emailUsuario){ alert("Completa nombre y correo"); return; }
