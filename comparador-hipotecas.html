@@ -53,6 +53,18 @@ th{background:#f1f3f6;}
   <p style="font-size:12px; color:#b45309; margin-top:6px;" id="aviso-tecnico">
     * Para hipotecas mixtas o variables, los cálculos usan el Euríbor actual como referencia. Valores orientativos; pueden variar con el mercado.
   </p>
+
+  <h3 style="margin-top:15px;">Modo de cálculo</h3>
+
+<label>
+  <input type="radio" name="modo" value="comparador" checked>
+  Comparar bancos (sin amortización)
+</label>
+
+<label>
+  <input type="radio" name="modo" value="simulador">
+  Simulación personalizada (con amortización)
+</label>
   
   <hr style="margin:18px 0;">
   <h2>Ofertas bancarias</h2>
@@ -68,6 +80,7 @@ th{background:#f1f3f6;}
   <label><input type="checkbox" id="acepta"> Acepto política de privacidad</label>
   <div id="errorAcepta" class="error-msg"></div>
 
+  
   <button onclick="validarYCalcular()">Calcular</button>
   <button onclick="descargarPDF()">Descargar PDF</button>
 
@@ -199,7 +212,11 @@ function calcular(){
 
     const nombre=document.getElementById("nombre-"+i).value||("Banco "+i);
     const tipo=document.getElementById("tipo-"+i).value;
-    const amortSi=document.getElementById("amortSi-"+i).checked;
+    const modo = document.querySelector('input[name="modo"]:checked')?.value || "comparador";
+
+const amortSi = modo === "simulador"
+  ? document.getElementById("amortSi-"+i).checked
+  : false;
 
     let amortRows=[];
 
