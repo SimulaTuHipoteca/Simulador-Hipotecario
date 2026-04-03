@@ -497,10 +497,44 @@ function calcular(){
 
   document.getElementById("resultados").style.display = "block";
 }
+
+function validarCamposPDF(){
+  let valid = true;
+
+  const nombre = document.getElementById("nombreUsuario");
+  const email = document.getElementById("email");
+  const rgpd = document.getElementById("rgpd");
+
+  const errorNombre = document.getElementById("errorNombreUsuario");
+  const errorEmail = document.getElementById("errorEmail");
+  const errorRgpd = document.getElementById("errorRgpd");
+
+  if(!nombre.value.trim()){ errorNombre.innerText = "Introduce tu nombre"; valid = false;} 
+  else {errorNombre.innerText = "";
+  }
+
+  const re = /^\S+@\S+\.\S+$/;
+  if(!re.test(email.value.trim())){
+    errorEmail.innerText = "Email inválido";
+    valid = false;
+  } else {
+    errorEmail.innerText = "";
+  }
+
+  if(!rgpd.checked){
+    errorRgpd.innerText = "Debes aceptar la política";
+    valid = false;
+  } else {
+    errorRgpd.innerText = "";
+  }
+
+  return valid;
+}
+
   
 // Función para generar PDF y enviar
 function enviarPDF() {
-  if (!validarCampos()) return;
+if (!validarCamposPDF()) return;
 
   const nombreUsuario = document.getElementById("nombreUsuario").value.trim();
   const emailUsuario = document.getElementById("email").value.trim();
