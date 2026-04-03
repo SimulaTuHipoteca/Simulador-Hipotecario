@@ -353,8 +353,8 @@ if (mensajePerfil) {
   }
 }
 
- // -----------------------------
-// TOGGLE CARD VIVIENDA (DECLARACIÓN PRIMERO)
+// -----------------------------
+// TOGGLE CARD VIVIENDA
 // -----------------------------
 const toggleCard = document.getElementById("toggleVivienda");
 
@@ -366,10 +366,8 @@ const actualizarViviendaInfo = () => {
 
   const activo = perfilFields.viviendaCheck.checked;
 
-  // Mostrar / ocultar bloque
   perfilFields.viviendaInfo.style.display = activo ? "block" : "none";
 
-  // Sincronizar estilo visual de la tarjeta
   if (toggleCard) {
     toggleCard.classList.toggle("active", activo);
   }
@@ -386,17 +384,23 @@ if (perfilFields.viviendaCheck && perfilFields.viviendaInfo) {
 }
 
 // -----------------------------
-// EVENTO CLICK EN TARJETA
+// SINCRONIZAR AL CARGAR
+// -----------------------------
+if (toggleCard && perfilFields.viviendaCheck?.checked) {
+  toggleCard.classList.add("active");
+}
+
+// -----------------------------
+// CLICK EN TARJETA
 // -----------------------------
 if (toggleCard && perfilFields.viviendaCheck) {
-  toggleCard.addEventListener("click", () => {
-    // 🔥 Simula click real (mejor que cambiar checked manualmente)
+  toggleCard.addEventListener("click", (e) => {
+    if (e.target.closest("input, select, label")) return;
     perfilFields.viviendaCheck.click();
   });
 }
-// -----------------------------
-// EVENTOS PERFIL
-// -----------------------------
+
+ // EVENTOS PERFIL// -------
 perfilFields.plazo && perfilFields.plazo.addEventListener("input", () => plazoEditadoPorUsuario = true);
 
 [
