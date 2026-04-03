@@ -188,15 +188,30 @@ TITULARES
 ============================== */
 .titulares-grid {
   display: flex;
-  gap: 15px;
+  gap: 10px;
+  justify-content: flex-start; /* se queda a la izquierda */
+  max-width: 300px; /* limita el ancho total */
 }
 
 .titular {
   flex: 1;
+  padding: 10px;
+  border-radius: 8px;
   background: #f9fafb;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
+  font-size: 13px;
+}
+
+/* Opcional: inputs más pequeños dentro */
+.titular input,
+.titular select {
+  padding: 6px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.titular {
+  text-align: center;
+  cursor: pointer;
 }
 
 /* MÓVIL */
