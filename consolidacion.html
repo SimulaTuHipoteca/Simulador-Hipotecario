@@ -31,8 +31,54 @@ button:hover{background:#09407a;}
 table{width:100%; border-collapse:collapse; margin-top:15px;}
 th,td{padding:10px; border-bottom:1px solid #e5e7eb; text-align:center;}
 th{background:#f1f3f6;}
-.deuda{border:1px solid #e3e8ef; padding:10px; margin-bottom:10px; border-radius:6px; position:relative;}
-.remove-deuda{position:absolute; top:8px; right:8px; background:transparent; color:#dc2626; font-size:18px; font-weight:bold; border:none; cursor:pointer;}
+/* ===== GRID COMO EN COMPARADOR ===== */
+#deudas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  #deudas {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ===== CARD IGUAL QUE BANCOS ===== */
+.banco-card {
+  background:#fafbff;
+  border:1px solid #e3e8ef;
+  padding:18px;
+  border-radius:10px;
+  position:relative;
+  transition:0.2s;
+  height:100%;
+}
+
+.banco-card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 22px rgba(0,0,0,0.07);
+}
+
+/* ===== BOTÓN ELIMINAR IGUAL ===== */
+.remove-btn {
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:#fff;
+  color:#dc3545;
+  font-size:18px;
+  border:none;
+  cursor:pointer;
+}
+
+.remove-btn:hover {
+  background:#dc3545;
+  color:#fff;
+}
 .remove-deuda:hover{color:#a71d2a; transform:scale(1.2);}
 .volver{display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:2px solid #0d4f8b; border-radius:6px; background:transparent; color:#0d4f8b; font-weight:600; text-decoration:none; transition:all 0.2s; margin-bottom:20px;}
 .volver:hover{background:#0d4f8b; color:#fff; transform:translateY(-2px);}
@@ -74,15 +120,30 @@ th{background:#f1f3f6;}
 
 <!-- Campos subrogación -->
 <div id="camposSubrogacion" class="section" style="display:none">
-<h2 class="section-title">Hipoteca actual</h2>
-<label>Capital pendiente (€)<input type="number" id="capitalPendiente" placeholder="Ej: 150000" min="0"></label>
-<div id="errorCapitalPendiente" class="error-msg"></div>
+  <h2 class="section-title">Hipoteca actual</h2>
 
-<label>TIN actual (%)<input type="number" id="tinActual" placeholder="Ej: 3.5" step="0.01" min="0"></label>
-<div id="errorTinActual" class="error-msg"></div>
+  <div class="banco-card">
+    <div style="display:flex; gap:10px;">
+      <div style="flex:2;">
+        <label>Capital pendiente (€)
+          <input type="number" id="capitalPendiente" placeholder="150000" min="0">
+        </label>
+        <div id="errorCapitalPendiente" class="error-msg"></div>
+      </div>
 
-<label>Plazo restante (años)<input type="number" id="plazoRestante" placeholder="Ej: 20" min="1"></label>
-<div id="errorPlazoRestante" class="error-msg"></div>
+      <div style="flex:1;">
+        <label>TIN actual (%)
+          <input type="number" id="tinActual" placeholder="3.5" step="0.01" min="0">
+        </label>
+        <div id="errorTinActual" class="error-msg"></div>
+      </div>
+    </div>
+
+    <label>Plazo restante (años)
+      <input type="number" id="plazoRestante" placeholder="20" min="1">
+    </label>
+    <div id="errorPlazoRestante" class="error-msg"></div>
+  </div>
 </div>
 
 <!-- Campos hipoteca mixta -->
@@ -207,15 +268,36 @@ function actualizarCampos(){
 function addDeuda() {
   count++;
   const div = document.createElement("div");
-  div.className = "deuda"; div.id = "d"+count;
+  div.className = "banco-card"; // 👈 cambio clave
+  div.id = "d" + count;
+
   div.innerHTML = `
-    <label>Capital (€)<input type="number" id="capital${count}" placeholder="Ej:20000" min="0"></label>
-    <label>TIN (%)<input type="number" id="interes${count}" placeholder="Ej:5" step="0.01" min="0"></label>
-    <label>Plazo (años)<input type="number" id="plazo${count}" placeholder="Ej:3" min="1"></label>
-    <button class="remove-deuda" onclick="removeDeuda(${count})">×</button>
+    <button class="remove-btn" onclick="removeDeuda(${count})">×</button>
+
+    <div style="display:flex; gap:10px;">
+      <div style="flex:2;">
+        <label>Capital (€)
+          <input type="number" id="capital${count}" placeholder="20000" min="0">
+        </label>
+      </div>
+
+      <div style="flex:1;">
+        <label>TIN (%)
+          <input type="number" id="interes${count}" placeholder="5" step="0.01" min="0">
+        </label>
+      </div>
+    </div>
+
+    <label>Plazo (años)
+      <input type="number" id="plazo${count}" placeholder="3" min="1">
+    </label>
   `;
+
   document.getElementById("deudas").appendChild(div);
-  div.querySelectorAll("input").forEach(inp => inp.addEventListener("input", calcular));
+
+  div.querySelectorAll("input").forEach(inp =>
+    inp.addEventListener("input", calcular)
+  );
 }
 
 // Eliminar deuda
