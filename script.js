@@ -386,9 +386,7 @@ if (perfilFields.viviendaCheck && perfilFields.viviendaInfo) {
 // -----------------------------
 // SINCRONIZAR AL CARGAR
 // -----------------------------
-if (toggleCard && perfilFields.viviendaCheck?.checked) {
-  toggleCard.classList.add("active");
-}
+actualizarViviendaInfo();
 
 // -----------------------------
 // CLICK EN TARJETA
