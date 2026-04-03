@@ -573,5 +573,22 @@ RESPONSIVE FOOTER
   display: block;
   color: #16a34a;
 }
-  
+
+  /* Ajuste FAQ móvil */
+#faqButton {
+  position: fixed;
+  bottom: 100px;  /* lo separa del footer y de la calculadora */
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #0072CE;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  text-decoration: none;
+  z-index: 1000;  /* se asegura que esté por encima de otros elementos */
+}
 }
