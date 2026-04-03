@@ -132,11 +132,18 @@
   <h2>Analizar Perfil Financiero</h2>
     <div id="operacionSeleccionada" style="display:none;"></div>
 
-    <label>Número de titulares</label>
-    <select id="perfilTitulares">
-      <option value="1">1 titular</option>
-      <option value="2">2 titulares</option>
-    </select>
+<label>Número de titulares</label>
+
+<div class="titulares-selector">
+  <div class="opcion active" data-value="1">1 titular</div>
+  <div class="opcion" data-value="2">2 titulares</div>
+</div>
+
+<!-- ESTE se queda oculto pero lo usa tu JS -->
+<select id="perfilTitulares" style="display:none;">
+  <option value="1" selected>1 titular</option>
+  <option value="2">2 titulares</option>
+</select>
 
     <div class="titulares-grid">
       <!-- TITULAR 1 -->
