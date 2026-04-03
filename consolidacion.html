@@ -89,18 +89,17 @@ th{background:#f1f3f6;}
   <h2 class="section-title">Hipoteca actual</h2>
 
   <div class="banco-card">
-    <div style="display:flex; gap:10px;">
-      <div style="flex:2;">
-        <label>Capital pendiente (€)
-          <input type="number" id="capitalPendiente" placeholder="150000" min="0">
-        </label>
-        <div id="errorCapitalPendiente" class="error-msg"></div>
-      </div>
+   <label>Capital pendiente (€)
+  <input type="number" id="capitalPendiente" placeholder="150000" min="0">
+</label>
 
-      <div style="flex:1;">
-        <label>TIN actual (%)
-          <input type="number" id="tinActual" placeholder="3.5" step="0.01" min="0">
-        </label>
+<label>TIN actual (%)
+  <input type="number" id="tinActual" placeholder="3.5" step="0.01" min="0">
+</label>
+
+<label>Plazo restante (años)
+  <input type="number" id="plazoRestante" placeholder="20" min="1">
+</label>
         <div id="errorTinActual" class="error-msg"></div>
       </div>
     </div>
@@ -240,23 +239,17 @@ function addDeuda() {
   div.innerHTML = `
     <button class="remove-btn" onclick="removeDeuda(${count})">×</button>
 
-    <div style="display:flex; gap:10px;">
-      <div style="flex:2;">
-        <label>Capital (€)
-          <input type="number" id="capital${count}" placeholder="20000" min="0">
-        </label>
-      </div>
+   <label>Capital (€)
+  <input type="number" id="capital${count}" placeholder="20000" min="0">
+</label>
 
-      <div style="flex:1;">
-        <label>TIN (%)
-          <input type="number" id="interes${count}" placeholder="5" step="0.01" min="0">
-        </label>
-      </div>
-    </div>
+<label>TIN (%)
+  <input type="number" id="interes${count}" placeholder="5" step="0.01" min="0">
+</label>
 
-    <label>Plazo (años)
-      <input type="number" id="plazo${count}" placeholder="3" min="1">
-    </label>
+<label>Plazo (años)
+  <input type="number" id="plazo${count}" placeholder="3" min="1">
+</label>
   `;
 
   document.getElementById("deudas").appendChild(div);
