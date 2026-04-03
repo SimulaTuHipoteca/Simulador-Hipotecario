@@ -643,13 +643,11 @@ doc.text("AHORRO MENSUAL", margenX + 20, y + 20);
 
 doc.setFontSize(22);
 doc.setTextColor(13, 79, 139);
-const ahorroMostrar = Math.abs(ahorroMensual).toFixed(0);
+const textoAhorro = ahorroMensual >= 0
+  ? `${ahorroMensual.toFixed(0)} € / mes`
+  : `+${Math.abs(ahorroMensual).toFixed(0)} € / mes`;
 
-doc.text(
-  `${ahorroMostrar} € / mes`,
-  margenX + 20,
-  y + 40
-);
+  doc.text(textoAhorro, margenX + 20, y + 40);
   
 y += 70;
   
@@ -702,18 +700,29 @@ y = doc.lastAutoTable.finalY + 30;
  let mensajePDF = "";
 let colorMensaje = [0,0,0];
 
-if (ahorroTotal > 0) {
+if (ahorroTotal > 0 && ahorroMensual > 0) {
+
   mensajePDF = `Ahorrarías ${ahorroMensual.toFixed(0)} € al mes.\nAhorro total estimado: ${ahorroTotal.toFixed(0)} €.`;
-  colorMensaje = [30, 126, 52]; // verde
+  colorMensaje = [30, 126, 52];
+
 } 
-else if (ahorroMensual > 0) {
-mensajePDF = `Reducirías tu cuota en ${ahorroMensual.toFixed(0)} € al mes, lo que mejora tu capacidad de ahorro y liquidez mensual.
-Esta opción implica un mayor coste total del préstamo, por lo que es especialmente interesante si priorizas pagar menos cada mes frente al ahorro a largo plazo.`;
-  colorMensaje = [180, 120, 0]; // naranja
+else if (ahorroTotal > 0 && ahorroMensual < 0) {
+
+  mensajePDF = `Aunque pagarías ${Math.abs(ahorroMensual).toFixed(0)} € más al mes,\nreducirías el coste total en ${ahorroTotal.toFixed(0)} €.\n\nEsta opción es interesante si buscas ahorrar a largo plazo.`;
+  colorMensaje = [30, 126, 52];
+
+} 
+else if (ahorroMensual > 0 && ahorroTotal <= 0) {
+
+  mensajePDF = `Reducirías tu cuota en ${ahorroMensual.toFixed(0)} € al mes,\nlo que mejora tu liquidez mensual.\n\nTen en cuenta que el coste total será mayor.`;
+  colorMensaje = [180, 120, 0];
+
 } 
 else {
+
   mensajePDF = `La operación no parece recomendable según los datos actuales.`;
-  colorMensaje = [180, 0, 0]; // rojo
+  colorMensaje = [180, 0, 0];
+
 }
   doc.setFont("helvetica", "bold").setFontSize(14);
   doc.setTextColor(13, 79, 139);
