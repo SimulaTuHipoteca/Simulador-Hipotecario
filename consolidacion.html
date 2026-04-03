@@ -738,7 +738,8 @@ else {
 
   doc.setFont("helvetica", "bold").setFontSize(12);
 doc.setTextColor(...colorMensaje);
-doc.text(mensajePDF, margenX, y, { maxWidth: 500 });
+const textoFormateado = doc.splitTextToSize(mensajePDF, 500);
+doc.text(textoFormateado, margenX, y);
 
   y += 35;
 
