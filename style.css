@@ -190,7 +190,6 @@ TITULARES
   display: flex;
   gap: 10px;
   justify-content: flex-start; /* se queda a la izquierda */
-  max-width: 300px; /* limita el ancho total */
 }
 
 .titular {
