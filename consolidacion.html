@@ -318,25 +318,20 @@ function validarCampos(){
   return valid;
 }
 
-// Calcular cuotas
 function calcular(){
   const op = document.getElementById("tipoOperacion").value;
 
- const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value);
-const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value);
-const comisiones = parseFloat(document.getElementById("comisionesNuevo")?.value) || 0;
+  const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value);
+  const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value);
+  const comisiones = parseFloat(document.getElementById("comisionesNuevo")?.value) || 0;
 
-// ✅ BONUS (bonificación del tipo)
-const bonificacion = parseFloat(document.getElementById("bonus")?.value) || 0;
+  const bonificacion = parseFloat(document.getElementById("bonus")?.value) || 0;
+  const tinFinal = Math.max(tinNuevo - bonificacion, 0);
 
-// ✅ TIN final aplicado (nunca negativo)
-const tinFinal = Math.max(tinNuevo - bonificacion, 0);
-
-// 🚫 Bloquear si faltan datos clave
-if (!tinNuevo || !plazoNuevo) {
-  document.getElementById("resultados").style.display = "none";
-  return;
-}
+  if (!tinNuevo || !plazoNuevo) {
+    document.getElementById("resultados").style.display = "none";
+    return;
+  }
 
   let cuotaAntes = 0;
   let interesesAntes = 0;
@@ -374,8 +369,8 @@ if (!tinNuevo || !plazoNuevo) {
       return;
     }
 
-   cuotaDespues = cuota(totalCapital + comisiones, tinFinal, plazoNuevo);
-interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
+    cuotaDespues = cuota(totalCapital + comisiones, tinFinal, plazoNuevo);
+    interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
   }
 
   // =========================
@@ -394,72 +389,65 @@ interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
     cuotaAntes = cuota(capitalPend, tinActual, plazoRest);
     interesesAntes = cuotaAntes * plazoRest * 12 - capitalPend;
 
-  
-// 👉 HIPOTECA MIXTA
-const hip = document.getElementById("tipoHipoteca")?.value || "fija";
+    const hip = document.getElementById("tipoHipoteca")?.value || "fija";
 
-if(hip === "mixta"){
+    // ===== HIPOTECA MIXTA =====
+    if(hip === "mixta"){
 
-  const plazoFijo = parseInt(document.getElementById("plazoFijo")?.value) || 0;
-  const tinFijo = parseFloat(document.getElementById("tinFijo")?.value) || 0;
-  const tramoVar = document.getElementById("tramoVariableCheck")?.checked;
+      const plazoFijo = parseInt(document.getElementById("plazoFijo")?.value) || 0;
+      const tinFijo = parseFloat(document.getElementById("tinFijo")?.value) || 0;
+      const tramoVar = document.getElementById("tramoVariableCheck")?.checked;
 
-  let tinVar = 0;
+      let tinVar = 0;
 
-  if(tramoVar){
-    const euribor = parseFloat(document.getElementById("euribor")?.value) || 0;
-    const diferencial = parseFloat(document.getElementById("diferencial")?.value) || 0;
-    tinVar = euribor + diferencial;
-  } else {
-    tinVar = tinFinal;
+      if(tramoVar){
+        const euribor = parseFloat(document.getElementById("euribor")?.value) || 0;
+        const diferencial = parseFloat(document.getElementById("diferencial")?.value) || 0;
+        tinVar = euribor + diferencial;
+      } else {
+        tinVar = tinFinal;
+      }
+
+      const capitalInicial = capitalPend + comisiones;
+
+      let cuotaFija = 0;
+      let capitalRest = capitalInicial;
+
+      if(plazoFijo > 0 && tinFijo > 0){
+        cuotaFija = cuota(capitalInicial, tinFijo, plazoFijo);
+
+        const r = tinFijo / 100 / 12;
+        const n = plazoFijo * 12;
+
+        capitalRest =
+          capitalInicial * Math.pow(1+r, n) -
+          (cuotaFija / r) * (Math.pow(1+r, n) - 1);
+      }
+
+      const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
+      const cuotaVar = (plazoVar > 0 && tinVar > 0)
+        ? cuota(capitalRest, tinVar, plazoVar)
+        : 0;
+
+      const interesesFijo = cuotaFija * plazoFijo * 12 - capitalInicial;
+      const interesesVar = cuotaVar * plazoVar * 12 - capitalRest;
+
+      interesesDespues =
+        Math.max(interesesFijo, 0) +
+        Math.max(interesesVar, 0);
+
+      cuotaDespues = tramoVar ? cuotaVar : cuotaFija;
+
+    } else {
+      // ===== HIPOTECA FIJA =====
+      cuotaDespues = cuota(capitalPend + comisiones, tinFinal, plazoNuevo);
+      interesesDespues = cuotaDespues * plazoNuevo * 12 - (capitalPend + comisiones);
+    }
   }
 
-  const capitalInicial = capitalPend + comisiones;
-
-  // ===== TRAMO FIJO =====
-  let cuotaFija = 0;
-  let capitalRest = capitalInicial;
-
-  if(plazoFijo > 0 && tinFijo > 0){
-    cuotaFija = cuota(capitalInicial, tinFijo, plazoFijo);
-
-    const r = tinFijo / 100 / 12;
-    const n = plazoFijo * 12;
-
-    capitalRest =
-      capitalInicial * Math.pow(1+r, n) -
-      (cuotaFija / r) * (Math.pow(1+r, n) - 1);
-  }
-
-  // ===== TRAMO VARIABLE =====
-  const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
-  const cuotaVar = (plazoVar > 0 && tinVar > 0)
-    ? cuota(capitalRest, tinVar, plazoVar)
-    : 0;
-
-  // ===== INTERESES =====
-  const interesesFijo = cuotaFija * plazoFijo * 12 - capitalInicial;
-  const interesesVar = cuotaVar * plazoVar * 12 - capitalRest;
-
-  interesesDespues = 
-    Math.max(interesesFijo, 0) + 
-    Math.max(interesesVar, 0);
-
-  cuotaDespues = tramoVar ? cuotaVar : cuotaFija;
-
-} else {
-
-  // 👉 HIPOTECA NORMAL (FIJA)
-cuotaDespues = cuota(capitalPend + comisiones, tinFinal, plazoNuevo);
-interesesDespues = cuotaDespues * plazoNuevo * 12 - (capitalPend + comisiones);
-
-}
-    if(cuotaDespues <= 0){
-  document.getElementById("resultados").style.display = "none";
-  return;
-}
-
-  // 🚫 Validación final
+  // =========================
+  // VALIDACIONES FINALES
+  // =========================
   if(
     isNaN(cuotaAntes) || 
     isNaN(cuotaDespues) || 
@@ -471,35 +459,28 @@ interesesDespues = cuotaDespues * plazoNuevo * 12 - (capitalPend + comisiones);
   }
 
   // =========================
-  // 📊 RESULTADOS
+  // RESULTADOS
   // =========================
   const ahorroMensual = cuotaAntes - cuotaDespues;
   const ahorroTotal = interesesAntes - interesesDespues;
-window.resultadosSimulacion = {
-  ahorroMensual,
-  ahorroTotal,
-  cuotaAntes,
-  cuotaDespues
-};
-  
+
+  window.resultadosSimulacion = {
+    ahorroMensual,
+    ahorroTotal,
+    cuotaAntes,
+    cuotaDespues
+  };
+
   const box = document.getElementById("mensajeResultado");
 
-  if (op === "subrogacion" && ahorroMensual > 0 && ahorroTotal < 0) {
-  box.innerHTML = `
-    <div class="resultado-box warn">
-      ⚠️ Bajarías ${ahorroMensual.toFixed(0)} €/mes<br>
-      Pero alargarías la deuda y pagarías más intereses
-    </div>`;
-}
-
- if (ahorroTotal > 0 && ahorroMensual > 0) {
+  if (ahorroTotal > 0 && ahorroMensual > 0) {
     box.innerHTML = `
       <div class="resultado-box ok">
         ✔️ Ahorrarías ${ahorroMensual.toFixed(0)} €/mes<br>
         Ahorro total estimado: ${ahorroTotal.toFixed(0)} €
       </div>`;
   } 
-  else if (ahorroMensual > 0 && ahorroTotal <= 0) {
+  else if (ahorroMensual > 0) {
     box.innerHTML = `
       <div class="resultado-box warn">
         ⚠️ Reducirías ${ahorroMensual.toFixed(0)} €/mes<br>
@@ -519,7 +500,7 @@ window.resultadosSimulacion = {
     <tr><td>Ahorro mensual</td><td>-</td><td>${ahorroMensual.toFixed(2)} €</td></tr>
     <tr><td>Ahorro total</td><td>-</td><td>${ahorroTotal.toFixed(2)} €</td></tr>
   `;
-}
+
   document.getElementById("resultados").style.display = "block";
 }
 
