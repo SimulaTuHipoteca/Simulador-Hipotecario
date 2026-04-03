@@ -388,56 +388,70 @@ function calcular(){
     cuotaAntes = cuota(capitalPend, tinActual, plazoRest);
     interesesAntes = cuotaAntes * plazoRest * 12 - capitalPend;
 
-    // 👉 HIPOTECA MIXTA
-    const hip = document.getElementById("tipoHipoteca")?.value || "fija";
+  
+// 👉 HIPOTECA MIXTA
+const hip = document.getElementById("tipoHipoteca")?.value || "fija";
 
-    if(hip === "mixta"){
-      const plazoFijo = parseInt(document.getElementById("plazoFijo")?.value) || 0;
-      const tinFijo = parseFloat(document.getElementById("tinFijo")?.value) || 0;
-      const tramoVar = document.getElementById("tramoVariableCheck")?.checked;
+if(hip === "mixta"){
 
-      let tinVar = tinNuevo;
+  const plazoFijo = parseInt(document.getElementById("plazoFijo")?.value) || 0;
+  const tinFijo = parseFloat(document.getElementById("tinFijo")?.value) || 0;
+  const tramoVar = document.getElementById("tramoVariableCheck")?.checked;
 
-      if(tramoVar){
-        const euribor = parseFloat(document.getElementById("euribor")?.value) || 0;
-        const diferencial = parseFloat(document.getElementById("diferencial")?.value) || 0;
-        tinVar = euribor + diferencial;
-      }
+  let tinVar = 0;
 
-      // Cuota periodo fijo
-      const cuotaFija = (plazoFijo && tinFijo)
-        ? cuota(capitalPend + comisiones, tinFijo, plazoFijo)
-        : 0;
-
-      // Capital restante tras periodo fijo
-      let capitalRest = capitalPend + comisiones;
-
-      if(cuotaFija > 0){
-        const r = tinFijo / 100 / 12;
-        const n = plazoFijo * 12;
-
-        capitalRest =
-          (capitalPend + comisiones) * Math.pow(1+r, n) -
-          (cuotaFija / r) * (Math.pow(1+r, n) - 1);
-      }
-
-      const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
-      const cuotaVar = plazoVar > 0 ? cuota(capitalRest, tinVar, plazoVar) : 0;
-
-      const interesesFijo = cuotaFija * plazoFijo * 12 - (capitalPend + comisiones);
-      const interesesVar = cuotaVar * plazoVar * 12 - capitalRest;
-
-      interesesDespues = Math.max(interesesFijo,0) + Math.max(interesesVar,0);
-
-      cuotaDespues =
-        (cuotaFija * plazoFijo * 12 + cuotaVar * plazoVar * 12) /
-        (plazoNuevo * 12);
-    }
-    else{
-      cuotaDespues = cuota(capitalPend + comisiones, tinNuevo, plazoNuevo);
-      interesesDespues = cuotaDespues * plazoNuevo * 12 - (capitalPend + comisiones);
-    }
+  if(tramoVar){
+    const euribor = parseFloat(document.getElementById("euribor")?.value) || 0;
+    const diferencial = parseFloat(document.getElementById("diferencial")?.value) || 0;
+    tinVar = euribor + diferencial;
+  } else {
+    tinVar = tinNuevo;
   }
+
+  const capitalInicial = capitalPend + comisiones;
+
+  // ===== TRAMO FIJO =====
+  let cuotaFija = 0;
+  let capitalRest = capitalInicial;
+
+  if(plazoFijo > 0 && tinFijo > 0){
+    cuotaFija = cuota(capitalInicial, tinFijo, plazoFijo);
+
+    const r = tinFijo / 100 / 12;
+    const n = plazoFijo * 12;
+
+    capitalRest =
+      capitalInicial * Math.pow(1+r, n) -
+      (cuotaFija / r) * (Math.pow(1+r, n) - 1);
+  }
+
+  // ===== TRAMO VARIABLE =====
+  const plazoVar = Math.max(plazoNuevo - plazoFijo, 0);
+  const cuotaVar = (plazoVar > 0 && tinVar > 0)
+    ? cuota(capitalRest, tinVar, plazoVar)
+    : 0;
+
+  // ===== INTERESES =====
+  const interesesFijo = cuotaFija * plazoFijo * 12 - capitalInicial;
+  const interesesVar = cuotaVar * plazoVar * 12 - capitalRest;
+
+  interesesDespues = 
+    Math.max(interesesFijo, 0) + 
+    Math.max(interesesVar, 0);
+
+  cuotaDespues = tramoVar ? cuotaVar : cuotaFija;
+
+} else {
+
+  // 👉 HIPOTECA NORMAL (FIJA)
+  cuotaDespues = cuota(capitalPend + comisiones, tinNuevo, plazoNuevo);
+  interesesDespues = cuotaDespues * plazoNuevo * 12 - (capitalPend + comisiones);
+
+}
+    if(cuotaDespues <= 0){
+  document.getElementById("resultados").style.display = "none";
+  return;
+}
 
   // 🚫 Validación final
   if(
