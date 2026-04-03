@@ -783,4 +783,31 @@ RESPONSIVE
   border-color: #0d4f8b;
   background: #e6f0ff;
 }
+  #toggleVivienda {
+  cursor: pointer;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.25s ease;
+  background: #fff;
+}
+
+/* Hover (cuando pasas el mouse) */
+#toggleVivienda:hover {
+  border-color: #007bff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* Click (feedback inmediato) */
+#toggleVivienda:active {
+  transform: scale(0.98);
+}
+
+/* Estado activo */
+#toggleVivienda.active {
+  border-color: #007bff;
+  background: #f0f7ff;
+  box-shadow: 0 6px 18px rgba(0,123,255,0.15);
+}
 }
