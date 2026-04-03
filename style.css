@@ -322,6 +322,39 @@ TARJETAS RESULTADOS - LÍNEA Y RESPONSIVE
     margin-bottom: 12px;
   }
 }
+
+
+ /* ==============================
+TOGGLE VIVIENDA (BOTÓN REAL)
+============================== */
+#toggleVivienda {
+  cursor: pointer;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.25s ease;
+  background: #fff;
+}
+
+/* Hover */
+#toggleVivienda:hover {
+  border-color: #0072CE;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* Click */
+#toggleVivienda:active {
+  transform: scale(0.98);
+}
+
+/* Activo */
+#toggleVivienda.active {
+  border-color: #0072CE;
+  background: #e6f0fc;
+  box-shadow: 0 6px 18px rgba(0,114,206,0.15);
+}
+
 /* ==============================
 BOTÓN FLOTANTE CALCULADORA
 ============================== */
@@ -747,70 +780,5 @@ RESPONSIVE
     border-radius: 16px 16px 0 0;
     padding: 20px;
   }
-/* TARJETA SELECCIONABLE */
-.opcion-vivienda {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 10px;
-}
 
-/* ICONO */
-.opcion-icono {
-  font-size: 24px;
-}
-
-/* TEXTO */
-.opcion-texto p {
-  font-size: 13px;
-  color: #6b7280;
-  margin: 3px 0 0 0;
-}
-
-/* HOVER */
-.opcion-vivienda:hover {
-  border-color: #0d4f8b;
-  background: #f0f7ff;
-}
-
-/* ACTIVO */
-.opcion-vivienda.active {
-  border-color: #0d4f8b;
-  background: #e6f0ff;
-}
- /* ==============================
-TOGGLE VIVIENDA (BOTÓN REAL)
-============================== */
-#toggleVivienda {
-  cursor: pointer;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 16px;
-  transition: all 0.25s ease;
-  background: #fff;
-}
-
-/* Hover */
-#toggleVivienda:hover {
-  border-color: #0072CE;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transform: translateY(-2px);
-}
-
-/* Click */
-#toggleVivienda:active {
-  transform: scale(0.98);
-}
-
-/* Activo */
-#toggleVivienda.active {
-  border-color: #0072CE;
-  background: #e6f0fc;
-  box-shadow: 0 6px 18px rgba(0,114,206,0.15);
-}
 }
