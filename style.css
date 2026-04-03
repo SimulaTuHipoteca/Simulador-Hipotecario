@@ -453,7 +453,17 @@ MODAL
 #modalCalculadora.open {
   display: block;
 }
-
+@media (max-width: 768px) {
+  #modalCalculadora {
+    bottom: 30px;   /* se separa del borde inferior */
+    right: 10px;    /* pequeño margen a la derecha */
+    left: 10px;     /* para centrarlo y no tocar los bordes */
+    width: auto;    /* ocupa el espacio disponible con márgenes */
+    max-width: 360px; /* opcional para que no sea demasiado grande */
+    border-radius: 12px;
+    padding: 20px;
+  }
+}
 /* ==============================
 FOOTER AJUSTADO
 ============================== */
@@ -550,12 +560,6 @@ RESPONSIVE FOOTER
 
   .card {
     flex: 1 1 45%;
-  }
-
-  #modalCalculadora {
-    bottom: 0;
-    right: 0;
-    width: 100%;
   }
 
   .lead-mensaje {
