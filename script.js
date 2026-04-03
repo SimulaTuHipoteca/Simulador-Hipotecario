@@ -41,11 +41,20 @@ cargarEuribor();
   const btnCalculadoraFlotante = document.getElementById("btnCalculadoraFlotante");
   const modal = document.getElementById("modalCalculadora");
   const cerrar = document.getElementById("cerrarModal");
-  if (btnCalculadoraFlotante && modal && cerrar) {
-    btnCalculadoraFlotante.addEventListener("click", () => modal.style.display = "block");
-    cerrar.addEventListener("click", () => modal.style.display = "none");
-    window.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
-  }
+ if (btnCalculadoraFlotante && modal && cerrar) {
+   btnCalculadoraFlotante.addEventListener("click", () => {
+    modal.classList.add("open");
+  });
+
+  cerrar.addEventListener("click", () => {
+    modal.classList.remove("open");
+  });
+
+  window.addEventListener("click", e => {
+    if (e.target === modal) {modal.classList.remove("open");}
+  });
+
+}
 
   // -----------------------------
   // CALCULADORA HIPOTECARIA
