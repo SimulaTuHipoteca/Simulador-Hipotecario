@@ -22,6 +22,9 @@ input, select {width:100%; padding:10px; margin-top:6px; border:1px solid #d1d5d
 input:focus,select:focus{border-color:#0d4f8b; outline:none;}
 button{background:#0d4f8b; color:#fff; padding:12px; border:none; border-radius:6px; margin-top:15px; cursor:pointer; font-weight:600; transition:0.2s;}
 button:hover{background:#09407a;}
+  #btnAddDeuda {background: #fff; color: #0d4f8b; border: 2px dashed #0d4f8b; width: 100%;}
+  #btnAddDeuda:hover { background: #0d4f8b; color: #fff;}
+  #btnAddDeuda {margin-top: 10px;}
 .resultado-box{margin-top:20px; padding:20px; border-radius:8px; text-align:center;}
 .ok{background:#e6f4ea;color:#1e7e34;}
 .warn{background:#fff3cd;color:#856404;}
@@ -33,14 +36,11 @@ th,td{padding:10px; border-bottom:1px solid #e5e7eb; text-align:center;}
 th{background:#f1f3f6;}
 /* ===== GRID COMO EN COMPARADOR ===== */
 #deudas { display: grid; grid-template-columns: 1fr; gap: 16px;}
-
-@media (min-width: 768px) {
-  #deudas {grid-template-columns: 1fr 1fr;}
-}
+@media (min-width: 768px) {#deudas {grid-template-columns: 1fr 1fr;}}
 
 /* ===== CARD IGUAL QUE BANCOS ===== */
 .banco-card {background:#fafbff; border:1px solid #e3e8ef; padding:18px; border-radius:10px; position:relative; transition:0.2s; height:100%;}
-
+.banco-card label {margin-top:8px;}
 .banco-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,0.07);}
 
 /* ===== BOTÓN ELIMINAR IGUAL ===== */
