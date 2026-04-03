@@ -458,51 +458,66 @@ COOKIES
 }
 
 /* ==============================
-FOOTER
+FOOTER LIMPIO PRO
 ============================== */
 footer {
-  background-color: #1a1a1a;
+  background: #111827;
   color: #fff;
-  padding: 20px 0;
-  text-align: center;
-  font-size: 14px;
-  width: 100%;
-  position: relative;
-  z-index: 1; /* debajo de flotantes */
+  padding: 40px 20px 20px;
 }
 
-footer a {
-  color: #fff;
-  text-decoration: underline;
-}
-footer {
-  background-color: #1a1a1a;
-  color: #fff;
-  padding: 40px 20px;
-}
-
-/* CONTENEDOR INTERNO */
+/* CONTENEDOR */
 .footer-container {
   max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 30px;
-  flex-wrap: wrap;
-  text-align: left;
 }
 
 /* COLUMNAS */
-.footer-col {
-  flex: 1 1 250px;
+.footer-col h3,
+.footer-col h4 {
+  margin-bottom: 10px;
 }
 
-/* CENTRO SOLO EL COPYRIGHT */
+.footer-col p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* LISTAS */
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col li {
+  margin-bottom: 6px;
+}
+
+.footer-col a {
+  text-decoration: none;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.footer-col a:hover {
+  color: #fff;
+}
+
+/* PARTE INFERIOR */
 .footer-bottom {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 30px;
+  border-top: 1px solid #374151;
+  padding-top: 15px;
   font-size: 13px;
-  color: #aaa;
+  color: #9ca3af;
+}
+footer {
+  position: relative;
+  z-index: 1;
 }
 /* ==============================
 FAQ FLOTANTE
