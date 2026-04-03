@@ -322,15 +322,21 @@ function validarCampos(){
 function calcular(){
   const op = document.getElementById("tipoOperacion").value;
 
-  const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value);
-  const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value);
-  const comisiones = parseFloat(document.getElementById("comisionesNuevo")?.value) || 0;
+ const tinNuevo = parseFloat(document.getElementById("tinNuevo")?.value);
+const plazoNuevo = parseInt(document.getElementById("plazoNuevo")?.value);
+const comisiones = parseFloat(document.getElementById("comisionesNuevo")?.value) || 0;
 
-  // 🚫 Bloquear si faltan datos clave
-  if (!tinNuevo || !plazoNuevo) {
-    document.getElementById("resultados").style.display = "none";
-    return;
-  }
+// ✅ BONUS (bonificación del tipo)
+const bonificacion = parseFloat(document.getElementById("bonus")?.value) || 0;
+
+// ✅ TIN final aplicado (nunca negativo)
+const tinFinal = Math.max(tinNuevo - bonificacion, 0);
+
+// 🚫 Bloquear si faltan datos clave
+if (!tinNuevo || !plazoNuevo) {
+  document.getElementById("resultados").style.display = "none";
+  return;
+}
 
   let cuotaAntes = 0;
   let interesesAntes = 0;
@@ -368,8 +374,8 @@ function calcular(){
       return;
     }
 
-    cuotaDespues = cuota(totalCapital + comisiones, tinNuevo, plazoNuevo);
-    interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
+   cuotaDespues = cuota(totalCapital + comisiones, tinFinal, plazoNuevo);
+interesesDespues = cuotaDespues * plazoNuevo * 12 - totalCapital - comisiones;
   }
 
   // =========================
@@ -405,7 +411,7 @@ if(hip === "mixta"){
     const diferencial = parseFloat(document.getElementById("diferencial")?.value) || 0;
     tinVar = euribor + diferencial;
   } else {
-    tinVar = tinNuevo;
+    tinVar = tinFinal;
   }
 
   const capitalInicial = capitalPend + comisiones;
