@@ -375,10 +375,53 @@ BOTÓN FLOTANTE
 }
 
 
+/* ==============================
+FAQ
+============================== */
 .faq-container {
   max-width: 800px;
   margin: 40px auto;
   padding: 0 20px;
+}
+
+.faq-item {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.faq-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.faq-question {
+  padding: 16px 20px;
+  font-weight: 600;
+  color: #0d4f8b;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 500px; /* ajustable según el contenido */
+  padding: 12px 20px 16px 20px;
 }
 /* ==============================
 MODAL
