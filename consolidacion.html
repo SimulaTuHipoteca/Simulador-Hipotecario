@@ -438,7 +438,7 @@ function calcular(){
     }
     else{
       cuotaDespues = cuota(capitalPend + comisiones, tinNuevo, plazoNuevo);
-      interesesDespues = cuotaDespues * plazoNuevo * 12 - capitalPend - comisiones;
+      interesesDespues = cuotaDespues * plazoNuevo * 12 - (capitalPend + comisiones);
     }
   }
 
@@ -467,14 +467,22 @@ window.resultadosSimulacion = {
   
   const box = document.getElementById("mensajeResultado");
 
-  if (ahorroTotal > 0) {
+  if (op === "subrogacion" && ahorroMensual > 0 && ahorroTotal < 0) {
+  box.innerHTML = `
+    <div class="resultado-box warn">
+      ⚠️ Bajarías ${ahorroMensual.toFixed(0)} €/mes<br>
+      Pero alargarías la deuda y pagarías más intereses
+    </div>`;
+}
+
+ if (ahorroTotal > 0 && ahorroMensual > 0) {
     box.innerHTML = `
       <div class="resultado-box ok">
         ✔️ Ahorrarías ${ahorroMensual.toFixed(0)} €/mes<br>
         Ahorro total estimado: ${ahorroTotal.toFixed(0)} €
       </div>`;
   } 
-  else if (ahorroMensual > 0) {
+  else if (ahorroMensual > 0 && ahorroTotal <= 0) {
     box.innerHTML = `
       <div class="resultado-box warn">
         ⚠️ Reducirías ${ahorroMensual.toFixed(0)} €/mes<br>
