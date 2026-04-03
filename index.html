@@ -140,10 +140,13 @@
 </div>
 
 <!-- ESTE se queda oculto pero lo usa tu JS -->
-<select id="perfilTitulares" style="display:none;">
-  <option value="1" selected>1 titular</option>
-  <option value="2">2 titulares</option>
-</select>
+<div class="selector-titulares">
+  <button type="button" class="btn-selector active" data-value="1">1 titular</button>
+  <button type="button" class="btn-selector" data-value="2">2 titulares</button>
+</div>
+
+<!-- input oculto para que JS siga funcionando -->
+<input type="hidden" id="perfilTitulares" value="1">
 
     <div class="titulares-grid">
       <!-- TITULAR 1 -->
