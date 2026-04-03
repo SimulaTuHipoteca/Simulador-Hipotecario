@@ -360,5 +360,17 @@ RESPONSIVE
   color: #0072CE;
   text-decoration: underline;
 }
+
+  .lead-mensaje {
+  display: none;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.lead-mensaje.ok {
+  display: block;
+  color: #16a34a;
+}
   
 }
