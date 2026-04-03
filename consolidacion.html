@@ -509,106 +509,165 @@ function enviarPDF() {
   const margenX = 40;
   let y = 40;
 
-  // ===== Encabezado =====
+  // ===== HEADER =====
   doc.setFont("helvetica", "bold").setFontSize(20);
   doc.setTextColor(13, 79, 139);
   doc.text("KAOBA FINANCE", margenX, y);
 
-  doc.setFont("helvetica", "normal").setFontSize(12);
-  doc.setTextColor(80);
-  doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 500, y, { align: "right" });
+  doc.setFont("helvetica", "normal").setFontSize(10);
+  doc.setTextColor(100);
+  doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 550, y, { align: "right" });
+
+  y += 20;
+
+  doc.setFont("helvetica", "normal").setFontSize(13);
+  doc.setTextColor(0);
+  doc.text("Simulación de subrogación / reunificación", margenX, y);
+
+  y += 15;
+
+  doc.setDrawColor(200);
+  doc.line(margenX, y, 550, y);
+
   y += 30;
 
-  // ===== Datos del usuario =====
-  doc.setFillColor(13, 79, 139);
-  doc.setTextColor(255);
-  doc.setFont("helvetica", "bold").setFontSize(14);
-  doc.rect(margenX - 5, y - 15, 500, 25, 'F');
+  // ===== DATOS USUARIO =====
+  doc.setFont("helvetica", "bold").setFontSize(12);
+  doc.setTextColor(13, 79, 139);
   doc.text("Datos del usuario", margenX, y);
-  y += 30;
+
+  y += 18;
 
   doc.setFont("helvetica", "normal").setFontSize(11);
   doc.setTextColor(0);
   doc.text(`Nombre: ${nombreUsuario}`, margenX, y);
-  y += 20;
+  y += 15;
   doc.text(`Email: ${emailUsuario}`, margenX, y);
+
   y += 25;
 
-  // ===== Tabla de resultados =====
+  doc.setDrawColor(220);
+  doc.line(margenX, y, 550, y);
+
+  y += 30;
+
+  // ===== RESUMEN RÁPIDO (🔥 CLAVE) =====
+  doc.setFont("helvetica", "bold").setFontSize(12);
+  doc.setTextColor(13, 79, 139);
+  doc.text("Resumen de la operación", margenX, y);
+
+  y += 18;
+
+  doc.setFont("helvetica", "normal").setFontSize(11);
+  doc.setTextColor(0);
+
+  const cuotaActual = document.getElementById("cuotaActual")?.innerText || "-";
+  const cuotaNueva = document.getElementById("cuotaNueva")?.innerText || "-";
+  const ahorroMensual = document.getElementById("ahorroMensual")?.innerText || "-";
+
+  doc.text(`• Cuota actual: ${cuotaActual}`, margenX, y);
+  y += 15;
+  doc.text(`• Nueva cuota: ${cuotaNueva}`, margenX, y);
+  y += 15;
+  doc.text(`• Ahorro mensual: ${ahorroMensual}`, margenX, y);
+
+  y += 30;
+
+  doc.setDrawColor(220);
+  doc.line(margenX, y, 550, y);
+
+  y += 30;
+
+  // ===== TABLA =====
   const tbody = document.querySelector("#tablaResultados tbody");
   const data = [];
+
   tbody.querySelectorAll("tr").forEach(tr => {
     const concepto = tr.cells[0]?.innerText || "";
     const antes = tr.cells[1]?.innerText || "0 €";
     const despues = tr.cells[2]?.innerText || "0 €";
 
-    // Manejar valores vacíos o "-"
-    const valAntes = parseFloat(antes.replace(/[^\d.-]/g,'')) || 0;
-    const valDespues = parseFloat(despues.replace(/[^\d.-]/g,'')) || 0;
-    const ahorro = valAntes - valDespues;
-
-    const color = ahorro > 0 ? [198, 239, 206] 
-                : (ahorro < 0 ? [255, 199, 206] : [255, 255, 255]);
-
-    data.push({ concepto, antes, despues, fillColor: color });
+    data.push([concepto, antes, despues]);
   });
 
   doc.autoTable({
     startY: y,
     head: [["Concepto", "Antes", "Después"]],
-    body: data.map(r => [r.concepto, r.antes, r.despues]),
-    didParseCell: function (dataCell) {
-      if (dataCell.section === 'body') {
-        const rowIndex = dataCell.row.index;
-        dataCell.cell.styles.fillColor = data[rowIndex].fillColor;
-      }
+    body: data,
+    theme: "plain",
+    headStyles: {
+      fontStyle: 'bold',
+      textColor: 0,
+      lineWidth: 0.5
     },
-    headStyles: { fillColor: [13, 79, 139], textColor: 255, fontStyle: 'bold' },
-    alternateRowStyles: { fillColor: [245, 245, 245] },
-    styles: { fontSize: 10, cellPadding: 4 },
-    theme: "grid"
+    styles: {
+      fontSize: 10,
+      cellPadding: 6,
+      lineColor: [220, 220, 220],
+      lineWidth: 0.2
+    }
   });
 
-  y = doc.lastAutoTable.finalY + 20;
+  y = doc.lastAutoTable.finalY + 30;
 
-  // ===== Resultado destacado =====
-  const mensajeEl = document.getElementById("mensajeResultado");
-  const mensaje = mensajeEl?.innerText || "";
-  let colorBox = [255, 235, 156]; // amarillo por defecto
-  if (mensaje.includes("✔️")) colorBox = [198, 239, 206];
-  else if (mensaje.includes("❌")) colorBox = [255, 199, 206];
+  // ===== RESULTADO DESTACADO =====
+  const mensaje = document.getElementById("mensajeResultado")?.innerText || "";
 
-  doc.setFillColor(...colorBox);
-  doc.roundedRect(margenX - 5, y - 12, 500, 35, 5, 5, 'F');
+  doc.setFont("helvetica", "bold").setFontSize(14);
+  doc.setTextColor(13, 79, 139);
+  doc.text("Resultado de la simulación", margenX, y);
+
+  y += 20;
+
   doc.setFont("helvetica", "bold").setFontSize(12);
   doc.setTextColor(0);
-  doc.text("Resultado de la simulación", margenX, y);
-  doc.setFont("helvetica", "normal").setFontSize(11);
-  doc.text(mensaje, margenX, y + 18, { maxWidth: 500 });
-  y += 60;
+  doc.text(mensaje, margenX, y, { maxWidth: 500 });
 
-  // ===== Recomendaciones =====
+  y += 35;
+
+  doc.setDrawColor(220);
+  doc.line(margenX, y, 550, y);
+
+  y += 30;
+
+  // ===== RECOMENDACIONES =====
   doc.setFont("helvetica", "bold").setFontSize(12);
   doc.setTextColor(13, 79, 139);
   doc.text("Recomendaciones", margenX, y);
+
   y += 18;
+
   doc.setFont("helvetica", "normal").setFontSize(10);
   doc.setTextColor(0);
+
   [
-    "- Verifica los tipos de interés antes de decidir",
-    "- Revisa gastos y comisiones adicionales",
-    "- Analiza la duración y riesgo de la operación",
-    "- Consulta con un asesor financiero si es necesario"
-  ].forEach((rec, i) => doc.text(rec, margenX, y + i * 14));
+    "Verifica los tipos de interés antes de decidir",
+    "Revisa gastos y comisiones adicionales",
+    "Analiza la duración y el coste total de la operación",
+    "Consulta con un asesor financiero si es necesario"
+  ].forEach((rec, i) => {
+    doc.text(`• ${rec}`, margenX, y + i * 14);
+  });
 
   y += 70;
 
-  // ===== Disclaimer =====
+  // ===== DISCLAIMER =====
   doc.setFont("helvetica", "italic").setFontSize(9);
   doc.setTextColor(120);
-  doc.text("* Este informe es orientativo y no constituye una oferta vinculante. La aprobación final depende de cada entidad financiera.", margenX, y, { maxWidth: 500 });
+  doc.text(
+    "Este informe es orientativo y no constituye una oferta vinculante. La aprobación final depende de cada entidad financiera.",
+    margenX,
+    y,
+    { maxWidth: 500 }
+  );
 
-  // ===== Guardar y enviar =====
+  // ===== FOOTER =====
+  doc.setFont("helvetica", "normal").setFontSize(9);
+  doc.setTextColor(150);
+  doc.text("Kaoba Finance · www.kaobafinance.com", margenX, 800);
+  doc.text("Página 1 de 1", 550, 800, { align: "right" });
+
+  // ===== EXPORTAR =====
   doc.save("Informe_KaobaFinance.pdf");
 
   const blob = doc.output("blob");
@@ -617,7 +676,10 @@ function enviarPDF() {
   formData.append("email", emailUsuario);
   formData.append("nombre", nombreUsuario);
 
-  fetch("/enviar-pdf-correo", { method: "POST", body: formData })
+  fetch("/enviar-pdf-correo", {
+    method: "POST",
+    body: formData
+  })
     .then(r => r.json())
     .then(d => alert(d.message || "PDF enviado correctamente"))
     .catch(() => alert("Error enviando PDF"));
