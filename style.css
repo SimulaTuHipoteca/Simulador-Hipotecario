@@ -202,44 +202,26 @@ TITULARES
   font-size: 13px;
 }
 
-/* Opcional: inputs más pequeños dentro */
-.titular input,
-.titular select {
-  padding: 6px;
+/* ==============================
+SELECT TITULARES (SIMPLE Y PRO)
+============================== */
+#perfilTitulares {
+  width: auto;              /* no ocupa todo */
+  min-width: 150px;
+  max-width: 200px;
+  padding: 6px 10px;
   font-size: 13px;
-  margin-bottom: 8px;
-}
-.titular {
-  text-align: center;
+  border-radius: 6px;
+  margin-top: 5px;
+  background-color: #fff;
   cursor: pointer;
 }
-.titulares-selector {
+
+/* contenedor opcional para alinearlo mejor */
+.form-group-inline {
   display: flex;
-  gap: 8px;
-  max-width: 220px;
-  margin-bottom: 10px;
-}
-
-.opcion {
-  flex: 1;
-  text-align: center;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  cursor: pointer;
-  font-size: 13px;
-  background: #fff;
-  transition: 0.2s;
-}
-
-.opcion:hover {
-  border-color: #0072CE;
-}
-
-.opcion.active {
-  background: #0072CE;
-  color: #fff;
-  border-color: #0072CE;
+  align-items: center;
+  gap: 10px;
 }
 
 /* MÓVIL */
