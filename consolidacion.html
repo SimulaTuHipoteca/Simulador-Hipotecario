@@ -613,10 +613,7 @@ filas.forEach(fila => {
     cuotaActual = fila.cells[1]?.innerText;
     cuotaNueva = fila.cells[2]?.innerText;
   }
-
-  if (concepto.includes("Ahorro mensual")) {
-    ahorroMensual = parseFloat(fila.cells[2]?.innerText.replace(/[^\d.-]/g, ""));
-  }
+}
 });
 
   const tipoOperacion = document.getElementById("tipoOperacion").value;
