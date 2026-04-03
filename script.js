@@ -353,7 +353,11 @@ if (mensajePerfil) {
   }
 }
 
-  const toggleCard = document.getElementById("toggleVivienda");
+ // -----------------------------
+// TOGGLE CARD VIVIENDA (DECLARACIÓN PRIMERO)
+// -----------------------------
+const toggleCard = document.getElementById("toggleVivienda");
+
 // -----------------------------
 // ACTUALIZAR VIVIENDA INFO
 // -----------------------------
@@ -362,9 +366,10 @@ const actualizarViviendaInfo = () => {
 
   const activo = perfilFields.viviendaCheck.checked;
 
+  // Mostrar / ocultar bloque
   perfilFields.viviendaInfo.style.display = activo ? "block" : "none";
 
-  // sincroniza estilo visual
+  // Sincronizar estilo visual de la tarjeta
   if (toggleCard) {
     toggleCard.classList.toggle("active", activo);
   }
@@ -372,19 +377,21 @@ const actualizarViviendaInfo = () => {
   calcularPerfil();
 };
 
+// -----------------------------
+// EVENTO CHECKBOX
+// -----------------------------
 if (perfilFields.viviendaCheck && perfilFields.viviendaInfo) {
   perfilFields.viviendaCheck.addEventListener("change", actualizarViviendaInfo);
   actualizarViviendaInfo();
 }
 
 // -----------------------------
-// TOGGLE CARD VIVIENDA (CLICK EN TARJETA)
+// EVENTO CLICK EN TARJETA
 // -----------------------------
-
-if (toggleCard && perfilFields.viviendaCheck && perfilFields.viviendaInfo) {
+if (toggleCard && perfilFields.viviendaCheck) {
   toggleCard.addEventListener("click", () => {
-    perfilFields.viviendaCheck.checked = !perfilFields.viviendaCheck.checked;
-    actualizarViviendaInfo();
+    // 🔥 Simula click real (mejor que cambiar checked manualmente)
+    perfilFields.viviendaCheck.click();
   });
 }
 // -----------------------------
