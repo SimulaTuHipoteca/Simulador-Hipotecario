@@ -464,7 +464,13 @@ function calcular(){
   // =========================
   const ahorroMensual = cuotaAntes - cuotaDespues;
   const ahorroTotal = interesesAntes - interesesDespues;
-
+window.resultadosSimulacion = {
+  ahorroMensual,
+  ahorroTotal,
+  cuotaAntes,
+  cuotaDespues
+};
+  
   const box = document.getElementById("mensajeResultado");
 
   if (ahorroTotal > 0) {
@@ -658,6 +664,15 @@ filas.forEach(fila => {
 
   y = doc.lastAutoTable.finalY + 30;
 
+const datos = window.resultadosSimulacion;
+
+if (!datos) {
+  alert("Primero realiza una simulación");
+  return;
+}
+
+const { ahorroMensual, ahorroTotal } = datos;
+  
   // ===== RESULTADO DESTACADO =====
  let mensajePDF = "";
 let colorMensaje = [0,0,0];
