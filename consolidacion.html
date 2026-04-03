@@ -644,9 +644,13 @@ doc.text("AHORRO MENSUAL", margenX + 20, y + 20);
 
 doc.setFontSize(22);
 doc.setTextColor(13, 79, 139);
-const textoAhorro = ahorroMensual >= 0
-  ? `${ahorroMensual.toFixed(0)} € / mes`
-  : `+${Math.abs(ahorroMensual).toFixed(0)} € / mes`;
+if (ahorroMensual > 0) {
+  textoAhorro = `${ahorroMensual.toFixed(0)} € menos al mes`;
+} else if (ahorroMensual < 0) {
+  textoAhorro = `${Math.abs(ahorroMensual).toFixed(0)} € más al mes (ahorras a largo plazo)`;
+} else {
+  textoAhorro = `Sin cambios en la cuota`;
+}
 
   doc.text(textoAhorro, margenX + 20, y + 40);
   
