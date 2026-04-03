@@ -42,6 +42,8 @@ th{background:#f1f3f6;}
 .banco-card {background:#fafbff; border:1px solid #e3e8ef; padding:18px; border-radius:10px; position:relative; transition:0.2s;}
 .banco-card label {margin-top:8px;}
 .banco-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,0.07);}
+.banco-card input {background: #fff;}
+.banco-card label {font-size: 0.9rem;}
 
 /* ===== BOTÓN ELIMINAR IGUAL ===== */
 .remove-btn {position:absolute; top:6px; right:10px; width:30px; height:30px; border-radius:50%; background:#f1f3f6; color:#6b7280; font-size:16px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s;}
@@ -88,29 +90,28 @@ th{background:#f1f3f6;}
 <div id="camposSubrogacion" class="section" style="display:none">
   <h2 class="section-title">Hipoteca actual</h2>
 
+<div id="camposSubrogacion" class="section" style="display:none">
+  <h2 class="section-title">Hipoteca actual</h2>
+
   <div class="banco-card">
-   <label>Capital pendiente (€)
-  <input type="number" id="capitalPendiente" placeholder="150000" min="0">
-</label>
 
-<label>TIN actual (%)
-  <input type="number" id="tinActual" placeholder="3.5" step="0.01" min="0">
-</label>
+    <label>Capital pendiente (€)
+      <input type="number" id="capitalPendiente" placeholder="150000" min="0">
+    </label>
 
-<label>Plazo restante (años)
-  <input type="number" id="plazoRestante" placeholder="20" min="1">
-</label>
-        <div id="errorTinActual" class="error-msg"></div>
-      </div>
-    </div>
+    <label>TIN actual (%)
+      <input type="number" id="tinActual" placeholder="3.5" step="0.01" min="0">
+    </label>
+    <div id="errorTinActual" class="error-msg"></div>
 
     <label>Plazo restante (años)
       <input type="number" id="plazoRestante" placeholder="20" min="1">
     </label>
     <div id="errorPlazoRestante" class="error-msg"></div>
+
   </div>
 </div>
-
+  
 <!-- Campos hipoteca mixta -->
 <div id="camposMixta" style="display:none" class="section">
 <h2 class="section-title">Plazo fijo inicial (solo mixta)</h2>
