@@ -121,6 +121,22 @@ font-weight: bold;
 font-size: 14px;
 color: #6b7280;
 }
+.brand-title {
+  display: flex;
+  justify-content: space-between; /* logo a la izquierda, badge a la derecha */
+  align-items: center;            /* centra verticalmente */
+  width: 100%;
+  gap: 20px;                      /* espacio entre logo y badge */
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;         /* logo arriba, subtítulo abajo */
+}
+
+.euribor-badge {
+  white-space: nowrap;            /* evita que se rompa el texto */
+}
 
 .euribor-badge {
 display: inline-block;
