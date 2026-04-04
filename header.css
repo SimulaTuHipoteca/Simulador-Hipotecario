@@ -1,77 +1,63 @@
 /* ========================
-   Header profesional logo
+   Header profesional unificado
 ========================= */
 .logo-header {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: #0d4f8b !important; /* fondo azul elegante */
-  padding: 20px 0 !important;
-  text-align: center !important;
-  z-index: 1000 !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  background-color: #0d4f8b;
+  padding: 20px 0;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Logo principal */
 .logo-left .brand {
-  display: block !important;
-  font-size: 3rem !important;       /* grande por defecto */
-  font-weight: 800 !important;
-  color: #ffffff !important;
-  line-height: 1 !important;
-  margin-bottom: 4px !important;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  margin-bottom: 8px;
 }
 
 /* Subtítulo */
 .logo-right .subtitle {
-  display: block !important;
-  font-size: 2rem !important;       /* tamaño visible */
-  font-weight: 600 !important;
-  color: #ffe066 !important;        /* contraste amarillo suave */
-  margin-top: -2px !important;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffe066;
+  margin-bottom: 15px; /* separa del texto descriptivo */
+}
+
+/* Texto descriptivo debajo del header */
+.header-description {
+  font-size: 14px;
+  color: #e0e0e0;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 25px auto;
 }
 
 /* ========================
    Ajustes responsivos
 ========================= */
-
-/* Pantallas medianas (tablets) */
 @media (max-width: 992px) {
-  .logo-left .brand {
-    font-size: 2.5rem !important;
-  }
-  .logo-right .subtitle {
-    font-size: 1.6rem !important;
-  }
+  .logo-left .brand { font-size: 2.5rem; }
+  .logo-right .subtitle { font-size: 1.5rem; }
+  .header-description { font-size: 13px; }
 }
 
-/* Pantallas pequeñas (móviles) */
 @media (max-width: 768px) {
-  .logo-left .brand {
-    font-size: 2.2rem !important;
-  }
-  .logo-right .subtitle {
-    font-size: 1.4rem !important;
-  }
+  .logo-left .brand { font-size: 2.2rem; }
+  .logo-right .subtitle { font-size: 1.3rem; }
+  .header-description { font-size: 12px; }
 }
 
-/* Pantallas muy pequeñas */
 @media (max-width: 576px) {
-  .logo-left .brand {
-    font-size: 1.8rem !important;
-  }
-  .logo-right .subtitle {
-    font-size: 1.2rem !important;
-  }
-}
-   /* Texto descriptivo debajo del header */
-.header-description {
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-  margin-top: 30px;  /* aumenta para separarlo del header */
-  margin-bottom: 20px;
+  .logo-left .brand { font-size: 1.8rem; }
+  .logo-right .subtitle { font-size: 1.1rem; }
+  .header-description { font-size: 11px; margin-bottom: 15px; }
 }
