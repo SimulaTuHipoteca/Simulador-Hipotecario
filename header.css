@@ -1,49 +1,59 @@
-/* header.css */
-
+/* header.css - Logo profesional con fondo */
 .logo-header {
   position: sticky;
-  top: 0;
-  width: 100%;
-  background-color: #f5f1eb; /* fondo beige sólido */
-  padding: 20px 30px;
-  text-align: left; /* alineado a la izquierda */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+  top: 10px; /* un poco separado del borde superior */
+  width: auto;
+  max-width: 400px; /* ancho máximo para escritorio */
+  margin: 0 auto;   /* centrado horizontal */
+  background-color: #0d4f8b; /* fondo azul */
+  padding: 15px 25px;
+  border-radius: 12px; /* bordes redondeados */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* sombra suave */
+  text-align: center;
   z-index: 1000;
-  border-bottom: 1px solid #e0dacf;
   display: flex;
-  align-items: flex-end; /* alinea la base del logo y subtítulo */
+  flex-direction: column;
+  align-items: center;
 }
 
-.logo-text {
-  display: inline-block;
-  line-height: 1; /* para que "Simulator" quede justo debajo */
-}
-
-.logo-text .brand {
-  display: block;
-  font-size: 2.8rem; /* tamaño grande tipo logo */
+.logo-left {
+  font-size: 3rem;       /* Kaoba Finance grande */
   font-weight: 800;
-  color: #0d4f8b;
+  color: #ffffff;
+  line-height: 1;
 }
 
-.logo-text .subtitle {
-  display: block;
-  font-size: 1.6rem; /* más grande que antes */
+.logo-right {
+  font-size: 2rem;       /* Simulator un poco más pequeño */
   font-weight: 600;
-  color: #6b7280;
-  margin-left: 0; /* empieza justo debajo de "nce" */
-  margin-top: 2px;
+  color: #ffffff;
+  margin-top: -6px;      /* ajuste vertical justo debajo de "Finance" */
 }
 
-/* Opcional: responsive para pantallas pequeñas */
-@media (max-width: 768px) {
-  .logo-header {
-    padding: 16px 20px;
+/* Responsive para tablets y móviles */
+@media (max-width: 992px) {
+  .logo-left {
+    font-size: 2.5rem;
   }
-  .logo-text .brand {
+  .logo-right {
+    font-size: 1.8rem;
+    margin-top: -4px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-left {
     font-size: 2rem;
   }
-  .logo-text .subtitle {
-    font-size: 1.2rem;
+  .logo-right {
+    font-size: 1.4rem;
+    margin-top: -2px;
   }
+}
+
+/* Hover opcional: efecto de color para interactividad */
+.logo-header:hover .logo-left,
+.logo-header:hover .logo-right {
+  color: #ffe066; 
+  transition: color 0.3s ease;
 }
