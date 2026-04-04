@@ -7,17 +7,16 @@ margin: 0;
 padding: 0;
 }
 /* ==============================
-HEADER LOGO
-============================== */
+/* HEADER MODIFICADO */
 .logo-header {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: #0d4f8b;
+  background-color: #f5f1e7; /* beige suave */
   padding: 20px 0;
   text-align: center;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* sombra más ligera */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,59 +25,33 @@ HEADER LOGO
 /* Logo principal */
 .logo-inner .brand {
   display: block;
-  font-size: 3rem;  /* tamaño grande */
+  font-size: 3rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #2a5d8f; /* azul suave */
   line-height: 1;
 }
 
+/* Subtítulo */
 .logo-inner .subtitle {
   display: block;
-  font-size: 2rem;  /* tamaño visible */
+  font-size: 2rem;
   font-weight: 600;
-  color: #ffe066;
-  margin-top: 2px;
+  color: #7a7a7a; /* gris suave */
+  margin-top: 4px;
 }
 
-/* ==============================
-RESPONSIVE
-============================== */
-
-/* Tablets */
+/* RESPONSIVE */
 @media (max-width: 992px) {
-  .logo-left .brand {
-    font-size: 2.5rem;
-  }
-  .logo-right .subtitle {
-    font-size: 1.6rem;
-  }
+  .logo-inner .brand { font-size: 2.5rem; }
+  .logo-inner .subtitle { font-size: 1.6rem; }
 }
-
-/* Móviles medianos */
 @media (max-width: 768px) {
-  .logo-left .brand {
-    font-size: 2.2rem;
-  }
-  .logo-right .subtitle {
-    font-size: 1.4rem;
-  }
+  .logo-inner .brand { font-size: 2.2rem; }
+  .logo-inner .subtitle { font-size: 1.4rem; }
 }
-
-/* Móviles pequeños */
 @media (max-width: 576px) {
-  .logo-left .brand {
-    font-size: 1.8rem;
-  }
-  .logo-right .subtitle {
-    font-size: 1.2rem;
-  }
-}
-.header-description {
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-  margin-top: 20px; /* espacio desde el header */
-  margin-bottom: 20px; /* opcional, separa del contenido siguiente */
+  .logo-inner .brand { font-size: 1.8rem; }
+  .logo-inner .subtitle { font-size: 1.2rem; }
 }
 /* ==============================
 CHECKBOX LEAD (ARREGLADO)
