@@ -443,16 +443,18 @@ background: #e6f0fc;
 BOTÓN FLOTANTE
 ============================== */
 #btnCalculadoraFlotante {
-position: fixed;
-bottom: 20px;
-right: 20px;
-width: 40px;
-height: 40px;
-border-radius: 50%;
-background: #76ee94;
-display: flex;
-align-items: center;
-justify-content: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #8c8c8c; /* 👈 igual que FAQ */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 #btnCalculadoraFlotante span {
   font-size: 26px;
@@ -461,7 +463,15 @@ justify-content: center;
 #btnCalculadoraFlotante:hover {
   background: #5cd67a;
 }
+#btnCalculadoraFlotante,
+#faqButton {
+  transition: 0.2s;
+}
 
+#btnCalculadoraFlotante:hover,
+#faqButton:hover {
+  filter: brightness(0.9);
+}
 /* ==============================
 FAQ
 ============================== */
