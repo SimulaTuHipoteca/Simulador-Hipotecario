@@ -145,17 +145,19 @@ BRAND HEADER CON EURÍBOR
   margin-bottom: 0;
 }
 #camposVariable {
-   gap: 15px;       
-  flex-wrap: wrap;  
+  display: flex;              /* 👈 FALTABA ESTO */
+  justify-content: flex-end;  /* 👈 ESTO LO MUEVE A LA DERECHA */
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 #camposVariable label {
- width: auto;       
-  min-width: 140px; 
+  width: auto;
+  min-width: 140px;
 }
 
 #camposVariable input {
-    text-align: right;
+  text-align: right;
 }
 @media (max-width: 768px) {
   .brand-title {
