@@ -109,11 +109,10 @@ BRAND HEADER CON EURÍBOR
 ============================== */
 .brand-title {
   display: flex;
-  justify-content: space-between; /* logo a la izquierda, badge a la derecha */
-  align-items: center;            /* centra verticalmente */
-  width: 100%;
+  flex-direction: column;   /* columna: logo arriba, euríbor abajo */
+  align-items: center;      /* centrado horizontal */
+  gap: 10px;                /* espacio entre logo y euríbor */
   margin-bottom: 25px;
-  gap: 20px;                      /* espacio entre logo y badge */
 }
 
 .brand-text {
