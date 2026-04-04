@@ -1,68 +1,50 @@
-/* header.css - Logo profesional con fondo y alineación correcta */
-.logo-header {
+/* header.css - Logo profesional con fondo */
+header.logo-header {
   position: sticky;
-  top: 10px;              /* un poco separado del borde superior */
-  width: 100%;
-  max-width: 450px;       /* ancho máximo del logo */
-  margin: 0 auto;         /* centrado horizontal */
-  background-color: #0d4f8b; /* fondo azul */
-  padding: 20px 30px;
+  top: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #0d4f8b !important;
+  padding: 15px 25px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
   z-index: 1000;
 }
 
-.logo-left {
-  font-size: 3rem;        /* Kaoba Finance grande */
+header.logo-header .logo-left {
+  font-size: 3rem !important;
   font-weight: 800;
-  color: #ffffff;
-  line-height: 1.1;
-}
-
-.logo-right {
-  font-size: 2rem;        /* Simulator más pequeño, justo debajo */
-  font-weight: 600;
-  color: #ffffff;
-  margin-top: 5px;        /* separación automática sin negativo */
+  color: #ffffff !important;
   line-height: 1;
 }
 
-/* Responsive para tablets y móviles */
+header.logo-header .logo-right {
+  font-size: 2rem !important;
+  font-weight: 600;
+  color: #ffffff !important;
+  margin-top: -6px;
+}
+
+/* Responsive */
 @media (max-width: 992px) {
-  .logo-header {
-    padding: 18px 25px;
+  header.logo-header .logo-left {
+    font-size: 2.5rem !important;
   }
-  .logo-left {
-    font-size: 2.5rem;
-  }
-  .logo-right {
-    font-size: 1.8rem;
-    margin-top: 4px;
+  header.logo-header .logo-right {
+    font-size: 1.8rem !important;
+    margin-top: -4px;
   }
 }
 
 @media (max-width: 576px) {
-  .logo-header {
-    padding: 15px 20px;
+  header.logo-header .logo-left {
+    font-size: 2rem !important;
   }
-  .logo-left {
-    font-size: 2rem;
+  header.logo-header .logo-right {
+    font-size: 1.4rem !important;
+    margin-top: -2px;
   }
-  .logo-right {
-    font-size: 1.4rem;
-    margin-top: 3px;
-  }
-}
-
-/* Hover opcional */
-.logo-header:hover .logo-left,
-.logo-header:hover .logo-right {
-  color: #ffe066;
-  transition: color 0.3s ease;
 }
