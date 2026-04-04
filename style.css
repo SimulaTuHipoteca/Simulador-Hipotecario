@@ -485,7 +485,9 @@ font-size: 26px;
 text-decoration: none;
 z-index: 1000; /* se asegura que esté por encima de otros elementos */
 }
-
+#faqButton:hover {
+  background: #6f6f6f;
+}
 .faq-item {
 border-bottom: 1px solid #e5e7eb;
 padding: 12px 0;
