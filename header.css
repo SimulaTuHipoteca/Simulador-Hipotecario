@@ -5,37 +5,34 @@
   width: 100%;
   background-color: #f5f1eb; /* beige suave */
   padding: 16px 20px;
-  display: flex;
-  justify-content: space-between; /* izquierda y derecha */
-  align-items: center;
+  text-align: left; /* alineamos a la izquierda */
   box-shadow: 0 2px 4px rgba(0,0,0,0.07);
   z-index: 1000;
   border-bottom: 1px solid #e0dacf;
+  font-family: sans-serif;
 }
 
-/* estilos de cada lado */
-.logo-left .brand {
+.logo-text .brand {
   font-size: 1.8rem;
   font-weight: 700;
   color: #0d4f8b;
+  display: inline-block;
 }
 
-.logo-right .subtitle {
+.logo-text .subtitle {
   font-size: 1rem;
   color: #6b7280;
+  display: block;
+  margin-left: 5ch; /* mueve "Simulator" aproximadamente debajo de "nce" */
+  margin-top: 2px;
 }
 
-/* RESPONSIVE: en móviles se apilan y centran */
+/* RESPONSIVE: móviles se centran y apilan */
 @media (max-width: 768px) {
-  .logo-header {
-    flex-direction: column;
-    justify-content: center;
+  .logo-text {
     text-align: center;
-    gap: 4px;
   }
-
-  .logo-left .brand,
-  .logo-right .subtitle {
-    display: block;
+  .logo-text .subtitle {
+    margin-left: 0;
   }
 }
