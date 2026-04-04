@@ -5,21 +5,37 @@
   width: 100%;
   background-color: #f5f1eb; /* beige suave */
   padding: 16px 20px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between; /* izquierda y derecha */
+  align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.07);
   z-index: 1000;
   border-bottom: 1px solid #e0dacf;
 }
 
-.logo-text .brand {
+/* estilos de cada lado */
+.logo-left .brand {
   font-size: 1.8rem;
   font-weight: 700;
   color: #0d4f8b;
 }
 
-.logo-text .subtitle {
-  display: block;
+.logo-right .subtitle {
   font-size: 1rem;
   color: #6b7280;
-  margin-top: 2px;
+}
+
+/* RESPONSIVE: en móviles se apilan y centran */
+@media (max-width: 768px) {
+  .logo-header {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+  }
+
+  .logo-left .brand,
+  .logo-right .subtitle {
+    display: block;
+  }
 }
