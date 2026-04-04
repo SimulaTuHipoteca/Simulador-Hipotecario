@@ -160,8 +160,13 @@ Si estás en tramo variable, introduce: Euríbor + diferencial (ej: 2% + 0,7% = 
 <input type="email" id="email" placeholder="ejemplo@correo.com">
 <div id="errorEmail" class="error-msg"></div>
 
-<label><input type="checkbox" id="rgpd"> Acepto la política de privacidad</label>
-<div id="errorRgpd" class="error-msg"></div>
+<div class="rgpd-container">
+  <label class="rgpd-label">
+    <input type="checkbox" id="rgpd">
+    <span>Acepto la política de privacidad</span>
+  </label>
+  <div id="errorRgpd" class="error-msg"></div>
+</div>
 
 <button type="button" onclick="enviarPDF()">Recibir PDF 📩</button>
 <small class="small-tip">Recibe tu simulación al instante.</small>
