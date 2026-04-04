@@ -7,6 +7,13 @@ margin: 0;
 padding: 0;
 }
 
+.header-description {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 20px; /* espacio desde el header */
+  margin-bottom: 20px; /* opcional, separa del contenido siguiente */
+}
 /* ==============================
 CHECKBOX LEAD (ARREGLADO)
 ============================== */
