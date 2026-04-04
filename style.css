@@ -454,7 +454,10 @@ display: flex;
 align-items: center;
 justify-content: center;
 }
-
+#btnCalculadoraFlotante span {
+  font-size: 26px;
+  line-height: 1;
+}
 
 /* ==============================
 FAQ
