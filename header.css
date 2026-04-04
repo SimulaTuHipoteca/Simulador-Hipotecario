@@ -66,4 +66,13 @@
   .logo-right .subtitle {
     font-size: 1.2rem !important;
   }
+
+   /* Texto descriptivo debajo del header */
+.header-description {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 20px;  /* espacio desde el header */
+  margin-bottom: 20px; /* opcional, separa del siguiente contenido */
+}
 }
