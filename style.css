@@ -143,6 +143,7 @@ BRAND HEADER CON EURÍBOR
   background: #e6f0fc;
   font-weight: 500;
   margin-bottom: 0;
+  align-self: flex-end; /* 👈 AÑADIR esto */
 }
 #camposVariable {
   display: flex;              /* 👈 FALTABA ESTO */
