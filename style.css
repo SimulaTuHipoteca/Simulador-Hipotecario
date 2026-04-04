@@ -459,6 +459,11 @@ BOTÓN FLOTANTE
 #btnCalculadoraFlotante:hover {
   background: #5cd67a;
 }
+
+#btnCalculadoraFlotante svg {
+  width: 28px;
+  height: 28px;
+}
 #btnCalculadoraFlotante,
 #faqButton {
   transition: 0.2s;
