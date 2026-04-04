@@ -470,15 +470,15 @@ padding: 0 20px;
 position: fixed;
 bottom: 90px; /* lo separa del footer y de la calculadora */
 right: 20px;
-width: 50px;
-height: 50px;
+width: 40px;
+height: 40px;
 border-radius: 50%;
 background: #0072CE;
 color: #fff;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 24px;
+font-size: 26px;
 text-decoration: none;
 z-index: 1000; /* se asegura que esté por encima de otros elementos */
 }
