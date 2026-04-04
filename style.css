@@ -6,10 +6,9 @@ box-sizing: border-box;
 margin: 0;
 padding: 0;
 }
-/* ==============================
-HEADER FIJO CON FONDO TRANSPARENTE Y ESPACIO PARA EL /* HEADER FIJO ARRIBA */
+/* HEADER FIJO ARRIBA CON FONDO SUAVE */
 .logo-header {
-  position: fixed;       /* mantiene el header arriba siempre */
+  position: fixed;       /* header siempre visible */
   top: 0;
   left: 0;
   right: 0;
@@ -21,17 +20,16 @@ HEADER FIJO CON FONDO TRANSPARENTE Y ESPACIO PARA EL /* HEADER FIJO ARRIBA */
   flex-direction: column;
   align-items: center;
 
-  /* fondo casi transparente */
-  background-color: rgba(245, 241, 231, 0.05);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  backdrop-filter: blur(4px);
+  background-color: rgba(245, 241, 231, 0.05); /* beige muy suave */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);      /* sombra ligera */
+  backdrop-filter: blur(4px);                  /* efecto vidrio ligero */
 }
 
 /* Logo principal */
 .logo-inner .brand {
   font-size: 3rem;
   font-weight: 800;
-  color: #2a5d8f;
+  color: #2a5d8f; /* azul suave */
   line-height: 1;
 }
 
@@ -39,18 +37,30 @@ HEADER FIJO CON FONDO TRANSPARENTE Y ESPACIO PARA EL /* HEADER FIJO ARRIBA */
 .logo-inner .subtitle {
   font-size: 2rem;
   font-weight: 600;
-  color: #7a7a7a;
+  color: #7a7a7a; /* gris suave */
   margin-top: 4px;
 }
 
-/* ESPACIO PARA EL CONTENIDO */
+/* Espacio para el contenido debajo del header */
 body {
-  padding-top: 80px; /* ajusta según la altura del header */
+  padding-top: 80px; /* ajusta según la altura real del header */
 }
 
 /* Responsive */
-@media (max-width: 768px) { body { padding-top: 70px; } }
-@media (max-width: 576px) { body { padding-top: 60px; } }
+@media (max-width: 992px) {
+  .logo-inner .brand { font-size: 2.5rem; }
+  .logo-inner .subtitle { font-size: 1.6rem; }
+}
+@media (max-width: 768px) {
+  .logo-inner .brand { font-size: 2.2rem; }
+  .logo-inner .subtitle { font-size: 1.4rem; }
+  body { padding-top: 70px; }
+}
+@media (max-width: 576px) {
+  .logo-inner .brand { font-size: 1.8rem; }
+  .logo-inner .subtitle { font-size: 1.2rem; }
+  body { padding-top: 60px; }
+}
 /* ==============================
 CHECKBOX LEAD (ARREGLADO)
 ============================== */
