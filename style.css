@@ -7,7 +7,9 @@ margin: 0;
 padding: 0;
 }
 /* ==============================
-/* HEADER MODIFICADO */
+/* ==============================
+HEADER MODIFICADO
+============================== */
 .logo-header {
   position: sticky;
   top: 0;
@@ -27,7 +29,7 @@ padding: 0;
   display: block;
   font-size: 3rem;
   font-weight: 800;
-  color: #2a5d8f; /* azul suave */
+  color: #4a6c8c; /* azul pastel suave */
   line-height: 1;
 }
 
@@ -52,8 +54,7 @@ padding: 0;
 @media (max-width: 576px) {
   .logo-inner .brand { font-size: 1.8rem; }
   .logo-inner .subtitle { font-size: 1.2rem; }
-}
-/* ==============================
+}/* ==============================
 CHECKBOX LEAD (ARREGLADO)
 ============================== */
 .checkbox-linea {
