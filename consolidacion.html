@@ -106,13 +106,17 @@ th{background:#f1f3f6;}
 
   <div class="banco-card">
 
-    <label>Capital pendiente (€)
-      <input type="number" id="capitalPendiente" placeholder="150000" min="0">
-    </label>
+  <label>
+  Capital pendiente (€)
+  <span class="help-icon" data-tooltip="Cantidad que aún debes al banco de tu hipoteca actual.">?</span>
+  <input type="number" id="capitalPendiente" placeholder="150000" min="0">
+</label>
 
-    <label>TIN actual (%)
-      <input type="number" id="tinActual" placeholder="3.5" step="0.01" min="0">
-    </label>
+   <label>
+  TIN actual (%)
+  <span class="help-icon" data-tooltip="Tipo de interés nominal que estás pagando actualmente en tu hipoteca.">?</span>
+  <input type="number" id="tinActual" placeholder="3.5" step="0.01" min="0">
+</label>
     <div id="errorTinActual" class="error-msg"></div>
  <div id="infoMixta" class="small-tip" style="display:none;">
 Si te encuentras en tramo variable introduce la suma del Euríbor + diferencial.
@@ -120,6 +124,7 @@ Si te encuentras en tramo variable introduce la suma del Euríbor + diferencial.
 
     <label>Plazo restante (años)
       <input type="number" id="plazoRestante" placeholder="20" min="1">
+      <span class="help-icon" data-tooltip="Duración del préstamo que posees en la actualidad.">?</span>
     </label>
     <div id="errorPlazoRestante" class="error-msg"></div>
 
@@ -147,12 +152,21 @@ Si te encuentras en tramo variable introduce la suma del Euríbor + diferencial.
 <div class="section">
 <h2 class="section-title">Nuevo préstamo deseado</h2>
 <label>Plazo total (años)<input type="number" id="plazoNuevo" placeholder="Ej: 20" min="1"></label>
+<span class="help-icon" data-tooltip="Duración del nuevo préstamo que estás considerando.">?</span>
 <div id="errorPlazoNuevo" class="error-msg"></div>
 
-<label>Tipo de interés deseado (%)<input type="number" id="tinNuevo" placeholder="Ej: 3" step="0.01" min="0"></label>
+<label>
+  Tipo de interés deseado (%)
+  <span class="help-icon" data-tooltip="Tipo de interés estimado del nuevo préstamo o hipoteca.">?</span>
+  <input type="number" id="tinNuevo" placeholder="Ej: 3" step="0.01" min="0">
+</label>
+
 <div id="errorTinNuevo" class="error-msg"></div>
 
-<label>¿Gasto o comisión (€)?<input type="number" id="comisionesNuevo" placeholder="Ej: 1000" min="0"></label>
+<label>
+  Gastos o comisiones (€)<input type="number" id="comisionesNuevo" placeholder="Ej: 1000" min="0">
+   <span class="help-icon" data-tooltip="Solo si debes asumir gastos de gestión o amortización.">?</span>
+</label>
 </div>
 
 <!-- RESULTADOS -->
