@@ -145,7 +145,6 @@
 </select>
 
 <!-- input oculto para que JS siga funcionando -->
-<input type="hidden" id="perfilTitulares" value="1">
 
     <div class="titulares-grid">
       <!-- TITULAR 1 -->
@@ -203,9 +202,11 @@
       <span class="help-icon" data-tooltip="Precio de compra del inmueble sin incluir gastos.">?</span>
       </label>
         <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
-      <label>Tipo de vivienda</label>
-      <span class="help-icon" data-tooltip="Determina los impuestos: ITP (segunda mano) o IVA (obra nueva).">?</span>
-      <select id="perfilTipoVivienda">
+     <label>
+  Tipo de vivienda
+  <span class="help-icon" data-tooltip="Determina los impuestos: ITP (segunda mano) o IVA (obra nueva).">?</span>
+</label>
+<select id="perfilTipoVivienda">
         <option value="segundaMano">Segunda mano (ITP)</option>
         <option value="obraNueva">Obra nueva (IVA 10%)</option>
       </select>
