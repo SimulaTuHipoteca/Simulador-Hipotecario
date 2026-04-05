@@ -136,8 +136,10 @@
   <h2>Analizar Perfil Financiero</h2>
     <div id="operacionSeleccionada" style="display:none;"></div>
 
-<label>Número de titulares</label>
-<select id="perfilTitulares">
+<label>Número de titulares
+   <span class="help-icon" data-tooltip="Personas que solicitan la hipoteca. A mayor número, mayor capacidad de ingresos.">?</span>
+  </label>
+  <select id="perfilTitulares">
   <option value="1">1 titular</option>
   <option value="2">2 titulares</option>
 </select>
@@ -148,12 +150,18 @@
     <div class="titulares-grid">
       <!-- TITULAR 1 -->
       <div class="titular">
-        <label>Edad titular 1</label>
+        <label>Edad titular 1
+        <span class="help-icon" data-tooltip="Los bancos suelen limitar la edad máxima al finalizar el préstamo (70-75 años).">?</span>
+        </label>
         <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
-        <label>Ingreso mensual titular 1 (€)</label>
-        <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
-        <label>Número de pagas al año</label>
-        <input id="perfilPagas" type="number" value="12">
+        <label>Ingreso mensual titular 1 (€)
+        <span class="help-icon" data-tooltip="Ingresos netos mensuales. Es clave para calcular cuánto puedes pagar.">?</span>
+       </label>
+          <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
+        <label>Número de pagas al año
+        <span class="help-icon" data-tooltip="Incluye pagas extras si las tienes (12, 14, etc.).">?</span>
+       </label>
+          <input id="perfilPagas" type="number" value="12">
       </div>
 
       <!-- TITULAR 2 -->
@@ -166,12 +174,18 @@
     </div>
 
     <div class="titular">
-      <label>Ahorro disponible (€)</label>
+      <label>Ahorro disponible (€)
+      <span class="help-icon" data-tooltip="Dinero ahorrado. Normalmente necesitas mínimo 20% + gastos (~30%).">?</span>
+     </label>
       <input id="perfilAhorros" type="number" placeholder="Ej: 50000">
-      <label>Deuda / pagos mensuales (€)</label>
-      <input id="perfilDeuda" type="number" placeholder="Ej: 350">
-      <label>Otro ingreso mensual opcional (€)</label>
-      <input id="perfilOtroIngreso" type="number" placeholder="Opcional">
+      <label>Deuda / pagos mensuales (€)
+      <span class="help-icon" data-tooltip="Suma de préstamos, tarjetas o créditos actuales. Afecta tu capacidad de endeudamiento.">?</span>
+      </label>
+        <input id="perfilDeuda" type="number" placeholder="Ej: 350">
+      <label>Otro ingreso mensual opcional (€)
+      <span class="help-icon" data-tooltip="Alquileres u otros ingresos adicionales demostrables.">?</span>
+      </label>
+        <input id="perfilOtroIngreso" type="number" placeholder="Opcional">
     <div class="opcion-vivienda" id="toggleVivienda">
   <div class="opcion-icono">🏡</div>
   <div class="opcion-texto">
@@ -185,15 +199,20 @@
 
     <!-- INFO VIVIENDA -->
     <div id="viviendaInfo" class="titular" style="display:none;">
-      <label>Precio vivienda (€)</label>
-      <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
+      <label>Precio vivienda (€)
+      <span class="help-icon" data-tooltip="Precio de compra del inmueble sin incluir gastos.">?</span>
+      </label>
+        <input id="perfilPrecio" type="number" placeholder="Ej: 200000">
       <label>Tipo de vivienda</label>
+      <span class="help-icon" data-tooltip="Determina los impuestos: ITP (segunda mano) o IVA (obra nueva).">?</span>
       <select id="perfilTipoVivienda">
         <option value="segundaMano">Segunda mano (ITP)</option>
         <option value="obraNueva">Obra nueva (IVA 10%)</option>
       </select>
-      <label>Comunidad Autónoma</label>
-      <select id="perfilComunidad">
+      <label>Comunidad Autónoma
+      <span class="help-icon" data-tooltip="Cada comunidad tiene impuestos distintos que afectan al coste total.">?</span>
+     </label>
+        <select id="perfilComunidad">
         <option value="0.07">Andalucía (7%)</option>
         <option value="0.08">Aragón (8%)</option>
         <option value="0.08">Asturias (8%)</option>
@@ -214,13 +233,17 @@
         <option value="0.06">Ceuta (6%)</option>
         <option value="0.06">Melilla (6%)</option>
       </select>
-      <label>Vivienda habitual o Segunda residencia</label>
-      <select id="perfilPrimeraSegunda">
+      <label>Vivienda habitual o Segunda residencia
+      <span class="help-icon" data-tooltip="La financiación suele ser menor para segundas residencias o inversión.">?</span>
+     </label>
+        <select id="perfilPrimeraSegunda">
         <option value="primera">Vivienda habitual</option>
         <option value="segunda">Segunda residencia o inversión</option>
       </select>
-      <label>Plazo máximo (años)</label>
-      <input id="perfilPlazo" type="number" placeholder="Máximo según edad">
+      <label>Plazo máximo (años)
+      <span class="help-icon" data-tooltip="Depende de la edad y condiciones del banco. A mayor plazo, menor cuota pero más intereses.">?</span>
+    </label>
+        <input id="perfilPlazo" type="number" placeholder="Máximo según edad">
     </div>
 
     <!-- RESULTADOS PERFIL -->
