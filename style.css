@@ -259,11 +259,16 @@ border-color: #0072CE;
 TARJETAS PRINCIPALES (OPERACIONES)
 ============================== */
 .operacion-card {
-flex: 1 1 calc(33.33% - 20px);
-display: flex;
-flex-direction: column;
-padding: 18px;
-cursor: pointer;
+  flex: 0 1 320px;   /* 🔥 clave */
+  max-width: 320px;  /* 🔥 evita que crezcan */
+
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  cursor: pointer;
+}
+.operaciones-grid {
+  justify-content: center;
 }
 
 .operacion-card h3 {
