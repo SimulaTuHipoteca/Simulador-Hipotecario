@@ -275,7 +275,16 @@ margin-bottom: 5px;
 font-size: 13px;
 color: #6b7280;
 }
+.operaciones-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
 
+.operaciones-grid .operacion-card {
+  flex: 1 1 300px;
+  max-width: 350px;
+}
 /* ==============================
 CARDS RESULTADOS
 ============================== */
