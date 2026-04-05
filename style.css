@@ -364,7 +364,12 @@ border-radius: 6px;
 background: #fff;
 cursor: pointer;
 }
-
+#perfil h2 {
+  text-align: left;
+  border-left: 4px solid #0072CE;
+  padding-left: 12px;
+  margin-bottom: 20px;
+}
 /* ==============================
 BOTONES
 ============================== */
