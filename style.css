@@ -504,7 +504,7 @@ BOTÓN FLOTANTE
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 900;
 }
 #btnCalculadoraFlotante svg {
   width: 100%;
@@ -615,6 +615,7 @@ right: 20px;
 width: 320px;
 background: #fff;
 padding: 25px;
+z-index: 2000;
 border-radius: 12px;
 }
 
