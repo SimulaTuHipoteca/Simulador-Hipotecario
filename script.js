@@ -499,7 +499,9 @@ if (enviarBtn && statusSpan) {
     const email = document.getElementById("leadEmail")?.value.trim() || "";
     const consentimiento = document.getElementById("leadConsentimiento")?.checked || false;
 
-const precio = perfilFields.precio?.value || "0";
+const precio = perfilFields.viviendaCheck?.checked
+  ? perfilFields.precio?.value
+  : 0;
 const precioFormateado = formatMoney(parseFloat(precio) || 0);
     
     if (!nombre || !email || !consentimiento) {
