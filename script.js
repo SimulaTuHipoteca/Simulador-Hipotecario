@@ -706,4 +706,12 @@ if (enviarBtn && statusSpan) {
     banner.style.display = 'none';
     borrarCookiesInnecesarias();
   });
+
+  document.addEventListener("click", function(e){
+  if(e.target.classList.contains("help-icon")){
+    e.target.classList.toggle("active");
+  } else {
+    document.querySelectorAll(".help-icon").forEach(el => el.classList.remove("active"));
+  }
+});
 }); // cierra document.addEventListener("DOMContentLoaded")
