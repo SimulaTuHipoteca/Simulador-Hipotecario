@@ -557,8 +557,8 @@ const precioFormateado = formatMoney(parseFloat(precio) || 0);
           ["Financiación (LTV)", ltv],
           ["Gastos aproximados", gastos],
           ["Ratio endeudamiento", lti],
-          ["Compatibilidad", compatibilidad]
         ];
+        
         let y = 86;
         resumen.forEach(row => {
           doc.setFont("helvetica", "bold");
