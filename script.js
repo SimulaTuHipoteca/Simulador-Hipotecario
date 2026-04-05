@@ -546,6 +546,7 @@ if (enviarBtn && statusSpan) {
         doc.text("Resumen de la simulación", 25, 78);
         doc.setFont("helvetica", "normal");
         const resumen = [
+            ["Precio de compra", precioFormateado],
           ["Importe préstamo", capital],
           ["Cuota mensual", cuota],
           ["Financiación (LTV)", ltv],
