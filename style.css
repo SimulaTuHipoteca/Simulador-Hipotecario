@@ -6,6 +6,19 @@ box-sizing: border-box;
 margin: 0;
 padding: 0;
 }
+
+.operaciones-section {
+  margin-bottom: 60px;
+}
+
+#perfil {
+  margin-top: 60px;
+}
+@media (max-width: 768px) {
+  #perfil {
+    margin-top: 100px;
+  }
+}
 /* ==============================
 HEADER NORMAL (no fijo)
 ============================== */
