@@ -479,8 +479,12 @@ window.irAnalisis = function(event, tipoOperacion){
 
   actualizarViviendaInfo();
   calcularPerfil();
-  perfilDiv.scrollIntoView({behavior:'smooth'});
-};
+  setTimeout(() => {
+  const yOffset = -40; // ajusta (más negativo = más abajo)
+  const y = perfilDiv.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}, 100);
 
 // -----------------------------
 // ENVÍO DE LEADS Y PDF
