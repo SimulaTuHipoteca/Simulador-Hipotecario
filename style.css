@@ -14,13 +14,11 @@ main {
 
   width: 100%;
   max-width: 1100px;
-  margin: 0 auto;
+  margin: 20px auto 0 auto; /* 👈 sube el bloque */
 
-  background: #f9fafb;
-  padding: 30px;
-  border-radius: 16px;
+  background: transparent; /* 👈 elimina fondo fantasma */
+  padding: 20px;
 }
-
 #perfil {
   max-width: 700px;
   margin: 60px auto 0 auto;
@@ -51,7 +49,6 @@ MOBILE FIX (ARREGLADO)
   #perfil {
     margin-top: 30px;  /* 🔥 antes 100px → demasiado */
   }
-
 }
 /* ==============================
 HEADER NORMAL (no fijo)
@@ -137,9 +134,9 @@ color: #2c3e50;
 }
 
 .container {
-max-width: 1100px;
-margin: auto;
-padding: 20px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* ==============================
