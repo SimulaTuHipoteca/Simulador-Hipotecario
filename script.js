@@ -485,7 +485,7 @@ window.irAnalisis = function(event, tipoOperacion){
 
   window.scrollTo({ top: y, behavior: 'smooth' });
 }, 100);
-
+};
 // -----------------------------
 // ENVÍO DE LEADS Y PDF
 // -----------------------------
