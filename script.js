@@ -264,9 +264,14 @@ function calcularPerfil() {
   // -----------------------------
   // SCORING
   // -----------------------------
-  const contrato = document.getElementById("perfilContrato")?.value;
-  const antiguedad = parseInt(document.getElementById("perfilAntiguedad")?.value) || 0;
+  const contrato1 = document.getElementById("perfilContrato1")?.value;
+const contrato2 = document.getElementById("perfilContrato2")?.value;
 
+const antiguedad1 = parseInt(document.getElementById("perfilAntiguedad1")?.value) || 0;
+const antiguedad2 = parseInt(document.getElementById("perfilAntiguedad2")?.value) || 0;
+
+const contrato = contrato1; // puedes mejorar esto luego
+const antiguedad = Math.max(antiguedad1, antiguedad2);
   const score = calcularScore({
     ingresosAnuales,
     ahorros,
