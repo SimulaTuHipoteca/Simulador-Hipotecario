@@ -159,6 +159,14 @@
         <label>Ingreso mensual titular 1 (€)
         <span class="help-icon" data-tooltip="Ingresos netos mensuales. Es clave para calcular cuánto puedes pagar.">?</span>
        </label>
+        <label>Tipo de contrato</label>
+<select id="perfilContrato">
+  <option value="indefinido">Indefinido</option>
+  <option value="temporal">Temporal</option>
+  <option value="autonomo">Autónomo</option>
+</select>
+        <label>Años en el trabajo</label>
+<input id="perfilAntiguedad" type="number" placeholder="Ej: 3">
           <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
         <label>Número de pagas al año
         <span class="help-icon" data-tooltip="Incluye pagas extras si las tienes (12, 14, etc.).">?</span>
@@ -171,6 +179,19 @@
         <label>Edad titular 2</label>
         <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
         <label>Ingreso mensual titular 2 (€)</label>
+          <label>Número de pagas al año
+        <span class="help-icon" data-tooltip="Incluye pagas extras si las tienes (12, 14, etc.).">?</span>
+       </label>
+          <input id="perfilPagas" type="number" value="12">
+      </div>
+        <label>Tipo de contrato</label>
+<select id="perfilContrato">
+  <option value="indefinido">Indefinido</option>
+  <option value="temporal">Temporal</option>
+  <option value="autonomo">Autónomo</option>
+</select>
+        <label>Años en el trabajo</label>
+<input id="perfilAntiguedad" type="number" placeholder="Ej: 3">
         <input id="perfilSalario2" type="number" placeholder="Ej: 2000">
       </div>
     </div>
