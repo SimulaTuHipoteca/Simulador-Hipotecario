@@ -101,38 +101,42 @@ if (interes === 0) {
     tablaContainer && (tablaContainer.style.display = "none");
   };
 
-  const generarTabla = () => {
-    if (!tbody) return;
-    tbody.innerHTML = "";
-    const capital = parseFloat(prestamoInput?.value) || 0;
-    const interes = (parseFloat(interesInput?.value) / 100) / 12 || 0;
-    const anos = parseFloat(anosInput?.value) || 0;
-    const n = anos * 12;
-    const cuota = capital * (interes * Math.pow(1 + interes, n)) / (Math.pow(1 + interes, n) - 1);
-    let saldo = capital;
-    for (let i = 1; i <= n; i++) {
-      const interesMes = saldo * interes;
-      const capitalMes = cuota - interesMes;
-      saldo -= capitalMes;
-     let html = "";
+const generarTabla = () => {
+  if (!tbody) return;
 
-for (let i = 1; i <= n; i++) {
-  const interesMes = saldo * interes;
-  const capitalMes = cuota - interesMes;
-  saldo -= capitalMes;
+  const capital = parseFloat(prestamoInput?.value) || 0;
+  const interes = (parseFloat(interesInput?.value) / 100) / 12 || 0;
+  const anos = parseFloat(anosInput?.value) || 0;
+  const n = anos * 12;
 
-  html += `
-    <tr>
-      <td>${i}</td>
-      <td>${formatMoney(cuota)}</td>
-      <td>${formatMoney(interesMes)}</td>
-      <td>${formatMoney(capitalMes)}</td>
-      <td>${formatMoney(Math.max(saldo,0))}</td>
-    </tr>
-  `;
-}
+  let cuota;
+  if (interes === 0) {
+    cuota = capital / n;
+  } else {
+    cuota = capital * (interes * Math.pow(1 + interes, n)) / (Math.pow(1 + interes, n) - 1);
+  }
 
-tbody.innerHTML = html;
+  let saldo = capital;
+  let html = "";
+
+  for (let i = 1; i <= n; i++) {
+    const interesMes = saldo * interes;
+    const capitalMes = cuota - interesMes;
+    saldo -= capitalMes;
+
+    html += `
+      <tr>
+        <td>${i}</td>
+        <td>${formatMoney(cuota)}</td>
+        <td>${formatMoney(interesMes)}</td>
+        <td>${formatMoney(capitalMes)}</td>
+        <td>${formatMoney(Math.max(saldo,0))}</td>
+      </tr>
+    `;
+  }
+
+  tbody.innerHTML = html;
+};
 
   [prestamoInput, interesInput, anosInput].forEach(el => el && el.addEventListener("input", calcular));
   verTablaBtn && verTablaBtn.addEventListener("click", () => {
@@ -242,8 +246,20 @@ function calcularPerfil() {
   // -----------------------------
   // 1. CAPACIDAD POR INGRESOS
   // -----------------------------
-  const cuota = calcularCuota(capitalPosible, tipoRef, n);
-  let capacidadPorIngresos = cuotaMax * (Math.pow(1 + tipoRef, n) - 1) / (tipoRef * Math.pow(1 + tipoRef, n));
+// -----------------------------
+// 1. CAPACIDAD POR INGRESOS
+// -----------------------------
+const cuotaMax = ingresosAnuales * 0.35 / 12 - deudas;
+
+let capacidadPorIngresos = 0;
+if (tipoRef > 0) {
+  capacidadPorIngresos = cuotaMax * (Math.pow(1 + tipoRef, n) - 1) / (tipoRef * Math.pow(1 + tipoRef, n));
+}
+
+// -----------------------------
+// SCORING CLIENTE (BIEN COLOCADO)
+// -----------------------------
+const ahorros = parseFloat(perfilFields.ahorros.value) || 0;
 const contrato = document.getElementById("perfilContrato")?.value;
 const antiguedad = parseInt(document.getElementById("perfilAntiguedad")?.value) || 0;
 
@@ -254,13 +270,6 @@ const score = calcularScore({
   contrato,
   antiguedad
 });
-
-let maxFinanciacion = 0.8;
-
-if (score >= 8) maxFinanciacion = 1.0;
-else if (score >= 6) maxFinanciacion = 0.9;
-else if (score >= 4) maxFinanciacion = 0.8;
-else maxFinanciacion = 0.7;
   // -----------------------------
   // 2. DATOS VIVIENDA
   // -----------------------------
@@ -288,7 +297,12 @@ else maxFinanciacion = 0.7;
   }
 
   const resultadoFinanciacion = calcularMaxFinanciacion({ esSegunda, edad1, edad2, ingresosAnuales, lti: ltiEstimado });
-  const maxFinanciacion = resultadoFinanciacion.porcentaje;
+ let maxFinanciacion = 0.8;
+
+if (score >= 8) maxFinanciacion = 1.0;
+else if (score >= 6) maxFinanciacion = 0.9;
+else if (score >= 4) maxFinanciacion = 0.8;
+else maxFinanciacion = 0.7;
 
   const maxPrestamoBanco = agregarVivienda ? precio * maxFinanciacion : 0;
 const importeTotalOperacion = agregarVivienda ? (precio + gastos) : 0;
