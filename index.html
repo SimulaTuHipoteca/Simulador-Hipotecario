@@ -150,51 +150,54 @@
 <!-- input oculto para que JS siga funcionando -->
 
     <div class="titulares-grid">
-      <!-- TITULAR 1 -->
-      <div class="titular">
-        <label>Edad titular 1
-        <span class="help-icon" data-tooltip="Los bancos suelen limitar la edad máxima al finalizar el préstamo (70-75 años).">?</span>
-        </label>
-        <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
-        <label>Ingreso mensual titular 1 (€)
-        <span class="help-icon" data-tooltip="Ingresos netos mensuales. Es clave para calcular cuánto puedes pagar.">?</span>
-       </label>
-        <label>Tipo de contrato</label>
-<select id="perfilContrato">
-  <option value="indefinido">Indefinido</option>
-  <option value="temporal">Temporal</option>
-  <option value="autonomo">Autónomo</option>
-</select>
-        <label>Años en el trabajo</label>
-<input id="perfilAntiguedad" type="number" placeholder="Ej: 3">
-          <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
-        <label>Número de pagas al año
-        <span class="help-icon" data-tooltip="Incluye pagas extras si las tienes (12, 14, etc.).">?</span>
-       </label>
-          <input id="perfilPagas" type="number" value="12">
-      </div>
+<!-- TITULAR 1 -->
+<div class="titular">
+  <label>Edad titular 1
+    <span class="help-icon" data-tooltip="Los bancos suelen limitar la edad máxima al finalizar el préstamo (70-75 años).">?</span>
+  </label>
+  <input id="perfilEdad1" type="number" min="18" max="75" placeholder="Ej: 35">
 
-      <!-- TITULAR 2 -->
-      <div class="titular" id="titular2Div" style="display:none;">
-        <label>Edad titular 2</label>
-        <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
-        <label>Ingreso mensual titular 2 (€)</label>
-          <label>Número de pagas al año
-        <span class="help-icon" data-tooltip="Incluye pagas extras si las tienes (12, 14, etc.).">?</span>
-       </label>
-          <input id="perfilPagas" type="number" value="12">
-      </div>
-        <label>Tipo de contrato</label>
-<select id="perfilContrato">
-  <option value="indefinido">Indefinido</option>
-  <option value="temporal">Temporal</option>
-  <option value="autonomo">Autónomo</option>
-</select>
-        <label>Años en el trabajo</label>
-<input id="perfilAntiguedad" type="number" placeholder="Ej: 3">
-        <input id="perfilSalario2" type="number" placeholder="Ej: 2000">
-      </div>
-    </div>
+  <label>Ingreso mensual titular 1 (€)
+    <span class="help-icon" data-tooltip="Ingresos netos mensuales. Es clave para calcular cuánto puedes pagar.">?</span>
+  </label>
+  <input id="perfilSalario1" type="number" placeholder="Ej: 2500">
+
+  <label>Tipo de contrato</label>
+  <select id="perfilContrato1">
+    <option value="indefinido">Indefinido</option>
+    <option value="temporal">Temporal</option>
+    <option value="autonomo">Autónomo</option>
+  </select>
+
+  <label>Años en el trabajo</label>
+  <input id="perfilAntiguedad1" type="number" placeholder="Ej: 3">
+
+  <label>Número de pagas al año
+    <span class="help-icon" data-tooltip="Incluye pagas extras si las tienes (12, 14, etc.).">?</span>
+  </label>
+  <input id="perfilPagas1" type="number" value="12">
+<
+<!-- TITULAR 2 -->
+<div class="titular" id="titular2Div" style="display:none;">
+  <label>Edad titular 2</label>
+  <input id="perfilEdad2" type="number" min="18" max="75" placeholder="Ej: 33">
+
+  <label>Ingreso mensual titular 2 (€)</label>
+  <input id="perfilSalario2" type="number" placeholder="Ej: 2000">
+
+  <label>Tipo de contrato</label>
+  <select id="perfilContrato2">
+    <option value="indefinido">Indefinido</option>
+    <option value="temporal">Temporal</option>
+    <option value="autonomo">Autónomo</option>
+  </select>
+
+  <label>Años en el trabajo</label>
+  <input id="perfilAntiguedad2" type="number" placeholder="Ej: 3">
+
+  <label>Número de pagas al año</label>
+  <input id="perfilPagas2" type="number" value="12">
+</div>
 
     <div class="titular">
       <label>Ahorro disponible (€)
