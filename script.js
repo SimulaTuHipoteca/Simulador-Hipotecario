@@ -171,6 +171,8 @@ const perfilFields = {
   ahorros: document.getElementById("perfilAhorros"),
   deuda: document.getElementById("perfilDeuda"),
   otroIngreso: document.getElementById("perfilOtroIngreso"),
+  contrato: document.getElementById("perfilContrato"),
+antiguedad: document.getElementById("perfilAntiguedad"),
   viviendaCheck: document.getElementById("agregardatosdelavivienda"),
   viviendaInfo: document.getElementById("viviendaInfo"),
   precio: document.getElementById("perfilPrecio"),
@@ -498,7 +500,12 @@ perfilFields.plazo && perfilFields.plazo.addEventListener("input", () => plazoEd
 ].forEach(el => el && (el.addEventListener("input", calcularPerfil), el.addEventListener("change", calcularPerfil)));
 
 [
-  perfilFields.titulares, perfilFields.tipoVivienda, perfilFields.comunidad, perfilFields.primeraSegunda
+  perfilFields.titulares,
+  perfilFields.tipoVivienda,
+  perfilFields.comunidad,
+  perfilFields.primeraSegunda,
+  perfilFields.contrato,
+  perfilFields.antiguedad
 ].forEach(el => el && el.addEventListener("change", calcularPerfil));
 
 perfilFields.titulares && perfilFields.titular2Div && perfilFields.titulares.addEventListener("change", () => {
