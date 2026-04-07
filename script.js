@@ -184,6 +184,34 @@ const perfilFields = {
   operacionBadge: document.getElementById("operacionSeleccionada")
 };
 
+      
+      function calcularScore({ ingresosAnuales, ahorros, deudas, contrato, antiguedad }) {
+  let score = 0;
+
+  // INGRESOS
+  if (ingresosAnuales > 60000) score += 3;
+  else if (ingresosAnuales > 30000) score += 2;
+  else score += 1;
+
+  // AHORRO
+  if (ahorros > 50000) score += 2;
+  else if (ahorros > 20000) score += 1;
+
+  // DEUDA
+  if (deudas === 0) score += 2;
+  else if (deudas < 300) score += 1;
+
+  // CONTRATO
+  if (contrato === "indefinido") score += 2;
+  if (contrato === "autonomo") score -= 1;
+
+  // ANTIGÜEDAD
+  if (antiguedad > 5) score += 2;
+  else if (antiguedad > 2) score += 1;
+
+  return score;
+}
+      
 // -----------------------------
 // FUNCIÓN CALCULAR PERFIL
 // -----------------------------
@@ -216,7 +244,23 @@ function calcularPerfil() {
   // -----------------------------
   const cuota = calcularCuota(capitalPosible, tipoRef, n);
   let capacidadPorIngresos = cuotaMax * (Math.pow(1 + tipoRef, n) - 1) / (tipoRef * Math.pow(1 + tipoRef, n));
+const contrato = document.getElementById("perfilContrato")?.value;
+const antiguedad = parseInt(document.getElementById("perfilAntiguedad")?.value) || 0;
 
+const score = calcularScore({
+  ingresosAnuales,
+  ahorros,
+  deudas,
+  contrato,
+  antiguedad
+});
+
+let maxFinanciacion = 0.8;
+
+if (score >= 8) maxFinanciacion = 1.0;
+else if (score >= 6) maxFinanciacion = 0.9;
+else if (score >= 4) maxFinanciacion = 0.8;
+else maxFinanciacion = 0.7;
   // -----------------------------
   // 2. DATOS VIVIENDA
   // -----------------------------
