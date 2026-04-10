@@ -583,13 +583,6 @@ BOTÓN FLOTANTE
   filter: brightness(0.9);
 }
 
-body.modal-open::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 1500;
-}
 /* ==============================
 FAQ
 ============================== */
@@ -688,7 +681,6 @@ MODAL
 
   background: rgba(0,0,0,0.5);
 
-  display: flex;
   align-items: center;
   justify-content: center;
 
@@ -710,17 +702,6 @@ MODAL
   border-radius: 12px;
 
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-@media (max-width: 768px) {
-#modalCalculadora {
-bottom: 30px; /* se separa del borde inferior */
-right: 10px; /* pequeño margen a la derecha */
-left: 10px; /* para centrarlo y no tocar los bordes */
-width: auto; /* ocupa el espacio disponible con márgenes */
-max-width: 360px; /* opcional para que no sea demasiado grande */
-border-radius: 12px;
-padding: 20px;
-}
 }
 /* ==============================
 FOOTER AJUSTADO
