@@ -292,9 +292,9 @@ const perfilFields = {
 function calcularPerfil() {
   const f = perfilFields;
 
-  // =========================
-  // INPUTS BASE
-  // =========================
+  // =====================
+  // INPUTS
+  // =====================
   const titulares = parseInt(f.titulares?.value) || 1;
 
   const edad1 = parseInt(f.edad1?.value) || 0;
@@ -312,36 +312,30 @@ function calcularPerfil() {
 
   const n = (parseInt(f.plazo?.value) || plazoMax) * 12;
 
-  // =========================
+  // =====================
   // INGRESOS
-  // =========================
+  // =====================
   const s1 = parseFloat(f.salario1?.value) || 0;
   const s2 = titulares === 2 ? (parseFloat(f.salario2?.value) || 0) : 0;
 
   const p1 = parseInt(document.getElementById("perfilPagas1")?.value) || 12;
   const p2 = titulares === 2 ? (parseInt(document.getElementById("perfilPagas2")?.value) || 12) : 12;
 
-  const ingresosAnuales =
-    (s1 * p1) +
-    (s2 * p2) +
-    (parseFloat(f.otroIngreso?.value) || 0);
+  const ingresosAnuales = (s1 * p1) + (s2 * p2) + (parseFloat(f.otroIngreso?.value) || 0);
 
   const ahorros = parseFloat(f.ahorros?.value) || 0;
   const deudas = parseFloat(f.deuda?.value) || 0;
 
-  // =========================
-  // FACTOR HIPOTECA (más eficiente)
-  // =========================
+  // =====================
+  // FACTOR HIPOTECA (OPT)
+  // =====================
   const tipoRef = 0.035 / 12;
   const pow = Math.pow(1 + tipoRef, n);
+  const factorHipoteca = (pow - 1) / (tipoRef * pow);
 
-  const factorHipoteca = tipoRef
-    ? (pow - 1) / (tipoRef * pow)
-    : n;
-
-  // =========================
-  // SCORE BANCO (OPTIMIZADO)
-  // =========================
+  // =====================
+  // SCORE
+  // =====================
   let score = 0;
 
   score += ingresosAnuales > 60000 ? 3 : ingresosAnuales > 30000 ? 2 : 1;
@@ -361,9 +355,9 @@ function calcularPerfil() {
     score >= 6 ? 0.9 :
     score >= 4 ? 0.8 : 0.7;
 
-  // =========================
+  // =====================
   // VIVIENDA
-  // =========================
+  // =====================
   const usarVivienda = f.viviendaCheck?.checked || false;
 
   const precio = usarVivienda ? (parseFloat(f.precio?.value) || 0) : 0;
@@ -377,33 +371,50 @@ function calcularPerfil() {
   const gastos = impuestos + (usarVivienda ? 2500 : 0);
 
   const esSegunda = f.primeraSegunda?.value === "segunda";
+if (!usarVivienda) {
+  f.capitalOut.innerText = formatMoney(0);
+  f.cuotaOut.innerText = formatMoney(0);
+  f.ltvOut.innerText = "-";
+  f.gastosOut.innerText = formatMoney(0);
+  f.ltiOut.innerText = "-";
 
-  // =========================
-  // 🔥 FINANCIACIÓN (ARREGLADO 100% JÓVENES)
-  // =========================
-  const esJoven = (edad1 < 35 || edad2 < 35);
+  if (msg) {
+    msg.innerText = "Perfil financiero calculado sin operación inmobiliaria.";
+    msg.className = "mensaje-perfil mensaje-ok";
+    msg.style.display = "block";
+  }
 
-  let maxFinanciacionBase =
+  return;
+}
+  // =====================
+  // 🔥 FINANCIACIÓN JÓVENES (100% OK)
+  // =====================
+  const esJoven = edad1 < 35 || edad2 < 35;
+
+  const baseFin =
     esSegunda ? 0.7 :
     ingresosAnuales < 50000 ? 0.9 : 0.8;
 
-  let maxFinanciacion;
+  const maxFinanciacion = esJoven
+    ? Math.min(1.0, baseFin + 0.1)
+    : Math.min(baseFin, scoreFactor);
 
-  if (esJoven) {
-    // 👉 aquí sí puede llegar a 100% si el banco lo permite
-    maxFinanciacion = Math.min(1.0, maxFinanciacionBase + 0.1);
-  } else {
-    maxFinanciacion = Math.min(maxFinanciacionBase, scoreFactor);
-  }
+  // =====================
+  // PRÉSTAMO NECESARIO (AHORRO APLICADO AQUÍ)
+  // =====================
+  const totalOperacion = precio + gastos;
+  const prestamoNecesario = usarVivienda
+    const entradaReal = precio > 0 ? ahorros / precio : 0;
+
+const entradaOk = entradaReal >= 0.20;
+    ? Math.max(totalOperacion - ahorros, 0)
+    : 0;
 
   const maxPrestamo = usarVivienda ? precio * maxFinanciacion : Infinity;
 
-  const totalOperacion = usarVivienda ? precio + gastos : 0;
-  const prestamoNecesario = usarVivienda ? Math.max(totalOperacion - ahorros, 0) : 0;
-
-  // =========================
-  // CAPACIDAD FINANCIERA
-  // =========================
+  // =====================
+  // CAPACIDAD
+  // =====================
   const ratio = usarVivienda ? 0.40 : 0.35;
 
   const cuotaMax = (ingresosAnuales * ratio) / 12 - deudas;
@@ -416,25 +427,23 @@ function calcularPerfil() {
 
   capital = Math.max(0, capital);
 
-  const cuota = capital > 0
-    ? capital * (tipoRef * pow) / (pow - 1)
-    : 0;
+  const cuota = capital * (tipoRef * pow) / (pow - 1);
 
   const ltv = precio ? (capital / precio) * 100 : 0;
+  const lti = ingresosAnuales ? ((cuota + deudas) * 12) / ingresosAnuales : 0;
 
-  const lti = ingresosAnuales
-    ? ((cuota + deudas) * 12) / ingresosAnuales
-    : 0;
-
-  // =========================
+  // =====================
   // OUTPUTS
-  // =========================
+  // =====================
   f.capitalOut.innerText = formatMoney(capital);
   f.cuotaOut.innerText = formatMoney(cuota);
-  f.ltvOut.innerText = ltv ? ltv.toFixed(1) + "%" : "-";
+  f.ltvOut.innerText = precio ? ltv.toFixed(1) + "%" : "-";
   f.gastosOut.innerText = formatMoney(gastos);
   f.ltiOut.innerText = (lti * 100).toFixed(1) + "%";
 
+  // =====================
+  // COMPATIBILIDAD
+  // =====================
   if (f.compatibleOut) {
     f.compatibleOut.className = "";
 
@@ -450,105 +459,42 @@ function calcularPerfil() {
     }
   }
 
-  // =========================
+  // =====================
+  // MENSAJE
+  // =====================
+  const msg = document.getElementById("mensajePerfil");
+
+  if (msg) {
+  msg.style.display = "block";
+  msg.className = "mensaje-perfil";
+
+  if (prestamoNecesario === 0) {
+    msg.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
+    msg.classList.add("mensaje-ok");
+
+  } else if (!entradaOk) {
+    msg.innerText = "Ahorro insuficiente para entrada mínima (20%).";
+    msg.classList.add("mensaje-warning");
+
+  } else if (lti <= 0.35) {
+    msg.innerText = "¡Excelente perfil financiero!";
+    msg.classList.add("mensaje-ok");
+
+  } else if (lti <= 0.45) {
+    msg.innerText = "Perfil aceptable con condiciones.";
+    msg.classList.add("mensaje-warning");
+
+  } else {
+    msg.innerText = "Perfil de riesgo elevado.";
+    msg.classList.add("mensaje-warning");
+  }
+}
+  // =====================
   // BADGE
-  // =========================
+  // =====================
   if (f.operacionBadge) {
     f.operacionBadge.innerText =
       `Operación: ${esSegunda ? "Inversión" : "Primera vivienda"} | Score ${score}`;
-  }
-
-  // =========================
-  // MENSAJE
-  // =========================
-  const mensaje = document.getElementById("mensajePerfil");
-
-  if (mensaje) {
-    mensaje.className = "mensaje-perfil";
-
-    if (prestamoNecesario === 0 && usarVivienda) {
-      mensaje.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
-      mensaje.classList.add("mensaje-ok");
-    } else if (lti <= 0.35) {
-      mensaje.innerText = "¡Excelente perfil financiero! Alta probabilidad de aprobación.";
-      mensaje.classList.add("mensaje-ok");
-    } else if (lti <= 0.40) {
-      mensaje.innerText = "Buen perfil. Posible aprobación con condiciones normales.";
-      mensaje.classList.add("mensaje-warning");
-    } else if (lti <= 0.45) {
-      mensaje.innerText = "Perfil aceptable. El banco puede pedir garantías adicionales.";
-      mensaje.classList.add("mensaje-warning");
-    } else {
-      mensaje.innerText = "Perfil de riesgo elevado. Difícil aprobación sin cambios.";
-      mensaje.classList.add("mensaje-warning");
-    }
-  }
-}
-
-  // =============================
-  // 9. BADGE + MENSAJE BANCO
-  // =============================
-  const badge = perfilFields.operacionBadge;
-
-  if (badge) {
-    badge.innerText =
-      `Operación: ${esSegunda ? "Inversión" : "Primera vivienda"} | Score ${score}`;
-  }
-
-  const mensaje = document.getElementById("mensajePerfil");
-
-  if (mensaje) {
-    mensaje.className = "mensaje-perfil";
-    mensaje.style.display = "block";
-
-    if (prestamoNecesario === 0 && usarVivienda) {
-      mensaje.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
-      mensaje.classList.add("mensaje-ok");
-    } else if (lti <= 0.35) {
-      mensaje.innerText = "¡Excelente perfil financiero! Alta probabilidad de aprobación.";
-      mensaje.classList.add("mensaje-ok");
-    } else if (lti <= 0.40) {
-      mensaje.innerText = "Buen perfil. Posible aprobación con condiciones normales.";
-      mensaje.classList.add("mensaje-warning");
-    } else if (lti <= 0.45) {
-      mensaje.innerText = "Perfil aceptable. El banco puede pedir garantías adicionales.";
-      mensaje.classList.add("mensaje-warning");
-    } else {
-      mensaje.innerText = "Perfil de riesgo elevado. Difícil aprobación sin cambios.";
-      mensaje.classList.add("mensaje-warning");
-    }
-  }
-}
-
-  // -----------------------------
-  // OUTPUTS
-  // -----------------------------
-  perfilFields.capitalOut.innerText = formatMoney(capitalPosible);
-  perfilFields.cuotaOut.innerText = formatMoney(cuota);
-  perfilFields.ltvOut.innerText = ltv > 0 ? ltv.toFixed(1) + "%" : "-";
-  perfilFields.gastosOut.innerText = formatMoney(gastos);
-  perfilFields.ltiOut.innerText = (lti * 100).toFixed(1) + "%";
-
-  if (perfilFields.compatibleOut) {
-    perfilFields.compatibleOut.className = "";
-    if (lti <= 0.35) {
-      perfilFields.compatibleOut.innerText = "Compatible";
-      perfilFields.compatibleOut.classList.add("green");
-    } else if (lti <= 0.40) {
-      perfilFields.compatibleOut.innerText = "Aceptable";
-      perfilFields.compatibleOut.classList.add("orange");
-    } else {
-      perfilFields.compatibleOut.innerText = "No viable";
-      perfilFields.compatibleOut.classList.add("red");
-    }
-  }
-
-  // -----------------------------
-  // BADGE OPERACIÓN
-  // -----------------------------
-  if (perfilFields.operacionBadge) {
-    perfilFields.operacionBadge.innerText =
-      `Operación: ${esSegunda ? "Inversión" : "Primera vivienda"} | ${resultadoFinanciacion.motivo}`;
   }
 }
 // -----------------------------
