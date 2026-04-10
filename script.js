@@ -379,10 +379,17 @@ const antiguedad = Math.max(antiguedad1, antiguedad2);
     ingresosAnuales
   });
 
-  const maxFinanciacion = Math.min(
+let maxFinanciacion = resultadoFinanciacion.porcentaje;
+
+// 🔥 EXCEPCIÓN JÓVENES (CLAVE)
+if (edad1 < 35 || edad2 < 35) {
+  maxFinanciacion = resultadoFinanciacion.porcentaje; // respeta 100%
+} else {
+  maxFinanciacion = Math.min(
     resultadoFinanciacion.porcentaje,
     maxFinanciacionScore
   );
+}
 
   // -----------------------------
   // CÁLCULOS OPERACIÓN
