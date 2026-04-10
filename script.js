@@ -239,7 +239,10 @@ function calcularPerfil() {
     (nTitulares === 2 ? parseFloat(perfilFields.salario2.value) || 0 : 0) +
     (parseFloat(perfilFields.otroIngreso.value) || 0);
 
-  const pagas = parseInt(perfilFields.pagas.value) || 12;
+  const pagas1 = parseInt(document.getElementById("perfilPagas1")?.value) || 12;
+const pagas2 = parseInt(document.getElementById("perfilPagas2")?.value) || 12;
+
+const pagas = nTitulares === 2 ? Math.max(pagas1, pagas2) : pagas1;
   const ingresosAnuales = ingresos * pagas;
   const deudas = parseFloat(perfilFields.deuda.value) || 0;
   const ahorros = parseFloat(perfilFields.ahorros.value) || 0;
