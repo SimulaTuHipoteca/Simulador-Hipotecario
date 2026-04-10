@@ -5,12 +5,19 @@ window.abrirOperacion = function(id){
   document.querySelectorAll('.card-content').forEach(cc => {
     if(cc.id === id){
       cc.classList.toggle('open'); 
+
+      // 👉 AÑADE ESTO
+      if (cc.classList.contains('open')) {
+        document.body.classList.add("modal-open");
+      } else {
+        document.body.classList.remove("modal-open");
+      }
+
     } else {
       cc.classList.remove('open'); 
     }
   });
 };
-
 window.irAnalisis = function(event, tipoOperacion){
   event.stopPropagation();
 
@@ -102,6 +109,12 @@ cargarEuribor();
     modal.classList.add("open");
   });
 
+   function cerrarCalculadora() {
+  document.querySelectorAll('.card-content').forEach(cc => {
+    cc.classList.remove('open');
+  });
+  document.body.classList.remove("modal-open");
+}
   cerrar.addEventListener("click", () => {
     modal.classList.remove("open");
   });
