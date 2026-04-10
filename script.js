@@ -305,16 +305,24 @@ function calcularPerfil() {
   // -----------------------------
   // INGRESOS Y DATOS BASE
   // -----------------------------
-  const salario1 = parseFloat(perfilFields.salario1.value) || 0;
-const salario2 = nTitulares === 2 ? (parseFloat(perfilFields.salario2.value) || 0) : 0;
+  const salario1Mensual = parseFloat(perfilFields.salario1.value) || 0;
+const salario2Mensual = nTitulares === 2 ? (parseFloat(perfilFields.salario2.value) || 0) : 0;
 
 const pagas1 = parseInt(document.getElementById("perfilPagas1")?.value) || 12;
 const pagas2 = nTitulares === 2 ? (parseInt(document.getElementById("perfilPagas2")?.value) || 12) : 12;
 
+// 🏦 CONVERSIÓN REAL BANCO: salario mensual → anual real
+const salario1Anual = salario1Mensual * pagas1;
+const salario2Anual = salario2Mensual * pagas2;
+
+// 🧠 OTROS INGRESOS (se asumen ANUALES directamente)
+const otrosIngresosAnuales = parseFloat(perfilFields.otroIngreso.value) || 0;
+
+// ✅ INGRESO TOTAL REAL BANCO
 const ingresosAnuales =
-  (salario1 * pagas1) +
-  (salario2 * pagas2) +
-  (parseFloat(perfilFields.otroIngreso.value) || 0);
+  salario1Anual +
+  salario2Anual +
+  otrosIngresosAnuales;
 
   // -----------------------------
   // CAPACIDAD POR INGRESOS
