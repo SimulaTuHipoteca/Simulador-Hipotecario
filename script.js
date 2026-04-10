@@ -319,6 +319,7 @@ const ingresosAnuales =
   // -----------------------------
   // CAPACIDAD POR INGRESOS
   // -----------------------------
+  const agregarVivienda = perfilFields.viviendaCheck?.checked || false;
   const ratioMax = agregarVivienda ? 0.40 : 0.35;
 
 const cuotaMax = ingresosAnuales * ratioMax / 12 - deudas;
@@ -359,7 +360,7 @@ const antiguedad = Math.max(antiguedad1, antiguedad2);
   // -----------------------------
   // VIVIENDA
   // -----------------------------
-  const agregarVivienda = perfilFields.viviendaCheck?.checked || false;
+  
   const precio = agregarVivienda ? parseFloat(perfilFields.precio.value) || 0 : 0;
 
   const impuestos = agregarVivienda
