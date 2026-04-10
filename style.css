@@ -759,7 +759,36 @@ padding-top: 15px;
 font-size: 12px;
 color: #9ca3af;
 }
+/* ==============================
+MENSAJE PERFIL (RESULTADO)
+============================== */
+.mensaje-perfil {
+  margin-top: 15px;
+  padding: 14px 16px;
 
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+
+  white-space: normal;
+}
+
+/* Estado OK */
+.mensaje-ok {
+  background: #e6f9f0;
+  color: #0a7a4b;
+  border-color: #b6f0d1;
+}
+
+/* Estado warning */
+.mensaje-warning {
+  background: #fff4e5;
+  color: #a66300;
+  border-color: #ffe0b3;
+}
 /* ==============================
 RESPONSIVE FOOTER
 ============================== */
