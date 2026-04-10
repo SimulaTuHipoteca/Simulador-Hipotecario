@@ -465,7 +465,10 @@ if (prestamoNecesario === 0 && agregarVivienda) {
   mensajePerfil.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
   mensajePerfil.classList.add("mensaje-ok");
 
-} else if ((edad1 < 35 || edad2 < 35) && faltaDinero > 0) {
+if ((edad1 < 35 || edad2 < 35) && faltaDinero > 0) {
+  mensajePerfil.innerHTML = `...`;
+  mensajePerfil.classList.add("mensaje-warning");
+}
 
   mensajePerfil.innerHTML = `
     Puedes financiar el <strong>100%</strong> de la vivienda.<br><br>
