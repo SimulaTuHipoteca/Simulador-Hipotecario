@@ -305,22 +305,16 @@ function calcularPerfil() {
   // -----------------------------
   // INGRESOS Y DATOS BASE
   // -----------------------------
-  const ingresos =
-    (parseFloat(perfilFields.salario1.value) || 0) +
-    (nTitulares === 2 ? parseFloat(perfilFields.salario2.value) || 0 : 0) +
-    (parseFloat(perfilFields.otroIngreso.value) || 0);
+  const salario1 = parseFloat(perfilFields.salario1.value) || 0;
+const salario2 = nTitulares === 2 ? (parseFloat(perfilFields.salario2.value) || 0) : 0;
 
-  const pagas1 = parseInt(document.getElementById("perfilPagas1")?.value) || 12;
-const pagas2 = parseInt(document.getElementById("perfilPagas2")?.value) || 12;
+const pagas1 = parseInt(document.getElementById("perfilPagas1")?.value) || 12;
+const pagas2 = nTitulares === 2 ? (parseInt(document.getElementById("perfilPagas2")?.value) || 12) : 12;
 
-const pagas = nTitulares === 2 ? Math.max(pagas1, pagas2) : pagas1;
-  const ingresosAnuales = ingresos * pagas;
-  const deudas = parseFloat(perfilFields.deuda.value) || 0;
-  const ahorros = parseFloat(perfilFields.ahorros.value) || 0;
-
-  const tipoRef = 0.028 / 12;
-  const plazo = parseInt(perfilFields.plazo.value) || plazoMax;
-  const n = plazo * 12;
+const ingresosAnuales =
+  (salario1 * pagas1) +
+  (salario2 * pagas2) +
+  (parseFloat(perfilFields.otroIngreso.value) || 0);
 
   // -----------------------------
   // CAPACIDAD POR INGRESOS
