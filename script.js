@@ -325,7 +325,9 @@ const pagas = nTitulares === 2 ? Math.max(pagas1, pagas2) : pagas1;
   // -----------------------------
   // CAPACIDAD POR INGRESOS
   // -----------------------------
-  const cuotaMax = ingresosAnuales * 0.35 / 12 - deudas;
+  const ratioMax = agregarVivienda ? 0.40 : 0.35;
+
+const cuotaMax = ingresosAnuales * ratioMax / 12 - deudas;
 
   let capacidadPorIngresos = 0;
   if (tipoRef > 0 && cuotaMax > 0) {
