@@ -48,7 +48,6 @@
   <!-- Comprar -->
   <div class="operacion-card">
     <div class="card-header" onclick="abrirOperacion('compra')">
-        <button onclick="cerrarCalculadora()" class="btn-cerrar">✕</button>
       <span>🏡</span>
       <div>
         <strong>Comprar primera vivienda</strong>
@@ -56,6 +55,9 @@
       </div>
     </div>
     <div id="compra" class="card-content">
+
+      <button onclick="cerrarCalculadora()" class="btn-cerrar">✕</button>
+      
       <p>Financiación estándar para vivienda habitual con condiciones bancarias habituales.</p>
       <button onclick="irAnalisis(event,'Compra Primera Vivienda')">Analizar mi perfil</button>
     </div>
