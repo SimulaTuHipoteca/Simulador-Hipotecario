@@ -582,51 +582,7 @@ perfilFields.titulares && perfilFields.titular2Div && perfilFields.titulares.add
 // -----------------------------
 calcularPerfil();
 
-// -----------------------------
-// ACORDEONES / OPERACIONES
-// -----------------------------
-window.abrirOperacion = function(id){
-  document.querySelectorAll('.card-content').forEach(cc => {
-    if(cc.id === id){
-      cc.classList.toggle('open'); 
-    } else {
-      cc.classList.remove('open'); 
-    }
-  });
-};
 
-// -----------------------------
-// IR A ANALISIS
-// -----------------------------
-window.irAnalisis = function(event, tipoOperacion){
-  event.stopPropagation();
-  if(tipoOperacion === 'Cambio de Hipoteca'){ window.location.href = 'consolidacion.html'; return }
-  if(tipoOperacion === 'Consolidación'){ window.location.href = 'consolidacion.html'; return; }
-
-  const idMap = { 'Compra Primera Vivienda': 'compra', 'Inversión': 'inversion' };
-  const id = idMap[tipoOperacion];
-  if(id) abrirOperacion(id);
-
-  perfilDiv.style.display = "block";
-  perfilFields.operacionBadge.style.display = "block";
-  perfilFields.operacionBadge.innerText = `Operación seleccionada: ${tipoOperacion}`;
-
-  if (perfilFields.primeraSegunda) {
-    switch(tipoOperacion){
-      case 'Compra Primera Vivienda': perfilFields.primeraSegunda.value = 'primera'; break;
-      case 'Inversión': perfilFields.primeraSegunda.value = 'segunda'; break;
-    }
-  }
-
-  actualizarViviendaInfo();
-  calcularPerfil();
-  setTimeout(() => {
-  const yOffset = -40; // ajusta (más negativo = más abajo)
-  const y = perfilDiv.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-  window.scrollTo({ top: y, behavior: 'smooth' });
-}, 100);
-};
 // -----------------------------
 // ENVÍO DE LEADS Y PDF
 // -----------------------------
