@@ -12,7 +12,14 @@ window.abrirOperacion = function(id){
       cc.classList.remove('open'); 
     }
   });
-
+  
+window.cerrarCalculadora = function () {
+  document.querySelectorAll('.card-content').forEach(cc => {
+    cc.classList.remove('open');
+  });
+  document.body.classList.remove("modal-open");
+};
+  
   if (abierta) {
     document.body.classList.add("modal-open");
   } else {
@@ -37,12 +44,6 @@ window.irAnalisis = function(event, tipoOperacion){
     'Compra Primera Vivienda': 'compra', 
     'Inversión': 'inversion' 
   };
-window.cerrarCalculadora = function () {
-  document.querySelectorAll('.card-content').forEach(cc => {
-    cc.classList.remove('open');
-  });
-  document.body.classList.remove("modal-open");
-};
   
   const id = idMap[tipoOperacion];
   if(id) window.abrirOperacion(id);
