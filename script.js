@@ -449,24 +449,30 @@ if (!usarVivienda) {
 // =====================
 // 🔥 MODELO BANCO REAL
 // =====================
+// 1. GASTOS
 const impuesto = f.tipoVivienda?.value === "obraNueva" ? 0.10 : comunidad;
 const gastosExtra = 0.02;
+const gastos = precio * (impuesto + gastosExtra);
 
-const gastosReales = precio * (impuesto + gastosExtra);
-const totalNecesario = precio + gastosReales;
+// 2. TOTAL OPERACIÓN
+const totalOperacion = precio + gastos;
 
-// 💰 préstamo real
-const prestamoConcedido = capital;
+// 3. NECESIDAD REAL
+const prestamoNecesario = Math.max(totalOperacion - ahorros, 0);
 
-// 💸 aportación necesaria
-const aportacionNecesaria = totalNecesario - prestamoConcedido;
+// 4. LÍMITE BANCO
+const maxPrestamo = precio * maxFinanciacion;
 
-// ❗ dinero que falta
+// 5. CAPACIDAD POR INGRESOS
+let capitalBanco = cuotaMax * factorHipoteca;
+capitalBanco = Math.min(capitalBanco, maxPrestamo);
+
+// 6. PRÉSTAMO FINAL
+const capital = Math.min(capitalBanco, prestamoNecesario);
+
+// 7. DINERO FALTANTE
+const aportacionNecesaria = totalOperacion - capital;
 const faltaDinero = Math.max(aportacionNecesaria - ahorros, 0);
-
-// 🏠 precio máximo real
-const precioMaximo = (ahorros + prestamoConcedido) / (1 + impuesto + gastosExtra);
-
 // =====================
 // CUOTA
 // =====================
