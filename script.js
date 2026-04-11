@@ -192,12 +192,7 @@ const generarTabla = () => {
   const anos = parseFloat(anosInput?.value) || 0;
   const n = anos * 12;
 
-  let cuota;
-  if (interes === 0) {
-    cuota = capital / n;
-  } else {
-    cuota = capital * (interes * Math.pow(1 + interes, n)) / (Math.pow(1 + interes, n) - 1);
-  }
+const cuota = calcularCuota(capital, interes, n);
 
   let saldo = capital;
   let html = "";
