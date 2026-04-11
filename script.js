@@ -448,6 +448,14 @@ if (!usarVivienda) {
 
   return;
 }
+  if (!datosMinimosOK) {
+  if (msg) {
+    msg.style.display = "block";
+    msg.className = "mensaje-perfil mensaje-neutral";
+    msg.innerText = "Introduce tus datos para ver tu análisis financiero.";
+  }
+  return;
+}
 // =====================
 // 🔥 MODELO BANCO REAL
 // =====================
@@ -522,14 +530,6 @@ const datosMinimosOK =
 // =====================
 // MENSAJE PRO+ (UX REAL)
 // =====================
-if (!datosMinimosOK) {
-  if (msg) {
-    msg.style.display = "block";
-    msg.className = "mensaje-perfil mensaje-neutral";
-    msg.innerText = "Introduce tus datos para ver tu análisis financiero.";
-  }
-  return;
-}
 if (msg) {
   msg.style.display = "block";
   msg.className = "mensaje-perfil";
