@@ -105,7 +105,18 @@ cargarEuribor();
   // -----------------------------
   // AUXILIARES
   // -----------------------------
-  const formatMoney = n => new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(n);
+const formatMoney = n => new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(n);
+
+function corregirInput(input, min = 0, max = Infinity) {
+  if (!input) return;
+
+  let valor = parseFloat(input.value);
+
+  if (isNaN(valor) || valor < min) valor = min;
+  if (valor > max) valor = max;
+
+  input.value = valor;
+}
 
   // -----------------------------
   // MODAL CALCULADORA
@@ -291,7 +302,18 @@ antiguedad: document.getElementById("perfilAntiguedad1"),
 
   return score;
 }
-      
+
+function limpiarNumero(valor, min = 0, max = Infinity) {
+  let n = parseFloat(valor);
+
+  if (isNaN(n)) return 0;
+
+  if (n < min) n = min;
+  if (n > max) n = max;
+
+  return n;
+}
+  
 function calcularPerfil() {
   const f = perfilFields;
   const msg = document.getElementById("mensajePerfil");
@@ -318,17 +340,16 @@ function calcularPerfil() {
   // =====================
   // INGRESOS
   // =====================
-  const s1 = parseFloat(f.salario1?.value) || 0;
-  const s2 = titulares === 2 ? (parseFloat(f.salario2?.value) || 0) : 0;
+const s1 = limpiarNumero(f.salario1?.value, 0, 1000000);
+const s2 = titulares === 2 ? limpiarNumero(f.salario2?.value, 0, 1000000) : 0;
 
   const p1 = parseInt(document.getElementById("perfilPagas1")?.value) || 12;
   const p2 = titulares === 2 ? (parseInt(document.getElementById("perfilPagas2")?.value) || 12) : 12;
 
   const ingresosAnuales = (s1 * p1) + (s2 * p2) + (parseFloat(f.otroIngreso?.value) || 0);
 
-  const ahorros = parseFloat(f.ahorros?.value) || 0;
-  const deudas = parseFloat(f.deuda?.value) || 0;
-
+const ahorros = limpiarNumero(f.ahorros?.value, 0, 10000000);
+const deudas = limpiarNumero(f.deuda?.value, 0, 100000);
   // =====================
   // FACTOR HIPOTECA (OPT)
   // =====================
@@ -363,10 +384,10 @@ function calcularPerfil() {
   // =====================
   const usarVivienda = f.viviendaCheck?.checked || false;
 
-  const precio = usarVivienda ? (parseFloat(f.precio?.value) || 0) : 0;
+const precio = usarVivienda ? limpiarNumero(f.precio?.value, 50000, 5000000) : 0;
 
-  const comunidad = parseFloat(f.comunidad?.value) || 0;
-
+const comunidad = limpiarNumero(f.comunidad?.value, 0, 0.2);
+  
   const impuestos = usarVivienda
     ? (f.tipoVivienda?.value === "obraNueva" ? precio * 0.10 : precio * comunidad)
     : 0;
@@ -672,7 +693,13 @@ perfilFields.titulares && perfilFields.titular2Div && perfilFields.titulares.add
   perfilFields.titular2Div.style.display = perfilFields.titulares.value === "2" ? "block" : "none";
   calcularPerfil();
 });
-
+  // 🔒 VALIDACIÓN INPUTS (ANTI-NEGATIVOS)
+perfilFields.salario1 && perfilFields.salario1.addEventListener("blur", () => corregirInput(perfilFields.salario1, 0));
+perfilFields.salario2 && perfilFields.salario2.addEventListener("blur", () => corregirInput(perfilFields.salario2, 0));
+perfilFields.ahorros && perfilFields.ahorros.addEventListener("blur", () => corregirInput(perfilFields.ahorros, 0));
+perfilFields.deuda && perfilFields.deuda.addEventListener("blur", () => corregirInput(perfilFields.deuda, 0));
+perfilFields.precio && perfilFields.precio.addEventListener("blur", () => corregirInput(perfilFields.precio, 50000));
+perfilFields.comunidad && perfilFields.comunidad.addEventListener("blur", () => corregirInput(perfilFields.comunidad, 0, 0.2));
 // -----------------------------
 // LLAMAR PERFIL AL INICIO
 // -----------------------------
