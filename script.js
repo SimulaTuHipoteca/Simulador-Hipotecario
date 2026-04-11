@@ -482,7 +482,7 @@ const precioMaximo = (ahorros + prestamo) / (1 + impuesto + gastosExtra);
 msg.innerText += ` 
 Precio máximo recomendado: ${formatMoney(precioMaximo)}.`;
   
-  if (msg) {
+if (msg) {
   msg.style.display = "block";
   msg.className = "mensaje-perfil";
 
@@ -490,15 +490,14 @@ Precio máximo recomendado: ${formatMoney(precioMaximo)}.`;
     msg.innerText = "No necesitas financiación: tus ahorros cubren la operación.";
     msg.classList.add("mensaje-ok");
 
-if (faltaDinero > 0) {
-  msg.innerText = `Necesitas ${formatMoney(aportacionNecesaria)} para comprar esta vivienda.
-Actualmente tienes ${formatMoney(ahorros)}, te faltan ${formatMoney(faltaDinero)}.`;
-  msg.classList.add("mensaje-warning");
+  } else if (faltaDinero > 0) {
+    msg.innerText = `Necesitas ${formatMoney(aportacionNecesaria)} para la compra total.
+Tienes ${formatMoney(ahorros)} y te faltan ${formatMoney(faltaDinero)}.`;
 
-} else {
-  msg.innerText = `Tienes capacidad suficiente para afrontar la compra y los gastos.`;
-  msg.classList.add("mensaje-ok");
-}
+    msg.innerText += ` 
+Precio máximo recomendado: ${formatMoney(precioMaximo)}.`;
+
+    msg.classList.add("mensaje-warning");
 
   } else if (lti <= 0.35) {
     msg.innerText = "¡Excelente perfil financiero!";
