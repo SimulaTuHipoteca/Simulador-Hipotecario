@@ -448,7 +448,15 @@ const faltaDinero = Math.max(aportacionNecesaria - ahorros, 0);
 
 // 🏠 precio máximo real
 const precioMaximo = (ahorros + prestamoConcedido) / (1 + impuesto + gastosExtra);
+// 🎯 PRECIO IDEAL (dinámico según riesgo)
+let factorIdeal = 0.9;
 
+if (lti <= 0.30) factorIdeal = 0.95;
+else if (lti <= 0.35) factorIdeal = 0.9;
+else if (lti <= 0.45) factorIdeal = 0.85;
+else factorIdeal = 0.8;
+
+const precioIdeal = precioMaximo * factorIdeal;
 // =====================
 // CUOTA
 // =====================
@@ -539,10 +547,10 @@ Sería recomendable reducir deudas o ajustar el precio de compra.`;
   }
 
   // 🔥 SIEMPRE mostramos precio máximo
-  texto += `
+texto += `
 
-🏠 Precio máximo recomendado: ${formatMoney(precioMaximo)}`;
-
+🏠 Precio máximo recomendado: ${formatMoney(precioMaximo)}
+🎯 Precio ideal para ir cómodo: ${formatMoney(precioIdeal)}`;
   msg.innerText = texto;
 }
   // =====================
