@@ -117,12 +117,6 @@ cargarEuribor();
     modal.classList.add("open");
   });
 
-   function cerrarCalculadora() {
-  document.querySelectorAll('.card-content').forEach(cc => {
-    cc.classList.remove('open');
-  });
-  document.body.classList.remove("modal-open");
-}
   cerrar.addEventListener("click", () => {
     modal.classList.remove("open");
   });
@@ -569,7 +563,7 @@ perfilFields.plazo && perfilFields.plazo.addEventListener("input", () => plazoEd
 
 [
   perfilFields.edad1, perfilFields.edad2, perfilFields.salario1, perfilFields.salario2,
-  perfilFields.pagas, perfilFields.ahorros, perfilFields.deuda, perfilFields.otroIngreso,
+  perfilFields.ahorros, perfilFields.deuda, perfilFields.otroIngreso,
   perfilFields.precio
 ].forEach(el => el && (el.addEventListener("input", calcularPerfil), el.addEventListener("change", calcularPerfil)));
 
