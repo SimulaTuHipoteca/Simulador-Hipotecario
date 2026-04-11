@@ -421,14 +421,6 @@ const totalNecesario = precio + gastosReales;
 
 // 🔥 préstamo real que te pueden dar
 const prestamoConcedido = capital; // lo calculas después
-
-const aportacionNecesaria = totalNecesario - maxPrestamo;
-const faltaDinero = Math.max(aportacionNecesaria - ahorros, 0);
-
-// 💡 precio máximo realista
-const precioMaximo = (ahorros + maxPrestamo) / (1 + impuesto + gastosExtra);
-  const maxPrestamo = usarVivienda ? precio * maxFinanciacion : Infinity;
-
   // =====================
   // CAPACIDAD
   // =====================
@@ -443,13 +435,7 @@ const precioMaximo = (ahorros + maxPrestamo) / (1 + impuesto + gastosExtra);
   }
 
   capital = Math.max(0, capital);
-const precioMaximo = (ahorros + prestamo) / (1 + impuesto + gastosExtra);
-  const cuota = capital * (tipoRef * pow) / (pow - 1);
-
-  const ltv = precio ? (capital / precio) * 100 : 0;
-  const lti = ingresosAnuales ? ((cuota + deudas) * 12) / ingresosAnuales : 0;
-
-  // =====================
+    // =====================
 // 🔥 MODELO BANCO REAL (BIEN HECHO)
 // =====================
 const impuesto = f.tipoVivienda?.value === "obraNueva" ? 0.10 : comunidad;
@@ -469,6 +455,12 @@ const faltaDinero = Math.max(aportacionNecesaria - ahorros, 0);
 
 // 🏠 precio máximo realista según tu perfil
 const precioMaximo = (ahorros + prestamoConcedido) / (1 + impuesto + gastosExtra);
+const precioMaximo = (ahorros + prestamo) / (1 + impuesto + gastosExtra);
+  const cuota = capital * (tipoRef * pow) / (pow - 1);
+
+  const ltv = precio ? (capital / precio) * 100 : 0;
+  const lti = ingresosAnuales ? ((cuota + deudas) * 12) / ingresosAnuales : 0;
+
   // =====================
   // OUTPUTS
   // =====================
