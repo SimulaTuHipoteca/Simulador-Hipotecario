@@ -297,7 +297,7 @@ const perfilFields = {
       
 function calcularPerfil() {
   const f = perfilFields;
-
+  const msg = document.getElementById("mensajePerfil");
   // =====================
   // INPUTS
   // =====================
@@ -467,7 +467,6 @@ const prestamoNecesario = usarVivienda
   // =====================
   // MENSAJE
   // =====================
-  const msg = document.getElementById("mensajePerfil");
 
   if (msg) {
   msg.style.display = "block";
