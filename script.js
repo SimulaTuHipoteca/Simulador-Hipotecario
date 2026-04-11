@@ -429,7 +429,7 @@ if (usarVivienda) {
 capital = Math.max(0, capital);
 
 // 👉 AHORA SÍ EXISTE capital
-let cuota = calcularCuota(capital, tipoRef, n);
+cuota = calcularCuota(capital, tipoRef, n);
 
 // =====================
 // SIN VIVIENDA
