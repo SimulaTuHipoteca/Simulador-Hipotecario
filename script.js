@@ -259,7 +259,7 @@ const perfilFields = {
   ltiOut: document.getElementById("perfilLTI"),
   compatibleOut: document.getElementById("perfilCompatible"),
   avisoSegunda: document.getElementById("avisoSegunda"),
-  operacionBadge: document.getElementById("operacionSeleccionada")
+  operacionBadge: document.getElementById("operacionSeleccionada"),
   contrato: document.getElementById("perfilContrato1"),
 antiguedad: document.getElementById("perfilAntiguedad1"),
 };
