@@ -412,21 +412,6 @@ const prestamoNecesario = usarVivienda
   ? Math.max(totalOperacion - ahorros, 0)
   : 0;
 
-// =====================
-// CAPACIDAD
-// =====================
-const ratio = usarVivienda ? 0.40 : 0.35;
-const cuotaMax = (ingresosAnuales * ratio) / 12 - deudas;
-
-// 1. Capacidad banco
-let capitalBanco = cuotaMax * factorHipoteca;
-capitalBanco = Math.min(capitalBanco, maxPrestamo);
-
-
-capital = Math.max(0, capital);
-
-// 👉 AHORA SÍ EXISTE capital
-cuota = calcularCuota(capital, tipoRef, n);
 
 // =====================
 // SIN VIVIENDA
@@ -463,6 +448,9 @@ const prestamoNecesario = Math.max(totalOperacion - ahorros, 0);
 // 4. LÍMITE BANCO
 const maxPrestamo = precio * maxFinanciacion;
 
+const ratio = usarVivienda ? 0.40 : 0.35;
+const cuotaMax = (ingresosAnuales * ratio) / 12 - deudas;
+  
 // 5. CAPACIDAD POR INGRESOS
 let capitalBanco = cuotaMax * factorHipoteca;
 capitalBanco = Math.min(capitalBanco, maxPrestamo);
@@ -470,6 +458,7 @@ capitalBanco = Math.min(capitalBanco, maxPrestamo);
 // 6. PRÉSTAMO FINAL
 const capital = Math.min(capitalBanco, prestamoNecesario);
 
+const cuota = calcularCuota(capital, tipoRef, n);
 // 7. DINERO FALTANTE
 const aportacionNecesaria = totalOperacion - capital;
 const faltaDinero = Math.max(aportacionNecesaria - ahorros, 0);
