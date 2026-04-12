@@ -471,7 +471,13 @@ const gastos = precio * (impuesto + gastosExtra);
 const totalOperacion = precio + gastos;
 
 // 3. NECESIDAD REAL
-const prestamoNecesario = Math.max(totalOperacion - ahorros, 0);
+const entradaMinima = totalOperacion - maxPrestamo;
+const puedeCubrirEntrada = ahorros >= entradaMinima;
+if (!puedeCubrirEntrada) {
+  // marcar como NO viable directamente
+}
+  
+const prestamoNecesario = totalOperacion - ahorros;
 
 // 4. LÍMITE BANCO
 const maxPrestamo = precio * maxFinanciacion;
