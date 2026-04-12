@@ -412,7 +412,8 @@ const comunidad = limpiarNumero(f.comunidad?.value, 0, 0.2);
 
 // =====================
 // SIN VIVIENDA
-// =====================if (!usarVivienda) {
+// =====================
+  if (!usarVivienda) {
 
   const ratio = 0.35;
   const cuotaMax = Math.max((ingresosAnuales * ratio) / 12 - deudas, 0);
