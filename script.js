@@ -463,6 +463,7 @@ Puedes ver opciones sin necesidad de introducir una vivienda concreta.`;
 // =====================
 // 🔥 MODELO BANCO REAL
 // =====================
+
 // 1. GASTOS
 const impuesto = f.tipoVivienda?.value === "obraNueva" ? 0.10 : comunidad;
 const gastosExtra = 0.02;
@@ -471,9 +472,13 @@ const gastos = precio * (impuesto + gastosExtra);
 // 2. TOTAL OPERACIÓN
 const totalOperacion = precio + gastos;
 
-// 3. NECESIDAD REAL
+// 3. LÍMITE BANCO (IMPORTANTE: antes de usarlo en entrada mínima)
+const maxPrestamo = precio * maxFinanciacion;
+
+// 4. NECESIDAD REAL
 const entradaMinima = totalOperacion - maxPrestamo;
 const puedeCubrirEntrada = ahorros >= entradaMinima;
+
 if (!puedeCubrirEntrada) {
   if (msg) {
     msg.style.display = "block";
@@ -481,27 +486,30 @@ if (!puedeCubrirEntrada) {
     msg.innerText = `❌ No alcanzas la entrada mínima requerida (${formatMoney(entradaMinima)}).`;
   }
 
-  // Opcional: cortar cálculo
   return;
 }
-  
+
+// 5. PRÉSTAMO NECESARIO
 const prestamoNecesario = totalOperacion - ahorros;
 
-// 4. LÍMITE BANCO
-const maxPrestamo = precio * maxFinanciacion;
-
+// 6. CAPACIDAD POR INGRESOS
 const ratio = usarVivienda ? 0.40 : 0.35;
-const cuotaMax = Math.max((ingresosAnuales * ratio) / 12 - deudas, 0);
-  
-// 5. CAPACIDAD POR INGRESOS
+
+const cuotaMax = Math.max(
+  (ingresosAnuales * ratio) / 12 - deudas,
+  0
+);
+
+// 7. CAPACIDAD BANCO
 let capitalBanco = cuotaMax * factorHipoteca;
 capitalBanco = Math.min(capitalBanco, maxPrestamo);
 
-// 6. PRÉSTAMO FINAL
+// 8. PRÉSTAMO FINAL
 const capital = Math.min(capitalBanco, prestamoNecesario);
 
 const cuota = calcularCuota(capital, tipoRef, n);
-// 7. DINERO FALTANTE
+
+// 9. DINERO FALTANTE
 const aportacionNecesaria = totalOperacion - capital;
 const faltaDinero = Math.max(aportacionNecesaria - ahorros, 0);
 // =====================
