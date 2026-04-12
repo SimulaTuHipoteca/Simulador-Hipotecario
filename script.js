@@ -414,8 +414,8 @@ const comunidad = limpiarNumero(f.comunidad?.value, 0, 0.2);
 // SIN VIVIENDA
 // =====================
 if (!usarVivienda) {
-  f.capitalOut.innerText = formatMoney(capital);
-  f.cuotaOut.innerText = formatMoney(cuota);
+  f.capitalOut.innerText = formatMoney(0);
+  f.cuotaOut.innerText = formatMoney(0);
   f.ltvOut.innerText = "-";
   f.gastosOut.innerText = formatMoney(0);
   f.ltiOut.innerText = "-";
