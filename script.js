@@ -474,6 +474,7 @@ else if (lti <= 0.35) factorIdeal = 0.9;
 else if (lti <= 0.45) factorIdeal = 0.85;
 else factorIdeal = 0.8;
 
+  const precioMaximo = capitalBanco; // o el valor correcto según tu lógica
 const precioIdeal = precioMaximo * factorIdeal;
   // =====================
   // OUTPUTS
