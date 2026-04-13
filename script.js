@@ -331,7 +331,8 @@ function calcularPerfil() {
   if (plazoMax <= 0) return;
 
   const n = (parseInt(f.plazo?.value) || plazoMax) * 12;
-
+const familiaNumerosa = document.getElementById("familiaNumerosa")?.checked;
+const discapacidad = document.getElementById("discapacidad")?.checked;
   // =====================
   // INGRESOS
   // =====================
