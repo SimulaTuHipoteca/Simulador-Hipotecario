@@ -383,10 +383,30 @@ const precio = usarVivienda ? limpiarNumero(f.precio?.value, 50000, 5000000) : 0
 
 const comunidad = f.comunidad?.value;
   
-  const impuestos = usarVivienda
-    ? (f.tipoVivienda?.value === "obraNueva" ? precio * 0.10 : precio * comunidad)
-    : 0;
+let impuestos = 0;
+let tipoITP = 0;
 
+if (usarVivienda) {
+
+  if (f.tipoVivienda?.value === "obraNueva") {
+
+    tipoITP = 0.10;
+    impuestos = precio * tipoITP;
+
+  } else {
+
+    const resultadoITP = calcularITP({
+      comunidad,
+      precio,
+      edad: edad1,
+      ingresos: ingresosAnuales,
+      esViviendaHabitual: !esSegunda
+    });
+
+    tipoITP = resultadoITP.tipo;
+    impuestos = resultadoITP.cuotaITP;
+  }
+}
   const gastosOperacion = impuestos + (usarVivienda ? 2500 : 0);
 
   const esSegunda = f.primeraSegunda?.value === "segunda";
