@@ -464,7 +464,8 @@ if (cuotaMax === 0) {
   f.capitalOut.innerText = formatMoney(capitalBanco);
   f.cuotaOut.innerText = formatMoney(cuotaMax);
   f.ltvOut.innerText = "-";
-  f.gastosOut.innerText = "-";
+  f.gastosOut.innerText =
+  `${formatMoney(gastos)} (${(tipoITP * 100).toFixed(2)}% - ${motivo})`;
   f.ltiOut.innerText = "-";
 
   if (msg) {
