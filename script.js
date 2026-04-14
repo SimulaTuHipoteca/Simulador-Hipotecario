@@ -420,7 +420,7 @@ if (usarVivienda) {
   tipoITP = resultadoITP.tipo;
   impuestos = resultadoITP.cuotaITP;
 }
-}
+
   const gastosOperacion = impuestos + (usarVivienda ? 2500 : 0);
 
   // =====================
