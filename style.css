@@ -35,6 +35,65 @@ main {
 }
 
 /* ==============================
+OPCIONES ITP (UX PRO)
+============================== */
+.opciones-itp {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0 15px;
+}
+
+.opcion-itp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.opcion-itp:hover {
+  border-color: #0072CE;
+  background: #f0f7ff;
+}
+
+.opcion-itp input {
+  display: none;
+}
+
+/* Estado seleccionado */
+.opcion-itp input:checked + label {
+  color: #0072CE;
+  font-weight: 600;
+}
+
+/* Borde cuando está activo */
+.opcion-itp input:checked + label::before {
+  border-color: #0072CE;
+  background: #0072CE;
+}
+
+/* Checkbox custom */
+.opcion-itp label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Texto secundario */
+.opcion-itp span {
+  font-size: 12px;
+  color: #6b7280;
+}
+/* ==============================
 MOBILE FIX (ARREGLADO)
 ============================== */
 @media (max-width: 768px) {
