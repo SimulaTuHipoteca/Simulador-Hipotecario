@@ -496,7 +496,7 @@ const resultadoITP = calcularITP({
 const impuesto = resultadoITP.tipo;
 const impuestosCalculados = resultadoITP.cuotaITP;
 const gastosExtra = 0.02;
-const gastos = precio * (impuesto + gastosExtra);
+const gastos = impuestosCalculados + (precio * 0.02);
 
 // 2. TOTAL OPERACIÓN
 const totalOperacion = precio + gastos;
@@ -1009,6 +1009,7 @@ const precioFormateado = formatMoney(parseFloat(precio) || 0);
   });
 
       function calcularCuota(capital, interes, n) {
+  if (n === 0) return 0;
   if (interes === 0) return capital / n;
   return capital * (interes * Math.pow(1 + interes, n)) / (Math.pow(1 + interes, n) - 1);
 }
