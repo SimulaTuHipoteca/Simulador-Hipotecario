@@ -421,8 +421,6 @@ if (usarVivienda) {
   impuestos = resultadoITP.cuotaITP;
 }
 
-  const gastosOperacion = impuestos + (usarVivienda ? 2500 : 0);
-
   // =====================
   // 🔥 FINANCIACIÓN JÓVENES (100% OK)
   // =====================
