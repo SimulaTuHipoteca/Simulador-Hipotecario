@@ -396,13 +396,18 @@ if (usarVivienda) {
 
   } else {
 
-    const resultadoITP = calcularITP({
-      comunidad,
-      precio,
-      edad: edad1,
-      ingresos: ingresosAnuales,
-      esViviendaHabitual: !esSegunda
-    });
+    const familiaNumerosa = document.getElementById("familiaNumerosa")?.checked;
+const discapacidad = document.getElementById("discapacidad")?.checked;
+
+const resultadoITP = calcularITP({
+  comunidad,
+  precio,
+  edad: edad1,
+  ingresos: ingresosAnuales,
+  esViviendaHabitual: !esSegunda,
+  familiaNumerosa,
+  discapacidad
+});
 
     tipoITP = resultadoITP.tipo;
     impuestos = resultadoITP.cuotaITP;
