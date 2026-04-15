@@ -403,49 +403,6 @@ const precio = usarVivienda ? limpiarNumero(f.precio?.value, 50000, 5000000) : 0
 const comunidad = f.comunidad?.value;
   
 let impuestos = 0;
-let tipoITP = 0;
-
-if (usarVivienda) {
-
-  const itpManualInput = document.getElementById("itpManual");
-  const itpManualValor = parseFloat(itpManualInput?.value);
-
-  let resultadoITP;
-
-  const tipoVivienda = f.tipoVivienda?.value;
-
-  // 🔥 PRIORIDAD: manual
- if (tipoVivienda === "obraNueva") {
-  resultadoITP = {
-    tipo: 0.10,
-    cuotaITP: precio * 0.10
-  };
-}
-else if (usarVivienda && !isNaN(itpManualValor) && itpManualValor > 0) {
-    const tipoManual = itpManualValor / 100;
-
-    resultadoITP = {
-      tipo: tipoManual,
-      cuotaITP: precio * tipoManual
-    };
-
-  } else {
-
-    resultadoITP = calcularITP({
-      comunidad,
-      precio,
-      edad: edad1,
-      ingresos: ingresosAnuales,
-      esViviendaHabitual: !esSegunda,
-      familiaNumerosa,
-      discapacidad
-    });
-
-  }
-
-  tipoITP = resultadoITP.tipo;
-  impuestos = resultadoITP.cuotaITP;
-}
 
   // =====================
   // 🔥 FINANCIACIÓN JÓVENES (100% OK)
@@ -525,14 +482,17 @@ Puedes ver opciones sin necesidad de introducir una vivienda concreta.`;
 // 🔥 MODELO BANCO REAL
 // =====================
 
-// 1. GASTOS
+// 1. GASTOS (VERSIÓN CORRECTA)
 const itpManualInput = document.getElementById("itpManual");
 const itpManualValor = parseFloat(itpManualInput?.value);
 
+// 👉 DECLARACIÓN ÚNICA
 let tipoITP;
+let impuestos;
 
 if (!isNaN(itpManualValor) && itpManualValor > 0) {
   tipoITP = itpManualValor / 100;
+  impuestos = precio * tipoITP;
 } else {
   const resultadoITP = calcularITP({
     comunidad,
@@ -545,14 +505,11 @@ if (!isNaN(itpManualValor) && itpManualValor > 0) {
   });
 
   tipoITP = resultadoITP.tipo;
+  impuestos = resultadoITP.cuotaITP;
 }
 
-const impuestosCalculados = precio * tipoITP;
-const gastos = impuestosCalculados + 2500;
-
-// 2. TOTAL OPERACIÓN
-const totalOperacion = precio + gastos;
-
+// 👉 gastos totales
+const gastos = impuestos + 2500;
 // 3. LÍMITE BANCO (IMPORTANTE: antes de usarlo en entrada mínima)
 const maxPrestamo = precio * maxFinanciacion;
 
