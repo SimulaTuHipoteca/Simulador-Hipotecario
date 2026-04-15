@@ -509,6 +509,8 @@ if (!isNaN(itpManualValor) && itpManualValor > 0) {
 
 // 👉 gastos totales
 const gastos = impuestos + 2500;
+
+  const totalOperacion = precio + gastos;
 // 3. LÍMITE BANCO (IMPORTANTE: antes de usarlo en entrada mínima)
 const maxPrestamo = precio * maxFinanciacion;
 
