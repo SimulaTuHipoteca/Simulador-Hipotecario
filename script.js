@@ -613,7 +613,7 @@ const precioIdeal = precioMaximo * factorIdeal;
   f.cuotaOut.innerText = formatMoney(cuota);
   f.ltvOut.innerText = precio ? ltv.toFixed(1) + "%" : "-";
 f.gastosOut.innerText =
-  `${formatMoney(impuestos)} (${(tipoITP * 100).toFixed(2)}%)`;
+  `${formatMoney(gastos)} (Impuestos: ${(tipoImpuesto * 100).toFixed(2)}%)`;
   f.ltiOut.innerText = (lti * 100).toFixed(1) + "%";
 
   // =====================
