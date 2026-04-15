@@ -1131,7 +1131,7 @@ function calcularCapacidad(ingresosAnuales, deudas, tipoRef, n) {
       break;
 
     default:
-      tipo = 0.08;
+  tipo = 0.08; // fallback seguro (OK)
   }
 
   return {
