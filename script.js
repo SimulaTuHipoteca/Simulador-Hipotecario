@@ -231,6 +231,13 @@ const cuota = calcularCuota(capital, interes, n);
     }
   });
 
+  const btnCalcular = document.getElementById("btnCalcularPerfil");
+
+if (btnCalcular) {
+  btnCalcular.addEventListener("click", () => {
+    calcularPerfil();
+  });
+}
   // -----------------------------
   // PERFIL FINANCIERO
   // -----------------------------
@@ -791,12 +798,14 @@ if (toggleCard && perfilFields.viviendaCheck) {
  // EVENTOS PERFIL// -------
 perfilFields.plazo && perfilFields.plazo.addEventListener("input", () => plazoEditadoPorUsuario = true);
 
+// 🔕 Desactivado para usar botón calcular
+/*
 [
   perfilFields.edad1, perfilFields.edad2, perfilFields.salario1, perfilFields.salario2,
   perfilFields.ahorros, perfilFields.deuda, perfilFields.otroIngreso,
   perfilFields.precio
 ].forEach(el => el && (el.addEventListener("input", calcularPerfil), el.addEventListener("change", calcularPerfil)));
-
+*/
 [
   perfilFields.titulares,
   perfilFields.tipoVivienda,
