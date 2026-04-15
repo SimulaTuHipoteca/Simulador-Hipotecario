@@ -481,11 +481,10 @@ Puedes ver opciones sin necesidad de introducir una vivienda concreta.`;
 // 🔥 MODELO BANCO REAL
 // =====================
 
-// 1. GASTOS (VERSIÓN CORRECTA)
+// 1. GASTOS
 const itpManualInput = document.getElementById("itpManual");
 const itpManualValor = parseFloat(itpManualInput?.value);
 
-// 👉 DECLARACIÓN ÚNICA
 let tipoITP;
 let impuestos;
 
@@ -510,7 +509,8 @@ if (!isNaN(itpManualValor) && itpManualValor > 0) {
 // 👉 gastos totales
 const gastos = impuestos + 2500;
 
-  const totalOperacion = precio + gastos;
+// 👉 ESTO TE FALTABA
+const totalOperacion = precio + gastos;
 // 3. LÍMITE BANCO (IMPORTANTE: antes de usarlo en entrada mínima)
 const maxPrestamo = precio * maxFinanciacion;
 
