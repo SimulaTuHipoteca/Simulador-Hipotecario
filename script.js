@@ -65,8 +65,10 @@ window.irAnalisis = function(event, tipoOperacion){
 
   setTimeout(() => {
     const yOffset = -40;
-    const y = perfilDiv.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    requestAnimationFrame(() => {
+  const y = perfilDiv.getBoundingClientRect().top + window.pageYOffset + yOffset;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+});
   }, 100);
 };
 
@@ -362,8 +364,17 @@ const deudas = limpiarNumero(f.deuda?.value, 0, 100000);
   score += ahorros > 50000 ? 2 : ahorros > 20000 ? 1 : 0;
   score += deudas === 0 ? 2 : deudas < 300 ? 1 : 0;
 
-  const contrato = document.getElementById("perfilContrato1")?.value || "indefinido";
-  const antiguedad = parseInt(document.getElementById("perfilAntiguedad1")?.value) || 0;
+  const contrato1 = document.getElementById("perfilContrato1")?.value || "indefinido";
+const contrato2 = titulares === 2 ? (document.getElementById("perfilContrato2")?.value || "indefinido") : "indefinido";
+
+const antiguedad1 = parseInt(document.getElementById("perfilAntiguedad1")?.value) || 0;
+const antiguedad2 = titulares === 2 ? (parseInt(document.getElementById("perfilAntiguedad2")?.value) || 0) : 0;
+
+const contrato = contrato1 === "autonomo" || contrato2 === "autonomo"
+  ? "autonomo"
+  : (contrato1 === "temporal" || contrato2 === "temporal" ? "temporal" : "indefinido");
+
+const antiguedad = Math.max(antiguedad1, antiguedad2);
 
   if (contrato === "indefinido") score += 2;
   if (contrato === "autonomo") score -= 1;
@@ -394,8 +405,16 @@ if (usarVivienda) {
 
   let resultadoITP;
 
+  const tipoVivienda = f.tipoVivienda?.value;
+
   // 🔥 PRIORIDAD: manual
-  if (usarVivienda && !isNaN(itpManualValor) && itpManualValor > 0) {
+ if (tipoVivienda === "obraNueva") {
+  resultadoITP = {
+    tipo: 0.10,
+    cuotaITP: precio * 0.10
+  };
+}
+else if (usarVivienda && !isNaN(itpManualValor) && itpManualValor > 0) {
     const tipoManual = itpManualValor / 100;
 
     resultadoITP = {
@@ -474,7 +493,7 @@ if (cuotaMax === 0) {
   f.cuotaOut.innerText = formatMoney(cuotaMax);
   f.ltvOut.innerText = "-";
  f.gastosOut.innerText =
-  `${formatMoney(gastosOperacion)} (${(tipoITP * 100).toFixed(2)}%)`;
+  `${formatMoney(impuestos)} (${(tipoITP * 100).toFixed(2)}%)`;
   f.ltiOut.innerText = "-";
 
   if (msg) {
@@ -904,7 +923,7 @@ const precioFormateado = formatMoney(parseFloat(precio) || 0);
         doc.setFontSize(10);
         let recomendaciones = [];
         if (parseFloat(lti) > 35) recomendaciones.push("- Reducir deudas para mejorar ratio de endeudamiento");
-        if (ltv.includes("%") && parseFloat(ltv) > 80) recomendaciones.push("- Aportar mayor entrada para reducir financiación");
+        if (ltv > 80)
         recomendaciones.push("- Mantener estabilidad laboral");
         recomendaciones.push("- Comparar ofertas entre entidades bancarias");
 
