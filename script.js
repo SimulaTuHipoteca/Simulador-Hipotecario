@@ -788,7 +788,7 @@ perfilFields.salario2 && perfilFields.salario2.addEventListener("blur", () => co
 perfilFields.ahorros && perfilFields.ahorros.addEventListener("blur", () => corregirInput(perfilFields.ahorros, 0));
 perfilFields.deuda && perfilFields.deuda.addEventListener("blur", () => corregirInput(perfilFields.deuda, 0));
 perfilFields.precio && perfilFields.precio.addEventListener("blur", () => corregirInput(perfilFields.precio, 50000));
-perfilFields.comunidad && perfilFields.comunidad.addEventListener("blur", () => corregirInput(perfilFields.comunidad, 0, 0.2));
+
 // -----------------------------
 // LLAMAR PERFIL AL INICIO
 // -----------------------------
